@@ -9,6 +9,7 @@ import com.aetherteam.aether.entity.ai.goal.FallingRandomStrollGoal;
 import com.aetherteam.aether.entity.ai.navigator.FallPathNavigation;
 import com.aetherteam.aether.loot.AetherLoot;
 import com.google.common.collect.Maps;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -38,6 +39,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.DyeItem;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CraftingInput;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeType;
@@ -46,6 +48,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.storage.loot.LootTable;
 import org.jetbrains.annotations.Nullable;
 
@@ -61,7 +64,7 @@ import java.util.stream.Collectors;
  * Warning for "deprecation" is suppressed because we still need to use vanilla shearing behavior from {@link Shearable}.
  */
 @SuppressWarnings("deprecation")
-public class Sheepuff extends AetherAnimal implements Shearable/*, IShearable*/ { // TODO: [Fabric Porting] What dose IShearable do exactly?
+public class Sheepuff extends AetherAnimal implements Shearable {
     private static final EntityDataAccessor<Byte> DATA_WOOL_COLOR_ID = SynchedEntityData.defineId(Sheepuff.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Boolean> DATA_PUFFED_ID = SynchedEntityData.defineId(Sheepuff.class, EntityDataSerializers.BOOLEAN);
 
@@ -241,6 +244,14 @@ public class Sheepuff extends AetherAnimal implements Shearable/*, IShearable*/ 
                 }
 
             }
+        } else if ((itemstack.is(Items.SHEARS) || itemstack.is(ConventionalItemTags.SHEAR_TOOLS)) && this.readyForShearing()) {
+            this.shear(SoundSource.PLAYERS);
+            this.gameEvent(GameEvent.SHEAR, player);
+            if (!this.level().isClientSide) {
+                itemstack.hurtAndBreak(1, player, getSlotForHand(hand));
+            }
+
+            return InteractionResult.sidedSuccess(this.level().isClientSide);
         }
         return super.mobInteract(player, hand);
     }
