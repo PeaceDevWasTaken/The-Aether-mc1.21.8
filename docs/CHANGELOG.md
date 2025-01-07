@@ -1,3 +1,11 @@
+# The Aether - NeoForge - 1.21.1-1.5.2
+
+Fixes
+
+- Fix Aerogel Walls culling adjacent block faces that they shouldn't.
+- Fix missing recipes for Banners.
+- Fix double drops related NPE crash.
+
 # The Aether - Fabric - 1.21.1-1.5.1
 
 Additions
