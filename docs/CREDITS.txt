@@ -31,6 +31,9 @@ CartoonishVillain:
 - Fixes to the Sentry.
 - Fixes to the Aechor Plant.
 
+cassiancc
+- Fixes to a double drops NPE.
+
 CDAGaming:
 - Fixes to the Aether main menu.
 
@@ -41,6 +44,7 @@ darksonic300
 embeddedt
 - Fixes to make entity dimension falling checks more performant.
 - Fixes to make plant coloring more performant.
+- Fixes to Aerogel Walls culling neighboring block faces.
 
 FlashFyreMods
 - Implementation of more beta-accurate terrain generation for the Aether dimension.
