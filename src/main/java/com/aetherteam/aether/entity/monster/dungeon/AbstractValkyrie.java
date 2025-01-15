@@ -47,7 +47,8 @@ public abstract class AbstractValkyrie extends Monster implements NotGrounded {
      * Goal for targeting in groups of entities
      */
     private MostDamageTargetGoal mostDamageTargetGoal;
-    private double lastMotionY;
+    private int lungeCooldown = 0;
+    protected double lastMotionY;
 
     public AbstractValkyrie(EntityType<? extends AbstractValkyrie> type, Level level) {
         super(type, level);
@@ -57,7 +58,6 @@ public abstract class AbstractValkyrie extends Monster implements NotGrounded {
     @Override
     public void registerGoals() {
         this.goalSelector.addGoal(1, new ValkyrieTeleportGoal(this));
-        this.goalSelector.addGoal(3, new LungeGoal(this, 0.65));
         this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 0.65, true));
         this.goalSelector.addGoal(5, new WaterAvoidingRandomStrollGoal(this, 0.5));
         this.goalSelector.addGoal(7, new LookAtPlayerGoal(this, Player.class, 8.0F, 8.0F));
@@ -86,9 +86,10 @@ public abstract class AbstractValkyrie extends Monster implements NotGrounded {
         if (this.onGround()) {
             this.setEntityOnGround(true);
         }
-        double motionY = this.getDeltaMovement().y();
-        if (!this.onGround() && Math.abs(motionY - this.lastMotionY) > 0.07 && Math.abs(motionY - this.lastMotionY) < 0.09) {
-            this.setDeltaMovement(this.getDeltaMovement().add(0, 0.055, 0));
+        if (!this.level().isClientSide()) {
+            if (this.lungeCooldown > 0) {
+                this.lungeCooldown--;
+            }
         }
     }
 
@@ -130,12 +131,14 @@ public abstract class AbstractValkyrie extends Monster implements NotGrounded {
     @SuppressWarnings("deprecation")
     protected boolean teleportAroundTarget(Entity target) {
         Vec2 targetVec = new Vec2(this.getRandom().nextFloat() - 0.5F, this.getRandom().nextFloat() - 0.5F).normalized();
-        double x = target.getX() + targetVec.x * 7;
+        double x = target.getX() + targetVec.x * 3;
         double y = target.getY();
-        double z = target.getZ() + targetVec.y * 7;
+        double z = target.getZ() + targetVec.y * 3;
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos(x, y, z);
-        while (mutableBlockPos.getY() > this.level().getMinBuildHeight() && !this.level().getBlockState(mutableBlockPos).blocksMotion()) {
+        int i = 0;
+        while (mutableBlockPos.getY() > this.level().getMinBuildHeight() && !this.level().getBlockState(mutableBlockPos).blocksMotion() && i <= 4) {
             mutableBlockPos.move(Direction.DOWN);
+            i++;
         }
 
         BlockState blockState = this.level().getBlockState(mutableBlockPos);
@@ -173,7 +176,7 @@ public abstract class AbstractValkyrie extends Monster implements NotGrounded {
      * @param player The interacting {@link Player}.
      * @param message The message {@link Component}.
      */
-    protected void chat(Player player, Component message) {
+    protected void chat(Player player, Component message, boolean sound) {
         player.sendSystemMessage(message);
     }
 
@@ -265,16 +268,18 @@ public abstract class AbstractValkyrie extends Monster implements NotGrounded {
         private final AbstractValkyrie valkyrie;
         private final double speedModifier;
         private int flyingTicks;
+        private int lungeCooldownMax;
 
-        public LungeGoal(AbstractValkyrie valkyrie, double speedModifier) {
+        public LungeGoal(AbstractValkyrie valkyrie, double speedModifier, int lungeCooldownMax) {
             this.valkyrie = valkyrie;
             this.speedModifier = speedModifier;
+            this.lungeCooldownMax = lungeCooldownMax;
             this.setFlags(EnumSet.of(Flag.MOVE));
         }
 
         @Override
         public boolean canUse() {
-            return !this.valkyrie.onGround();
+            return !this.valkyrie.onGround() && this.valkyrie.lungeCooldown <= 0;
         }
 
         @Override
@@ -314,6 +319,11 @@ public abstract class AbstractValkyrie extends Monster implements NotGrounded {
         @Override
         public boolean requiresUpdateEveryTick() {
             return true;
+        }
+
+        @Override
+        public void stop() {
+            this.valkyrie.lungeCooldown = this.lungeCooldownMax;
         }
     }
 

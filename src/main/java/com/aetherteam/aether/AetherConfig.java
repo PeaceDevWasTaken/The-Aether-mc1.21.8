@@ -6,6 +6,8 @@ import io.github.fabricators_of_create.porting_lib.config.ModConfigSpec.ConfigVa
 import net.minecraft.world.level.Level;
 import org.apache.commons.lang3.tuple.Pair;
 
+import java.util.List;
+
 public class AetherConfig {
     public static class Server {
         public final ConfigValue<Boolean> enable_bed_explosions;
@@ -29,6 +31,7 @@ public class AetherConfig {
         public final ConfigValue<Boolean> balance_invisibility_cloak;
         public final ConfigValue<Integer> invisibility_visibility_time;
         public final ConfigValue<Boolean> sun_altar_whitelist;
+        public final ConfigValue<List<? extends String>> sun_altar_dimensions;
 
         public final ConfigValue<Boolean> spawn_in_aether;
         public final ConfigValue<Boolean> disable_aether_portal;
@@ -120,6 +123,10 @@ public class AetherConfig {
                     .comment("Makes it so that only whitelisted users or anyone with permission level 4 can use the Sun Altar on a server")
                     .translation("config.aether.server.multiplayer.sun_altar_whitelist")
                     .define("Only whitelisted users access Sun Altars", false);
+            sun_altar_dimensions = builder
+                    .comment("Configures what dimensions are able to have their time changed by the Sun Altar")
+                    .translation("config.aether.server.multiplayer.sun_altar_dimensions")
+                    .defineList("Configure Sun Altar dimensions", List.of("aether:the_aether"), s -> s instanceof String);
             builder.pop();
 
             builder.push("Modpack");
@@ -155,11 +162,14 @@ public class AetherConfig {
         public final ConfigValue<Boolean> use_curios_menu;
         public final ConfigValue<Boolean> start_with_portal;
         public final ConfigValue<Boolean> enable_startup_loot;
+        public final ConfigValue<Boolean> reposition_slider_message;
         public final ConfigValue<Boolean> repeat_sun_spirit_dialogue;
         public final ConfigValue<Boolean> show_patreon_message;
 
         public final ConfigValue<Boolean> add_temporary_freezing_automatically;
         public final ConfigValue<Boolean> add_ruined_portal_automatically;
+
+        public final ConfigValue<Boolean> randomize_boss_names;
 
         public Common(ModConfigSpec.Builder builder) {
             builder.push("Gameplay");
@@ -176,6 +186,10 @@ public class AetherConfig {
                     .comment("When the player enters the Aether, they are given a Book of Lore and Golden Parachutes as starting loot")
                     .translation("config.aether.common.gameplay.enable_startup_loot")
                     .define("Gives starting loot on entry", true);
+            reposition_slider_message = builder
+                    .comment("Moves the message for when a player attacks the Slider with an incorrect item to be above the hotbar instead of in chat")
+                    .translation("config.aether.common.gameplay.reposition_slider_message")
+                    .define("Reposition attack message above hotbar", false);
             repeat_sun_spirit_dialogue = builder
                     .comment("Determines whether the Sun Spirit's dialogue when meeting him should play through every time you meet him")
                     .translation("config.aether.common.gameplay.repeat_sun_spirit_dialogue")
@@ -197,6 +211,13 @@ public class AetherConfig {
                     .comment("Sets the Aether Ruined Portals data pack to be added to new worlds automatically")
                     .translation("config.aether.common.data_pack.add_ruined_portal_automatically")
                     .define("Add Ruined Portals automatically", false);
+            builder.pop();
+
+            builder.push("Modpack");
+            randomize_boss_names = builder
+                    .comment("Determines whether bosses should display a randomized name above their boss bar")
+                    .translation("config.aether.common.modpack.randomize_boss_names")
+                    .define("Randomize boss names", true);
             builder.pop();
         }
     }
@@ -228,9 +249,11 @@ public class AetherConfig {
         public final ConfigValue<Integer> layout_perks_y;
         public final ConfigValue<Boolean> enable_hammer_cooldown_overlay;
 
+        public final ConfigValue<Boolean> blue_aercloud_bounce_sfx;
         public final ConfigValue<Integer> music_backup_min_delay;
         public final ConfigValue<Integer> music_backup_max_delay;
         public final ConfigValue<Boolean> disable_music_manager;
+        public final ConfigValue<Boolean> disable_aether_boss_music;
         public final ConfigValue<Boolean> disable_aether_menu_music;
         public final ConfigValue<Boolean> disable_vanilla_world_preview_menu_music;
         public final ConfigValue<Boolean> disable_aether_world_preview_menu_music;
@@ -342,6 +365,10 @@ public class AetherConfig {
             builder.pop();
 
             builder.push("Audio");
+            blue_aercloud_bounce_sfx = builder
+                    .comment("Makes Blue Aerclouds have their wobbly sounds that play when bouncing on them")
+                    .translation("config.aether.client.audio.blue_aercloud_bounce_sfx")
+                    .define("Blue Aercloud bouncing sounds", true);
             music_backup_min_delay = builder
                     .comment("Sets the minimum delay for the Aether's music manager to use if needing to reset the song delay outside the Aether")
                     .translation("config.aether.client.audio.music_backup_min_delay")
@@ -354,6 +381,10 @@ public class AetherConfig {
                     .comment("Disables the Aether's internal music manager, if true, this overrides all other audio configs")
                     .translation("config.aether.client.audio.disable_music_manager")
                     .define("Disables Aether music manager", false);
+            disable_aether_boss_music = builder
+                    .comment("Disables the Aether's boss fight music, only works if 'Disables Aether music manager' is false")
+                    .translation("config.aether.client.audio.disable_aether_boss_music")
+                    .define("Disables Aether boss music", false);
             disable_aether_menu_music = builder
                     .comment("Disables the Aether's menu music in case another mod implements its own, only works if 'Disables Aether music manager' is false")
                     .translation("config.aether.client.audio.disable_aether_menu_music")

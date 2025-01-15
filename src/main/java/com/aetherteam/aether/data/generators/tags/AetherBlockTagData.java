@@ -211,7 +211,11 @@ public class AetherBlockTagData extends FabricTagProvider.BlockTagProvider {
         this.tag(AetherTags.Blocks.AETHER_ANIMALS_SPAWNABLE_ON).add(AetherBlocks.AETHER_GRASS_BLOCK.get());
         this.tag(AetherTags.Blocks.SWET_SPAWNABLE_ON).add(AetherBlocks.AETHER_GRASS_BLOCK.get());
         this.tag(AetherTags.Blocks.AECHOR_PLANT_SPAWNABLE_ON).add(AetherBlocks.AETHER_GRASS_BLOCK.get());
-        this.tag(AetherTags.Blocks.INFINIBURN).forceAddTag(BlockTags.INFINIBURN_OVERWORLD);
+
+        this.tag(AetherTags.Blocks.AECHOR_PLANT_SPAWNABLE_DETERRENT).add(
+                AetherBlocks.WHITE_FLOWER.get(),
+                AetherBlocks.PURPLE_FLOWER.get());
+        this.tag(AetherTags.Blocks.INFINIBURN).addTag(BlockTags.INFINIBURN_OVERWORLD);
         this.tag(AetherTags.Blocks.ALLOWED_FLAMMABLES).add(Blocks.SOUL_SAND, Blocks.SOUL_SOIL).addTags(
                 AetherTags.Blocks.INFINIBURN,
                 AetherTags.Blocks.HELLFIRE_BLOCKS);

@@ -190,6 +190,8 @@ public class AetherItemModelData extends AetherItemModelProvider {
         this.item(AetherItems.MUSIC_DISC_ASCENDING_DAWN.get(), "miscellaneous/");
         this.item(AetherItems.MUSIC_DISC_CHINCHILLA.get(), "miscellaneous/");
         this.item(AetherItems.MUSIC_DISC_HIGH.get(), "miscellaneous/");
+        this.item(AetherItems.MUSIC_DISC_KLEPTO.get(), "miscellaneous/");
+        this.item(AetherItems.MUSIC_DISC_SLIDERS_WRATH.get(), "miscellaneous/");
 
         this.item(AetherItems.BOOK_OF_LORE.get(), "miscellaneous/");
 

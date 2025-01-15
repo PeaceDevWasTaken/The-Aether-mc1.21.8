@@ -171,8 +171,10 @@ public class AetherLanguageData extends AetherLanguageProvider {
         this.addBlock(AetherBlocks.FROSTED_ICE, "Frosted Ice");
         this.addBlock(AetherBlocks.UNSTABLE_OBSIDIAN, "Unstable Obsidian");
 
+        this.addGeneric("block.aether.swet_banner", "Swet Banner");
 
         this.addGeneric("loot", "Aether Loot");
+        this.add("rarity.aether.loot.name", "Aether Loot");
 
         this.addItem(AetherItems.SKYROOT_PICKAXE, "Skyroot Pickaxe");
         this.addItem(AetherItems.SKYROOT_AXE, "Skyroot Axe");
@@ -326,6 +328,10 @@ public class AetherLanguageData extends AetherLanguageProvider {
         this.addDiscDesc(AetherItems.MUSIC_DISC_CHINCHILLA, "RENREN - chinchilla");
         this.addItem(AetherItems.MUSIC_DISC_HIGH, "Super Music Disc");
         this.addDiscDesc(AetherItems.MUSIC_DISC_HIGH, "RENREN - high");
+        this.addItem(AetherItems.MUSIC_DISC_KLEPTO, "Blackened Music Disc");
+        this.addDiscDesc(AetherItems.MUSIC_DISC_KLEPTO, "sunsette - klepto");
+        this.addItem(AetherItems.MUSIC_DISC_SLIDERS_WRATH, "Carved Music Disc");
+        this.addDiscDesc(AetherItems.MUSIC_DISC_SLIDERS_WRATH, "sunsette - Slider's Wrath");
 
         this.addItem(AetherItems.SKYROOT_BUCKET, "Skyroot Bucket");
         this.addItem(AetherItems.SKYROOT_WATER_BUCKET, "Skyroot Water Bucket");
@@ -478,6 +484,8 @@ public class AetherLanguageData extends AetherLanguageProvider {
         this.addAdvancement("blue_aercloud", "To Infinity and Beyond!");
         this.addAdvancement("obtain_egg", "Don't Count Your Moas...");
         this.addAdvancement("obtain_petal", "Baby Food");
+        this.addAdvancement("prevent_aechor_petal_spawning", "Tending The Garden");
+        this.addAdvancement("prevent_swet_spawning", "Get Off My Lawn!");
         this.addAdvancement("incubate_moa", "... Until They hatch!");
         this.addAdvancement("black_moa", "Let's Fly!");
         this.addAdvancement("zanite", "Exotic Hardware");
@@ -507,6 +515,8 @@ public class AetherLanguageData extends AetherLanguageProvider {
         this.addAdvancementDesc("blue_aercloud", "Bounce on a Blue Aercloud");
         this.addAdvancementDesc("obtain_egg", "Obtain a Moa Egg");
         this.addAdvancementDesc("obtain_petal", "Harvest an Aechor Petal from an Aechor Plant");
+        this.addAdvancementDesc("prevent_aechor_petal_spawning", "Deter Aechor Plants by planting a flower on Enchanted Grass");
+        this.addAdvancementDesc("prevent_swet_spawning", "Deter Swets by placing down a Swet Banner");
         this.addAdvancementDesc("incubate_moa", "Incubate a Moa");
         this.addAdvancementDesc("black_moa", "Ride a Black Moa");
         this.addAdvancementDesc("zanite", "Have a Zanite Gemstone in your inventory");
@@ -536,6 +546,7 @@ public class AetherLanguageData extends AetherLanguageProvider {
         this.addSubtitle("block", "altar.crackle", "Altar crackles");
         this.addSubtitle("block", "freezer.crackle", "Freezer crackles");
         this.addSubtitle("block", "incubator.crackle", "Incubator crackles");
+        this.addSubtitle("block", "aercloud.blue_aercloud_bounce", "Blue Aercloud wobbles");
         this.addSubtitle("block", "dungeon_trap.trigger", "Dungeon Trap activated");
         this.addSubtitle("block", "water.evaporate", "Water evaporated");
 
@@ -623,6 +634,7 @@ public class AetherLanguageData extends AetherLanguageProvider {
         this.addSubtitle("entity", "sentry.death", "Sentry dies");
         this.addSubtitle("entity", "sentry.hurt", "Sentry hurts");
         this.addSubtitle("entity", "sentry.jump", "Sentry squishes");
+        this.addSubtitle("entity", "sentry.squish", "Sentry squishes");
 
         this.addSubtitle("entity", "mimic.attack", "Mimic attacks");
         this.addSubtitle("entity", "mimic.death", "Mimic dies");
@@ -636,13 +648,23 @@ public class AetherLanguageData extends AetherLanguageProvider {
         this.addSubtitle("entity", "slider.hurt", "Slider hurts");
         this.addSubtitle("entity", "slider.death", "Slider breaks");
 
+        this.addSubtitle("entity", "valkyrie.interact", "Valkyrie speaks");
         this.addSubtitle("entity", "valkyrie.death", "Valkyrie dies");
         this.addSubtitle("entity", "valkyrie.hurt", "Valkyrie hurts");
 
+        this.addSubtitle("entity", "valkyrie_queen.interact", "Valkyrie Queen speaks");
         this.addSubtitle("entity", "valkyrie_queen.death", "Valkyrie Queen dies");
         this.addSubtitle("entity", "valkyrie_queen.hurt", "Valkyrie Queen hurts");
 
-        this.addSubtitle("entity", "sun_spirit.shoot", "Sun Spirit shoots");
+        this.addSubtitle("entity", "fire_minion.death", "Fire Minion dies");
+        this.addSubtitle("entity", "fire_minion.hurt", "Fire Minion hurts");
+
+        this.addSubtitle("entity", "sun_spirit.interact", "Sun Spirit speaks");
+        this.addSubtitle("entity", "sun_spirit.activate", "Sun Spirit rumbles");
+        this.addSubtitle("entity", "sun_spirit.shoot_fire", "Sun Spirit shoots Fire Crystal");
+        this.addSubtitle("entity", "sun_spirit.shoot_ice", "Sun Spirit shoots Ice Crystal");
+        this.addSubtitle("entity", "sun_spirit.death", "Sun Spirit dies");
+        this.addSubtitle("entity", "sun_spirit.hurt", "Sun Spirit hurts");
 
         this.addSubtitle("entity", "cloud_minion.shoot", "Cloud Minion spits");
 
@@ -798,7 +820,11 @@ public class AetherLanguageData extends AetherLanguageProvider {
         this.addMoaSkinsText("skin.blue_moa", "Blue Moa");
         this.addMoaSkinsText("skin.white_moa", "White Moa");
         this.addMoaSkinsText("skin.black_moa", "Black Moa");
-        this.addMoaSkinsText("skin.classic_moa", "Classic Moa");
+        this.addMoaSkinsText("skin.orange_moa", "Orange Moa");
+        this.addMoaSkinsText("skin.brown_moa", "Brown Moa");
+        this.addMoaSkinsText("skin.red_moa", "Red Moa");
+        this.addMoaSkinsText("skin.green_moa", "Green Moa");
+        this.addMoaSkinsText("skin.purple_moa", "Purple Moa");
         this.addMoaSkinsText("skin.boko_yellow", "Boko Yellow");
         this.addMoaSkinsText("skin.crookjaw_purple", "Crookjaw Purple");
         this.addMoaSkinsText("skin.gharrix_red", "Gharrix Red");
@@ -809,6 +835,8 @@ public class AetherLanguageData extends AetherLanguageProvider {
         this.addMoaSkinsText("skin.construction_bot", "Construction Bot");
         this.addMoaSkinsText("skin.mossy_statue_moa", "Mossy Statue Moa");
         this.addMoaSkinsText("skin.chicken_moa", "Chicken Moa");
+        this.addMoaSkinsText("skin.medical_bot", "Medical Bot");
+        this.addMoaSkinsText("skin.skeleton_moa", "Skeleton Moa");
         this.addMoaSkinsText("skin.arctic_moa", "Arctic Moa");
         this.addMoaSkinsText("skin.cockatrice_moa", "Cockatrice");
         this.addMoaSkinsText("skin.phoenix_moa", "Phoenix Moa");
@@ -819,6 +847,8 @@ public class AetherLanguageData extends AetherLanguageProvider {
         this.addMoaSkinsText("skin.molten_moa", "Molten Moa");
         this.addMoaSkinsText("skin.undead_moa", "Undead Moa");
         this.addMoaSkinsText("skin.stratus", "Stratus");
+        this.addMoaSkinsText("skin.peacock_moa", "Peacock Moa");
+        this.addMoaSkinsText("skin.prehistoric_moa", "Prehistoric Moa");
 
         this.addMoaSkinsText("tooltip.title.access.pledging", "Pledge Access");
         this.addMoaSkinsText("tooltip.title.access.lifetime", "Lifetime Access");
@@ -1143,7 +1173,10 @@ public class AetherLanguageData extends AetherLanguageProvider {
         this.addLore(AetherItems.MUSIC_DISC_ASCENDING_DAWN, "A music disc that plays \"Ascending Dawn\" by Emile van Krieken.");
         this.addLore(AetherItems.MUSIC_DISC_CHINCHILLA,"A music disc that plays \"chinchilla\" by RENREN.");
         this.addLore(AetherItems.MUSIC_DISC_HIGH,"A music disc that plays \"high\" by RENREN.");
+        this.addLore(AetherItems.MUSIC_DISC_KLEPTO, "A music disc that plays \"klepto\" by sunsette.");
+        this.addLore(AetherItems.MUSIC_DISC_SLIDERS_WRATH, "A music disc that plays \"Slider's Wrath\" by sunsette.");
         this.addLoreUnique("item.aether.hammer_of_jeb", "A mysterious hammer that can shoot projectiles. At one point, it vanished from existence. It's said this was actually Jeb's hammer at one point.");
+        this.addLoreUnique("item.aether.swet_banner", "A decorative banner with the likeness of a Swet. By placing this down you can prevent them from appearing around your home.");
 
 
         this.addProTip("skyroot_tool_ability", "Skyroot tools gain double drops from blocks.");
@@ -1226,6 +1259,7 @@ public class AetherLanguageData extends AetherLanguageProvider {
         this.addServerConfig("multiplayer", "balance_invisibility_cloak", "Makes the Invisibility Cloak more balanced in PVP by disabling equipment invisibility temporarily after attacks");
         this.addServerConfig("multiplayer", "invisibility_visibility_time", "Sets the time in ticks that it takes for the player to become fully invisible again after attacking when wearing an Invisibility Cloak; only works with 'Balance Invisibility Cloak for PVP'");
         this.addServerConfig("multiplayer", "sun_altar_whitelist", "Makes it so that only whitelisted users or anyone with permission level 4 can use the Sun Altar on a server");
+        this.addServerConfig("multiplayer", "sun_altar_dimensions", "Configures what dimensions are able to have their time changed by the Sun Altar");
 
         this.addServerConfig("modpack", "spawn_in_aether", "Spawns the player in the Aether dimension; this is best enabled alongside other modpack configuration to avoid issues");
         this.addServerConfig("modpack", "disable_aether_portal", "Prevents the Aether Portal from being created normally in the mod");
@@ -1238,11 +1272,14 @@ public class AetherLanguageData extends AetherLanguageProvider {
         this.addCommonConfig("gameplay", "use_curios_menu", "Use the default Curios menu instead of the Aether's Accessories Menu. WARNING: Do not enable this without emptying your equipped accessories");
         this.addCommonConfig("gameplay", "start_with_portal", "On world creation, the player is given an Aether Portal Frame item to automatically go to the Aether with");
         this.addCommonConfig("gameplay", "enable_startup_loot", "When the player enters the Aether, they are given a Book of Lore and Golden Parachutes as starting loot");
+        this.addCommonConfig("gameplay", "reposition_slider_message", "Moves the message for when a player attacks the Slider with an incorrect item to be above the hotbar instead of in chat");
         this.addCommonConfig("gameplay", "repeat_sun_spirit_dialogue", "Determines whether the Sun Spirit's dialogue when meeting him should play through every time you meet him");
         this.addCommonConfig("gameplay", "show_patreon_message", "Determines if a message that links The Aether mod's Patreon should show");
 
         this.addCommonConfig("data_pack", "add_temporary_freezing_automatically", "Sets the Aether Temporary Freezing data pack to be added to new worlds automatically");
         this.addCommonConfig("data_pack", "add_ruined_portal_automatically", "Sets the Aether Ruined Portals data pack to be added to new worlds automatically");
+
+        this.addCommonConfig("modpack", "randomize_boss_names", "Determines whether bosses should display a randomized name above their boss bar");
 
 
         this.addClientConfig("rendering", "legacy_models", "Changes Zephyr and Aerwhale rendering to use their old models from the b1.7.3 version of the mod");
@@ -1274,9 +1311,11 @@ public class AetherLanguageData extends AetherLanguageProvider {
         this.addClientConfig("gui", "layout_perks_y", "The y-coordinate of the perks button layout when in the pause menu");
         this.addClientConfig("gui", "enable_hammer_cooldown_overlay", "Enables the overlay at the top of the screen for the Hammer of Kingbdogz' cooldown");
 
+        this.addClientConfig("audio", "blue_aercloud_bounce_sfx", "Makes Blue Aerclouds have their wobbly sounds that play when bouncing on them");
         this.addClientConfig("audio", "music_backup_min_delay", "Sets the minimum delay for the Aether's music manager to use if needing to reset the song delay outside the Aether");
         this.addClientConfig("audio", "music_backup_max_delay", "Sets the maximum delay for the Aether's music manager to use if needing to reset the song delay outside the Aether");
         this.addClientConfig("audio", "disable_music_manager", "Disables the Aether's internal music manager, if true, this overrides all other audio configs");
+        this.addClientConfig("audio", "disable_aether_boss_music", "Disables the Aether's boss fight music, only works if 'Disables Aether music manager' is false");
         this.addClientConfig("audio", "disable_aether_menu_music", "Disables the Aether's menu music in case another mod implements its own, only works if 'Disables Aether music manager' is false");
         this.addClientConfig("audio", "disable_vanilla_world_preview_menu_music", "Disables the menu music on the vanilla world preview menu, only works if 'Disables Aether music manager' is false");
         this.addClientConfig("audio", "disable_aether_world_preview_menu_music", "Disables the menu music on the Aether world preview menu, only works if 'Disables Aether music manager' is false");
@@ -1294,6 +1333,7 @@ public class AetherLanguageData extends AetherLanguageProvider {
         this.addPackTitle("curios", "Aether Curios Override");
         this.addPackTitle("freezing", "Aether Temporary Freezing");
         this.addPackTitle("ruined_portal", "Aether Ruined Portals");
+        this.addPackTitle("tooltips", "Aether Item Tooltips");
 
         this.addPackDescription("mod", "Aether Resources");
         this.addPackDescription("125", "The classic look of the Aether from 1.2.5");
@@ -1305,6 +1345,7 @@ public class AetherLanguageData extends AetherLanguageProvider {
         this.addPackDescription("curios", "Replace Accessories Menu with Curios' menu");
         this.addPackDescription("freezing", "Ice Accessories create temporary blocks");
         this.addPackDescription("ruined_portal", "Generate ruined glowstone portals");
+        this.addPackDescription("tooltips", "Add item ability tooltips");
 
         this.addMenuTitle("minecraft_left", "Minecraft (Left)");
         this.addMenuTitle("the_aether", "The Aether");

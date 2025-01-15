@@ -1,2 +1,7 @@
+<<<<<<< HEAD:src/generated/resources/.cache/59189ee9ae9c074979a45f5c7019d798c578e836
 // 1.20.1	2024-05-18T16:11:29.108971721	The Aether/Languages: en_us
 e7e94e6fd59dfba72560405db1ea7169ba8d771e assets/aether/lang/en_us.json
+=======
+// 1.20.1	2024-11-07T14:26:19.5983264	Languages: en_us
+91eedee31260b62135f376a2bc51d9600e204249 assets/aether/lang/en_us.json
+>>>>>>> 1.20.1-develop:src/generated/resources/.cache/c622617f6fabf890a00b9275cd5f643584a8a2c8

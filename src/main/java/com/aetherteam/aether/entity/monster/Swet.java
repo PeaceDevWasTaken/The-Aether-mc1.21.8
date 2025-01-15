@@ -1,6 +1,7 @@
 package com.aetherteam.aether.entity.monster;
 
 import com.aetherteam.aether.AetherTags;
+import com.aetherteam.aether.block.AetherBlocks;
 import com.aetherteam.aether.client.AetherSoundEvents;
 import com.aetherteam.aether.entity.EntityUtil;
 import com.aetherteam.aether.entity.MountableMob;
@@ -27,11 +28,16 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.control.MoveControl;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.entity.monster.Slime;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BannerBlockEntity;
+import net.minecraft.world.level.entity.EntityTypeTest;
 import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
 
 import org.jetbrains.annotations.Nullable;
@@ -43,6 +49,7 @@ public class Swet extends Slime implements MountableMob {
     private static final EntityDataAccessor<Boolean> DATA_MID_JUMP_ID = SynchedEntityData.defineId(Swet.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Float> DATA_WATER_DAMAGE_SCALE_ID = SynchedEntityData.defineId(Swet.class, EntityDataSerializers.FLOAT);
 
+    private int ascendTimer;
     private boolean wasOnGround;
     private int jumpTimer;
     private float swetHeight = 1.0F;
@@ -69,7 +76,8 @@ public class Swet extends Slime implements MountableMob {
         return Mob.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 12.0)
                 .add(Attributes.MOVEMENT_SPEED, 0.4)
-                .add(Attributes.FOLLOW_RANGE, 14.0);
+                .add(Attributes.FOLLOW_RANGE, 14.0)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 0.5);
     }
 
     @Override
@@ -106,7 +114,48 @@ public class Swet extends Slime implements MountableMob {
     public static boolean checkSwetSpawnRules(EntityType<? extends Swet> swet, LevelAccessor level, MobSpawnType reason, BlockPos pos, RandomSource random) {
         return level.getBlockState(pos.below()).is(AetherTags.Blocks.SWET_SPAWNABLE_ON)
                 && level.getRawBrightness(pos, 0) > 8
-                && level.getDifficulty() != Difficulty.PEACEFUL;
+                && level.getDifficulty() != Difficulty.PEACEFUL
+                && (reason != MobSpawnType.NATURAL || (!inRadiusOfBanner(level, pos, 40) && !inRadiusOfSwetCape(level, pos, 40)));
+    }
+
+    /**
+     * Checks whether the Swet has a certain type of banner within its radius.
+     *
+     * @param level The {@link LevelAccessor} to check in.
+     * @param pos The starting {@link BlockPos}.
+     * @param radius The {@link Integer} radius around the position.
+     * @return Whether the blocks were found in the radius, as a {@link Boolean}.
+     */
+    private static boolean inRadiusOfBanner(LevelAccessor level, BlockPos pos, int radius) {
+        for (int xOffset = -radius; xOffset <= radius; xOffset++) {
+            for (int yOffset = -radius; yOffset <= radius; yOffset++) {
+                for (int zOffset = -radius; zOffset <= radius; zOffset++) {
+                    if (xOffset * xOffset + yOffset * yOffset + zOffset * zOffset <= radius * radius) {
+                        BlockPos offsetPos = pos.offset(xOffset, yOffset, zOffset);
+                        if (level.getBlockState(offsetPos).is(Blocks.BLACK_BANNER)) {
+                            if (level.getBlockEntity(offsetPos) instanceof BannerBlockEntity bannerBlockEntity) {
+                                if (AetherBlocks.SWET_BANNER_PATTERN.toListTag().equals(BannerBlockEntity.getItemPatterns(bannerBlockEntity.getItem()))) {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Checks whether the Swet has an armor stand with a Swet Cape within its radius.
+     *
+     * @param level The {@link LevelAccessor} to check in.
+     * @param pos The starting {@link BlockPos}.
+     * @param radius The {@link Integer} radius around the position.
+     * @return Whether the entity was found in the radius, as a {@link Boolean}.
+     */
+    private static boolean inRadiusOfSwetCape(LevelAccessor level, BlockPos pos, int radius) {
+        return !level.getEntities(EntityTypeTest.forClass(ArmorStand.class), AABB.ofSize(pos.getCenter(), radius * 2, radius * 2, radius * 2), EquipmentUtil::hasSwetCape).isEmpty();
     }
 
     /**
@@ -129,6 +178,14 @@ public class Swet extends Slime implements MountableMob {
         this.tick(this);
         this.riderTick(this);
         super.tick();
+
+        if (!this.onGround() && this.getDeltaMovement().y() < 0.05 && this.ascendTimer > 0) {
+            this.setDeltaMovement(this.getDeltaMovement().x() * 1.2, 0.07, this.getDeltaMovement().z() * 1.2);
+            --this.ascendTimer;
+        }
+        if (this.onGround()) {
+            this.ascendTimer = 10;
+        }
 
         // Spawn particles when no target is captured.
         if (!this.hasPrey() && this.canSpawnSplashParticles()) {
@@ -155,10 +212,14 @@ public class Swet extends Slime implements MountableMob {
                     this.swetHeight = 1.425F;
                     this.swetWidth = 0.875F;
 
+                    float scale = Math.min(this.getJumpTimer(), 10);
+                    if (this.getJumpTimer() > 2) {
+                        this.swetHeight -= 0.04F * scale;
+                        this.swetWidth += 0.04F * scale;
+                    }
                     if (this.getJumpTimer() > 3) {
-                        float scale = Math.min(this.getJumpTimer(), 10);
-                        this.swetHeight -= 0.05F * scale;
-                        this.swetWidth += 0.05F * scale;
+                        this.swetHeight -= 0.02F * scale;
+                        this.swetWidth += 0.02F * scale;
                     }
                 } else {
                     this.swetHeight = this.swetHeight < 1.0F ? this.swetHeight + 0.25F : 1.0F;
@@ -404,7 +465,12 @@ public class Swet extends Slime implements MountableMob {
 
     @Override
     public float getJumpPower() {
-        return 0.5F;
+        LivingEntity entity = this.getControllingPassenger();
+        if (this.isVehicle() && entity != null) {
+            return 0.5F;
+        } else {
+            return 0.325F;
+        }
     }
 
     /**
@@ -430,7 +496,7 @@ public class Swet extends Slime implements MountableMob {
      */
     @Override
     public float getSteeringSpeed() {
-        return 0.084F;
+        return (float) (this.getAttributeValue(Attributes.MOVEMENT_SPEED) * 0.21F);
     }
 
     /**
@@ -672,6 +738,7 @@ public class Swet extends Slime implements MountableMob {
                 if (target != null) {
                     this.swet.lookAt(target, 10.0F, 10.0F);
                     swetMoveControl.setDirection(this.swet.getYRot(), true);
+                    swetMoveControl.setWantedMovement(1.0D);
                     if (this.swet.getBoundingBox().intersects(target.getBoundingBox())) {
                         this.swet.consumePassenger(target);
                     }

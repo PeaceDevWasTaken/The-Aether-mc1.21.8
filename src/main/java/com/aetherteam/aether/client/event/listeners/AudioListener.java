@@ -9,12 +9,13 @@ import net.minecraft.client.sounds.SoundEngine;
 
 public class AudioListener {
     /**
-     * @see AudioHooks#shouldCancelSound(SoundInstance)
+     * @see AudioHooks#shouldCancelMusic(SoundInstance)
      */
     public static SoundInstance onPlaySound(SoundEngine engine, SoundInstance sound, SoundInstance originalSound) {
-        if (AudioHooks.shouldCancelSound(originalSound)) {
+        if (AudioHooks.shouldCancelMusic(sound) || AudioHooks.preventAmbientPortalSound(engine, sound)) {
             return null;
         }
+        AudioHooks.overrideActivatedPortalSound(engine, sound);
         return sound;
     }
 

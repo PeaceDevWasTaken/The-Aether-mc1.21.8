@@ -91,7 +91,8 @@ public class GlovesRenderer implements AccessoryRenderer {
             finalTrimModel.renderToBuffer(poseStack, trimConsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         });
         if (stack.hasFoil()) {
-            model.renderToBuffer(poseStack, buffer.getBuffer(RenderType.armorEntityGlint()), packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            RenderType glint = RenderType.armorEntityGlint();
+            model.renderToBuffer(poseStack, buffer.getBuffer(glint), packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         }
     }
 
@@ -142,7 +143,8 @@ public class GlovesRenderer implements AccessoryRenderer {
             gloveTrimArm.render(poseStack, trimConsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         });
         if (stack.hasFoil()) {
-            gloveArm.render(poseStack, buffer.getBuffer(RenderType.armorEntityGlint()), packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            RenderType glint = RenderType.armorEntityGlint();
+            gloveArm.render(poseStack, buffer.getBuffer(glint), packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         }
     }
 }

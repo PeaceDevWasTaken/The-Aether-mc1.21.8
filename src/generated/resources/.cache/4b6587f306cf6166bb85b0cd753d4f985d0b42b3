@@ -1,3 +1,4 @@
+<<<<<<< HEAD:src/generated/resources/.cache/4b6587f306cf6166bb85b0cd753d4f985d0b42b3
 // 1.20.1	2024-05-18T16:11:29.105096713	The Aether/Block States: aether
 549e5b819c56945483e09a6cc7127aec41fbfc82 assets/aether/models/block/holystone_brick_stairs_inner.json
 543e38493b28057483702ecc046a5768d26d2aec assets/aether/blockstates/skyroot_planks.json
@@ -7,6 +8,31 @@
 9a5d3dcb5b36279e71aa5f87ad61c78170871274 assets/aether/blockstates/treasure_chest.json
 71359d3801a048e86f5a146eed9fac10cb9528ec assets/aether/models/block/holystone_brick_slab.json
 24c8d1f12c4eadedb2535e3b9cb1d8730255081d assets/aether/models/block/holystone_brick_slab_top.json
+=======
+// 1.20.1	2024-04-24T16:10:37.0978834	Block States: aether
+79cb0c0ea34a92e86b03080a209cb60f268cb31e assets/aether/blockstates/aerogel.json
+28f7eea22b621bda459b2328c2252cdebe0bcdb9 assets/aether/blockstates/aerogel_slab.json
+0866f96b2339b894ff4c8a01aebb3d87103eb0fb assets/aether/blockstates/aether_dirt.json
+41903d6da769f2cc87a060a10edd92c8501b7f48 assets/aether/blockstates/aether_dirt_path.json
+7beb64b98ada7b10a323d401b909964c2a8354d7 assets/aether/blockstates/aether_farmland.json
+f3fa26dbcc598c322e32f5884833e942314f4685 assets/aether/blockstates/aether_grass_block.json
+152d665d5da7ddad582cf13e0f2876a475cf31c3 assets/aether/blockstates/aether_portal.json
+1126e00b8af235a8e7972d63d6f4c450f16ff065 assets/aether/blockstates/altar.json
+e48994fd1f1233628dd252f0dbc604045e66cb43 assets/aether/blockstates/ambrosium_block.json
+c3fa9ccb77da8587e947147f49976d8da25c0c01 assets/aether/blockstates/ambrosium_ore.json
+d14ec5717e3225920a7e340c4f38688cb32c8cac assets/aether/blockstates/ambrosium_torch.json
+04a918a323b34132fb8cd521364d4b2a7c044ff4 assets/aether/blockstates/ambrosium_wall_torch.json
+b2b372e22de8b45591e1a07249909fa7e262f487 assets/aether/blockstates/angelic_slab.json
+a196006865538200d5f97ac669f3614993a6b6b1 assets/aether/blockstates/angelic_stairs.json
+f6aef375cc24b818d47e91cb2c47564fab13f9ca assets/aether/blockstates/angelic_stone.json
+b056c150c86bac8252ddde7205c892c477e0d381 assets/aether/blockstates/angelic_wall.json
+4ff39a77820fc5c9d232d1743e204679f7aef165 assets/aether/blockstates/berry_bush.json
+e9bf7edf4d997a839e2703f838e231ce5e9bb94b assets/aether/blockstates/berry_bush_stem.json
+193f2bcb2f8e40db75c04e26efab1572052bbfad assets/aether/blockstates/blue_aercloud.json
+fabce25887864049d35f9a2530577972c32b87bd assets/aether/blockstates/boss_doorway_angelic_stone.json
+d2b150d51606a4201283466c6362a262000afbbf assets/aether/blockstates/boss_doorway_carved_stone.json
+ec45f4c9fada96084f938d9fdff583ffbd7b2862 assets/aether/blockstates/boss_doorway_hellfire_stone.json
+>>>>>>> 1.20.1-develop:src/generated/resources/.cache/1742123cf955ee7ecf092ba55decb836aa65bc2c
 5525830d310dbb96970de7364089bae74f33b394 assets/aether/blockstates/boss_doorway_light_angelic_stone.json
 f6c7650dbfdb4583feae074bdfc113697f4e3b54 assets/aether/blockstates/skyroot_hanging_sign.json
 d526227faa19878fe95cc647bde28abf71664269 assets/aether/models/block/holystone_wall_side.json
@@ -207,6 +233,7 @@ a196006865538200d5f97ac669f3614993a6b6b1 assets/aether/blockstates/angelic_stair
 6921c1d3caa4786cf8504f4cb2ae063f3362c151 assets/aether/models/block/angelic_wall_side_tall.json
 41903d6da769f2cc87a060a10edd92c8501b7f48 assets/aether/blockstates/aether_dirt_path.json
 eb4870c504c661b4f8c33f9b6755723753932c20 assets/aether/models/block/mossy_holystone_stairs_outer.json
+<<<<<<< HEAD:src/generated/resources/.cache/4b6587f306cf6166bb85b0cd753d4f985d0b42b3
 871f3e0bd06ddc60e77734e07373fe258aa679f4 assets/aether/models/block/holystone_brick_wall_side.json
 b7ebe949c7d6e08e44b94c4a467e8969c7752b05 assets/aether/models/block/skyroot_planks.json
 0bdee2b795d0855ca4c28c95e41743a4ac0751a5 assets/aether/models/block/cold_aercloud.json
@@ -217,6 +244,20 @@ f6aef375cc24b818d47e91cb2c47564fab13f9ca assets/aether/blockstates/trapped_angel
 db1aa4fb93d6a3e7cebb6d034792d9d5e1c7c3cc assets/aether/models/block/skyroot_pressure_plate_down.json
 5d54ea13e3f73ac3ef598f85591ce84c46b359b3 assets/aether/models/block/hellfire_stone.json
 ad212418e71ba65f2dce6fd27bba5f7b39b4d03d assets/aether/models/block/skyroot_door_top_right_open.json
+=======
+4708be577c616015360a0b44d96472f14f7f5458 assets/aether/models/block/mossy_holystone_wall_post.json
+e69fd20b6bdf8ec17068d95552bfd90ccfd0c767 assets/aether/models/block/mossy_holystone_wall_side.json
+a8854a5e210ca69e33042bfe746e6971e6a099b4 assets/aether/models/block/mossy_holystone_wall_side_tall.json
+60ffd714e9d2adec7608a0715c128156a1b2878f assets/aether/models/block/pillar.json
+cb2a8ab22c6bfe0e3353c310af35d8e990e9f926 assets/aether/models/block/pillar_horizontal.json
+45eca4fd51bdc28e50e4ba3f0587c76d9f7f4450 assets/aether/models/block/pillar_top.json
+f4e9ea5d483484d62b4b6de8aea208b28a2e485c assets/aether/models/block/pillar_top_horizontal.json
+c555738f3c7edf5fbed00421dda5626335df4be2 assets/aether/models/block/potted_berry_bush.json
+60782e46f7fdcad6bb7c691dd203caebc00738fc assets/aether/models/block/potted_berry_bush_stem.json
+7c3a50c0820e7cf446e38e18b7cd7ec07d831566 assets/aether/models/block/potted_golden_oak_sapling.json
+eb9987a5ae084a2563cf1b396202a09d77a8877e assets/aether/models/block/potted_purple_flower.json
+eda9086f5b2a7381d2f2ef777f0196e2a17af85a assets/aether/models/block/potted_skyroot_sapling.json
+>>>>>>> 1.20.1-develop:src/generated/resources/.cache/1742123cf955ee7ecf092ba55decb836aa65bc2c
 32cac00d766cf5e6300c852648114cae43ec81cb assets/aether/models/block/potted_white_flower.json
 6fba20d890a5c74f54d60a998c269700b7393630 assets/aether/models/block/gravitite_ore.json
 9d2c22f6813be6b160ba1fb0f3bb70972b92fd63 assets/aether/models/block/angelic_stairs_inner.json

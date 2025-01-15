@@ -17,11 +17,10 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.ChestType;
-import net.zestyblaze.lootr.config.LootrModConfig;
+import net.zestyblaze.lootr.config.ConfigManager;
 
 import java.util.Calendar;
 
@@ -30,7 +29,7 @@ import java.util.Calendar;
  * Stripped down to only use what is necessary.
  */
 public class ChestMimicRenderer implements BlockEntityRenderer<ChestMimicBlockEntity> {
-	private static final Material LOOTR_MATERIAL = new Material(InventoryMenu.BLOCK_ATLAS, new ResourceLocation("lootr", "chest"));
+	private static final Material LOOTR_MATERIAL = new Material(Sheets.CHEST_SHEET, new ResourceLocation("lootr", "chest"));
 	private final ModelPart lid;
 	private final ModelPart bottom;
 	private final ModelPart lock;
@@ -71,7 +70,7 @@ public class ChestMimicRenderer implements BlockEntityRenderer<ChestMimicBlockEn
 
 	private Material getMaterial(ChestMimicBlockEntity blockEntity) {
 		if (FabricLoader.getInstance().isModLoaded("lootr")) {
-			if (!LootrModConfig.isVanillaTextures()) {
+			if (!ConfigManager.isVanillaTextures()) {
 				return LOOTR_MATERIAL;
 			}
 		}

@@ -24,26 +24,59 @@ public class MoaSkins {
             String name = (moaType.getId().getNamespace().equals(Aether.MODID) ? moaType.getId().getPath() : moaType.getId().toString().replace(":", ".")) + "_moa";
             register(name, new MoaSkin(name, new MoaSkin.Properties()
                     .displayName(Component.translatable("gui.aether.moa_skins.skin." + name))
-                    .userPredicate((user) -> PerkUtil.hasLifetimeAscentanMoaSkins().test(user))
+                    .userPredicate((user) -> PerkUtil.hasHumanMoaSkins().test(user))
                     .iconLocation(new ResourceLocation(Aether.MODID, "textures/gui/perks/skins/icons/" + name + "_icon.png"))
                     .skinLocation(moaType.getMoaTexture())
                     .saddleLocation(moaType.getSaddleTexture())
-                    .info(new MoaSkin.Info(User.Tier.ASCENTAN, true))
+                    .info(new MoaSkin.Info(User.Tier.HUMAN, false))
             ));
         }
-        register("classic_moa", new MoaSkin("classic_moa", new MoaSkin.Properties()
-                .displayName(Component.translatable("gui.aether.moa_skins.skin.classic_moa"))
-                .userPredicate((user) -> PerkUtil.hasLifetimeAscentanMoaSkins().test(user))
-                .iconLocation(new ResourceLocation(Aether.MODID, "textures/gui/perks/skins/icons/classic_moa_icon.png"))
-                .skinLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/classic_moa.png"))
+        register("orange_moa", new MoaSkin("orange_moa", new MoaSkin.Properties()
+                .displayName(Component.translatable("gui.aether.moa_skins.skin.orange_moa"))
+                .userPredicate((user) -> PerkUtil.hasHumanMoaSkins().test(user))
+                .iconLocation(new ResourceLocation(Aether.MODID, "textures/gui/perks/skins/icons/orange_moa_icon.png"))
+                .skinLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/orange_moa/orange_moa.png"))
                 .saddleLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/moa_saddle.png"))
-                .info(new MoaSkin.Info(User.Tier.ASCENTAN, true))
+                .info(new MoaSkin.Info(User.Tier.HUMAN, false))
+        ));
+        register("brown_moa", new MoaSkin("brown_moa", new MoaSkin.Properties()
+                .displayName(Component.translatable("gui.aether.moa_skins.skin.brown_moa"))
+                .userPredicate((user) -> PerkUtil.hasHumanMoaSkins().test(user))
+                .iconLocation(new ResourceLocation(Aether.MODID, "textures/gui/perks/skins/icons/brown_moa_icon.png"))
+                .skinLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/brown_moa/brown_moa.png"))
+                .saddleLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/black_moa_saddle.png"))
+                .info(new MoaSkin.Info(User.Tier.HUMAN, false))
+        ));
+        register("red_moa", new MoaSkin("red_moa", new MoaSkin.Properties()
+                .displayName(Component.translatable("gui.aether.moa_skins.skin.red_moa"))
+                .userPredicate((user) -> PerkUtil.hasHumanMoaSkins().test(user))
+                .iconLocation(new ResourceLocation(Aether.MODID, "textures/gui/perks/skins/icons/red_moa_icon.png"))
+                .skinLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/red_moa/red_moa.png"))
+                .saddleLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/moa_saddle.png"))
+                .info(new MoaSkin.Info(User.Tier.HUMAN, false))
+        ));
+        register("green_moa", new MoaSkin("green_moa", new MoaSkin.Properties()
+                .displayName(Component.translatable("gui.aether.moa_skins.skin.green_moa"))
+                .userPredicate((user) -> PerkUtil.hasHumanMoaSkins().test(user))
+                .iconLocation(new ResourceLocation(Aether.MODID, "textures/gui/perks/skins/icons/green_moa_icon.png"))
+                .skinLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/green_moa/green_moa.png"))
+                .saddleLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/moa_saddle.png"))
+                .info(new MoaSkin.Info(User.Tier.HUMAN, false))
+        ));
+        register("purple_moa", new MoaSkin("purple_moa", new MoaSkin.Properties()
+                .displayName(Component.translatable("gui.aether.moa_skins.skin.purple_moa"))
+                .userPredicate((user) -> PerkUtil.hasHumanMoaSkins().test(user))
+                .iconLocation(new ResourceLocation(Aether.MODID, "textures/gui/perks/skins/icons/purple_moa_icon.png"))
+                .skinLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/purple_moa/purple_moa.png"))
+                .saddleLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/moa_saddle.png"))
+                .info(new MoaSkin.Info(User.Tier.HUMAN, false))
         ));
         register("boko_yellow", new MoaSkin("boko_yellow", new MoaSkin.Properties()
                 .displayName(Component.translatable("gui.aether.moa_skins.skin.boko_yellow"))
                 .userPredicate((user) -> PerkUtil.hasLifetimeAscentanMoaSkins().test(user))
                 .iconLocation(new ResourceLocation(Aether.MODID, "textures/gui/perks/skins/icons/boko_yellow_icon.png"))
                 .skinLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/boko_yellow/boko_yellow.png"))
+                .hatLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/boko_yellow/boko_yellow_hat.png"))
                 .saddleLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/boko_yellow/boko_yellow_saddle.png"))
                 .info(new MoaSkin.Info(User.Tier.ASCENTAN, true))
         ));
@@ -53,6 +86,7 @@ public class MoaSkins {
                 .iconLocation(new ResourceLocation(Aether.MODID, "textures/gui/perks/skins/icons/crookjaw_purple_icon.png"))
                 .skinLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/crookjaw_purple/crookjaw_purple.png"))
                 .emissiveLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/crookjaw_purple/crookjaw_purple_emissive.png"))
+                .hatLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/crookjaw_purple/crookjaw_purple_hat.png"))
                 .saddleLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/crookjaw_purple/crookjaw_purple_saddle.png"))
                 .info(new MoaSkin.Info(User.Tier.ASCENTAN, true))
         ));
@@ -69,6 +103,7 @@ public class MoaSkins {
                 .userPredicate((user) -> PerkUtil.hasLifetimeAscentanMoaSkins().test(user))
                 .iconLocation(new ResourceLocation(Aether.MODID, "textures/gui/perks/skins/icons/halcian_pink_icon.png"))
                 .skinLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/halcian_pink/halcian_pink.png"))
+                .hatLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/halcian_pink/halcian_pink_hat.png"))
                 .saddleLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/halcian_pink/halcian_pink_saddle.png"))
                 .info(new MoaSkin.Info(User.Tier.ASCENTAN, true))
         ));
@@ -85,6 +120,7 @@ public class MoaSkins {
                 .userPredicate((user) -> PerkUtil.hasAscentanMoaSkins().test(user))
                 .iconLocation(new ResourceLocation(Aether.MODID, "textures/gui/perks/skins/icons/gilded_gharrix_icon.png"))
                 .skinLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/gilded_gharrix/gilded_gharrix.png"))
+                .hatLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/gilded_gharrix/gilded_gharrix_hat.png"))
                 .saddleLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/gilded_gharrix/gilded_gharrix_saddle.png"))
                 .info(new MoaSkin.Info(User.Tier.ASCENTAN, false))
         ));
@@ -93,6 +129,7 @@ public class MoaSkins {
                 .userPredicate((user) -> PerkUtil.hasAscentanMoaSkins().test(user))
                 .iconLocation(new ResourceLocation(Aether.MODID, "textures/gui/perks/skins/icons/gargoyle_moa_icon.png"))
                 .skinLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/gargoyle_moa/gargoyle_moa.png"))
+                .hatLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/gargoyle_moa/gargoyle_moa_hat.png"))
                 .saddleLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/gargoyle_moa/gargoyle_moa_saddle.png"))
                 .info(new MoaSkin.Info(User.Tier.ASCENTAN, false))
         ));
@@ -101,6 +138,7 @@ public class MoaSkins {
                 .userPredicate((user) -> PerkUtil.hasAscentanMoaSkins().test(user))
                 .iconLocation(new ResourceLocation(Aether.MODID, "textures/gui/perks/skins/icons/construction_bot_icon.png"))
                 .skinLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/construction_bot/construction_bot.png"))
+                .hatLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/construction_bot/construction_bot_hat.png"))
                 .emissiveLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/construction_bot/construction_bot_emissive.png"))
                 .saddleLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/construction_bot/construction_bot_saddle.png"))
                 .info(new MoaSkin.Info(User.Tier.ASCENTAN, false))
@@ -119,6 +157,24 @@ public class MoaSkins {
                 .iconLocation(new ResourceLocation(Aether.MODID, "textures/gui/perks/skins/icons/chicken_moa_icon.png"))
                 .skinLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/chicken_moa/chicken_moa.png"))
                 .saddleLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/chicken_moa/chicken_moa_saddle.png"))
+                .info(new MoaSkin.Info(User.Tier.ASCENTAN, false))
+        ));
+        register("medical_bot", new MoaSkin("medical_bot", new MoaSkin.Properties()
+                .displayName(Component.translatable("gui.aether.moa_skins.skin.medical_bot"))
+                .userPredicate((user) -> PerkUtil.hasAscentanMoaSkins().test(user))
+                .iconLocation(new ResourceLocation(Aether.MODID, "textures/gui/perks/skins/icons/medical_bot_icon.png"))
+                .skinLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/medical_bot/medical_bot.png"))
+                .emissiveLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/medical_bot/medical_bot_emissive.png"))
+                .hatLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/medical_bot/medical_bot_hat.png"))
+                .saddleLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/medical_bot/medical_bot_saddle.png"))
+                .info(new MoaSkin.Info(User.Tier.ASCENTAN, false))
+        ));
+        register("skeleton_moa", new MoaSkin("skeleton_moa", new MoaSkin.Properties()
+                .displayName(Component.translatable("gui.aether.moa_skins.skin.skeleton_moa"))
+                .userPredicate((user) -> PerkUtil.hasAscentanMoaSkins().test(user))
+                .iconLocation(new ResourceLocation(Aether.MODID, "textures/gui/perks/skins/icons/skeleton_moa_icon.png"))
+                .skinLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/skeleton_moa/skeleton_moa.png"))
+                .saddleLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/skeleton_moa/skeleton_moa_saddle.png"))
                 .info(new MoaSkin.Info(User.Tier.ASCENTAN, false))
         ));
         register("arctic_moa", new MoaSkin("arctic_moa", new MoaSkin.Properties()
@@ -161,6 +217,7 @@ public class MoaSkins {
                 .userPredicate((user) -> PerkUtil.hasLifetimeValkyrieMoaSkins().test(user))
                 .iconLocation(new ResourceLocation(Aether.MODID, "textures/gui/perks/skins/icons/valkyrie_moa_icon.png"))
                 .skinLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/valkyrie_moa/valkyrie_moa.png"))
+                .hatLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/valkyrie_moa/valkyrie_moa_hat.png"))
                 .saddleLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/valkyrie_moa/valkyrie_moa_saddle.png"))
                 .info(new MoaSkin.Info(User.Tier.VALKYRIE, true))
         ));
@@ -170,6 +227,8 @@ public class MoaSkins {
                 .iconLocation(new ResourceLocation(Aether.MODID, "textures/gui/perks/skins/icons/battle_sentry_moa_icon.png"))
                 .skinLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/battle_sentry_moa/battle_sentry_moa.png"))
                 .emissiveLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/battle_sentry_moa/battle_sentry_moa_emissive.png"))
+                .hatLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/battle_sentry_moa/battle_sentry_moa_hat.png"))
+                .hatEmissiveLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/battle_sentry_moa/battle_sentry_moa_hat_emissive.png"))
                 .saddleLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/battle_sentry_moa/battle_sentry_moa_saddle.png"))
                 .saddleEmissiveLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/battle_sentry_moa/battle_sentry_moa_saddle_emissive.png"))
                 .info(new MoaSkin.Info(User.Tier.VALKYRIE, false))
@@ -189,6 +248,7 @@ public class MoaSkins {
                 .iconLocation(new ResourceLocation(Aether.MODID, "textures/gui/perks/skins/icons/molten_moa_icon.png"))
                 .skinLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/molten_moa/molten_moa.png"))
                 .emissiveLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/molten_moa/molten_moa_emissive.png"))
+                .hatLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/molten_moa/molten_moa_hat.png"))
                 .saddleLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/molten_moa/molten_moa_saddle.png"))
                 .info(new MoaSkin.Info(User.Tier.VALKYRIE, false))
         ));
@@ -198,6 +258,7 @@ public class MoaSkins {
                 .iconLocation(new ResourceLocation(Aether.MODID, "textures/gui/perks/skins/icons/undead_moa_icon.png"))
                 .skinLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/undead_moa/undead_moa.png"))
                 .emissiveLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/undead_moa/undead_moa_emissive.png"))
+                .hatLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/undead_moa/undead_moa_hat.png"))
                 .saddleLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/undead_moa/undead_moa_saddle.png"))
                 .info(new MoaSkin.Info(User.Tier.VALKYRIE, false))
         ));
@@ -207,6 +268,22 @@ public class MoaSkins {
                 .iconLocation(new ResourceLocation(Aether.MODID, "textures/gui/perks/skins/icons/stratus_icon.png"))
                 .skinLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/stratus/stratus.png"))
                 .saddleLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/stratus/stratus_saddle.png"))
+                .info(new MoaSkin.Info(User.Tier.VALKYRIE, false))
+        ));
+        register("peacock_moa", new MoaSkin("peacock_moa", new MoaSkin.Properties()
+                .displayName(Component.translatable("gui.aether.moa_skins.skin.peacock_moa"))
+                .userPredicate((user) -> PerkUtil.hasValkyrieMoaSkins().test(user))
+                .iconLocation(new ResourceLocation(Aether.MODID, "textures/gui/perks/skins/icons/peacock_moa_icon.png"))
+                .skinLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/peacock_moa/peacock_moa.png"))
+                .saddleLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/peacock_moa/peacock_moa_saddle.png"))
+                .info(new MoaSkin.Info(User.Tier.VALKYRIE, false))
+        ));
+        register("prehistoric_moa", new MoaSkin("prehistoric_moa", new MoaSkin.Properties()
+                .displayName(Component.translatable("gui.aether.moa_skins.skin.prehistoric_moa"))
+                .userPredicate((user) -> PerkUtil.hasValkyrieMoaSkins().test(user))
+                .iconLocation(new ResourceLocation(Aether.MODID, "textures/gui/perks/skins/icons/prehistoric_moa_icon.png"))
+                .skinLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/prehistoric_moa/prehistoric_moa.png"))
+                .saddleLocation(new ResourceLocation(Aether.MODID, "textures/entity/mobs/moa/skins/prehistoric_moa/prehistoric_moa_saddle.png"))
                 .info(new MoaSkin.Info(User.Tier.VALKYRIE, false))
         ));
     }
@@ -227,22 +304,28 @@ public class MoaSkins {
         private final ResourceLocation skinLocation;
         @Nullable
         private final ResourceLocation emissiveLocation;
+        @Nullable
+        private final ResourceLocation hatLocation;
+        @Nullable
+        private final ResourceLocation hatEmissiveLocation;
         private final ResourceLocation saddleLocation;
         @Nullable
         private final ResourceLocation saddleEmissiveLocation;
         private final Info info;
 
         protected MoaSkin(String id, Properties properties) {
-            this(id, properties.displayName, properties.userPredicate, properties.iconLocation, properties.skinLocation, properties.emissiveLocation, properties.saddleLocation, properties.saddleEmissiveLocation, properties.info);
+            this(id, properties.displayName, properties.userPredicate, properties.iconLocation, properties.skinLocation, properties.emissiveLocation, properties.hatLocation, properties.hatEmissiveLocation, properties.saddleLocation, properties.saddleEmissiveLocation, properties.info);
         }
 
-        protected MoaSkin(String id, Component displayName, Predicate<User> userPredicate, ResourceLocation iconLocation, ResourceLocation skinLocation, ResourceLocation emissiveLocation, ResourceLocation saddleLocation, ResourceLocation saddleEmissiveLocation, Info info) {
+        protected MoaSkin(String id, Component displayName, Predicate<User> userPredicate, ResourceLocation iconLocation, ResourceLocation skinLocation, ResourceLocation emissiveLocation, ResourceLocation hatLocation, ResourceLocation hatEmissiveLocation, ResourceLocation saddleLocation, ResourceLocation saddleEmissiveLocation, Info info) {
             this.id = id;
             this.displayName = displayName;
             this.userPredicate = userPredicate;
             this.iconLocation = iconLocation;
             this.skinLocation = skinLocation;
             this.emissiveLocation = emissiveLocation;
+            this.hatLocation = hatLocation;
+            this.hatEmissiveLocation = hatEmissiveLocation;
             this.saddleLocation = saddleLocation;
             this.saddleEmissiveLocation = saddleEmissiveLocation;
             this.info = info;
@@ -289,6 +372,20 @@ public class MoaSkins {
         @Nullable
         public ResourceLocation getEmissiveLocation() {
             return this.emissiveLocation;
+        }
+
+        /**
+         * @return The {@link ResourceLocation} of the {@link MoaSkin}'s hat texture.
+         */
+        public ResourceLocation getHatLocation() {
+            return this.hatLocation;
+        }
+
+        /**
+         * @return The {@link ResourceLocation} of the {@link MoaSkin}'s hat emissive overlay texture.
+         */
+        public ResourceLocation getHatEmissiveLocation() {
+            return this.hatEmissiveLocation;
         }
 
         /**
@@ -339,6 +436,10 @@ public class MoaSkins {
             private ResourceLocation skinLocation;
             @Nullable
             private ResourceLocation emissiveLocation = null;
+            @Nullable
+            private ResourceLocation hatLocation = null;
+            @Nullable
+            private ResourceLocation hatEmissiveLocation = null;
             private ResourceLocation saddleLocation;
             @Nullable
             private ResourceLocation saddleEmissiveLocation = null;
@@ -381,6 +482,22 @@ public class MoaSkins {
              */
             public Properties emissiveLocation(@Nullable ResourceLocation emissiveLocation) {
                 this.emissiveLocation = emissiveLocation;
+                return this;
+            }
+
+            /**
+             * @see MoaSkin#getHatLocation()
+             */
+            public Properties hatLocation(ResourceLocation hatLocation) {
+                this.hatLocation = hatLocation;
+                return this;
+            }
+
+            /**
+             * @see MoaSkin#getHatEmissiveLocation()
+             */
+            public Properties hatEmissiveLocation(ResourceLocation hatEmissiveLocation) {
+                this.hatEmissiveLocation = hatEmissiveLocation;
                 return this;
             }
 

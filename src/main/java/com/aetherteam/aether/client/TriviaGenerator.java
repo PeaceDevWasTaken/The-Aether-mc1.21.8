@@ -5,6 +5,7 @@ import io.github.fabricators_of_create.porting_lib.mixin.client.ClientLanguageAc
 import net.minecraft.client.resources.language.ClientLanguage;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.RandomSource;
 
 import org.jetbrains.annotations.Nullable;
@@ -48,7 +49,9 @@ public class TriviaGenerator {
     @Nullable
     public Component getTriviaLine() {
         if (this.getTriviaComponent() != null) {
-            return Component.translatable("gui.aether.pro_tip").append(Component.literal(" ").append(this.getTriviaComponent()));
+            Component triviaComponent = this.getTriviaComponent();
+            MutableComponent prefixComponent = Component.translatable("gui.aether.pro_tip").withStyle(triviaComponent.getStyle());
+            return prefixComponent.append(Component.literal(" ").append(triviaComponent));
         }
         return null;
     }

@@ -46,6 +46,7 @@ FlashFyreMods
 - Implementation of more beta-accurate terrain generation for the Aether dimension.
 
 GizmoTheMoonPig
+- Help with porting to 1.20.4.
 - Implementation of Jade compatibility.
 - Implementation of Lootr compatibility.
 - Implementation of Randomium compatibility.
@@ -54,6 +55,10 @@ GizmoTheMoonPig
 - Fixes to the Life Shard silver heart overlay rendering.
 - Fixes to aether1 and aether2 music naming.
 - FIxes to Moa Skins GUI issues.
+
+indrada
+- Fixes to menu theme switching failing in edge cases.
+- Fixes to Aerwhales and Zephyrs spawning in enclosed spaces.
 
 InsomniaKitten
 - Providing the accessory inventory texture.
@@ -85,11 +90,17 @@ MehVahdJukaar
 Mike-U5
 - Fixes to some Curios default slot icons being incorrect.
 
+mrjasonn
+- Improvements to mcfunctions for development testing.
+
 muzikbike
 - Contribution of the reference JSON for an improved Aercloud block model.
 
 parasdice
 - Contribution of the beta Lootr Mimic texture.
+
+rhysdh540
+- Contribution of Machete plugin code for JAR file optimization within the Gradle buildscript.
 
 saintselect
 - Integration for JEI.

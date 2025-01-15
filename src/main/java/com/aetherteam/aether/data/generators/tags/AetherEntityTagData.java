@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.EntityTypeTagsProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
@@ -82,6 +83,9 @@ public class AetherEntityTagData extends FabricTagProvider.EntityTypeTagProvider
                 AetherEntityTypes.FIRE_MINION.get(),
                 AetherEntityTypes.FIRE_CRYSTAL.get(),
                 AetherEntityTypes.ICE_CRYSTAL.get());
+        this.tag(AetherTags.Entities.SLIDER_DAMAGING_PROJECTILES)
+                .addOptional(new ResourceLocation("quark", "pickarang"))
+                .addOptional(new ResourceLocation("quark", "flamerang"));
 
         // Forge
         this.tag(Tags.EntityTypes.BOSSES).add(

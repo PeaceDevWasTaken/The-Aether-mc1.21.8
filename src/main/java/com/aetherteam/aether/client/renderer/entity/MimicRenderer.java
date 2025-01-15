@@ -8,6 +8,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.resources.ResourceLocation;
+import net.zestyblaze.lootr.config.ConfigManager;
 
 import java.util.Calendar;
 
@@ -33,6 +34,6 @@ public class MimicRenderer extends MobRenderer<Mimic, MimicModel> {
 	 */
 	@Override
 	public ResourceLocation getTextureLocation(Mimic Mimic) {
-		return FabricLoader.getInstance().isModLoaded("lootr") ? LOOTR_TEXTURE : this.isChristmas ? XMAS_TEXTURE : TEXTURE;
+		return FabricLoader.getInstance().isModLoaded("lootr") && !ConfigManager.isVanillaTextures() ? LOOTR_TEXTURE : this.isChristmas ? XMAS_TEXTURE : TEXTURE;
 	}
 }

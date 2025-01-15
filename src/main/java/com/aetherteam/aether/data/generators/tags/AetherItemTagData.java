@@ -42,6 +42,7 @@ public class AetherItemTagData extends FabricTagProvider.ItemTagProvider {
         this.copy(AetherTags.Blocks.SENTRY_BLOCKS, AetherTags.Items.SENTRY_BLOCKS);
         this.copy(AetherTags.Blocks.ANGELIC_BLOCKS, AetherTags.Items.ANGELIC_BLOCKS);
         this.copy(AetherTags.Blocks.HELLFIRE_BLOCKS, AetherTags.Items.HELLFIRE_BLOCKS);
+        this.copy(AetherTags.Blocks.AECHOR_PLANT_SPAWNABLE_DETERRENT, AetherTags.Items.AECHOR_PLANT_SPAWNABLE_DETERRENT);
 
         this.tag(AetherTags.Items.CRAFTS_SKYROOT_PLANKS).addTags(
                 AetherTags.Items.SKYROOT_LOGS,
@@ -143,6 +144,7 @@ public class AetherItemTagData extends FabricTagProvider.ItemTagProvider {
                 AetherItems.SWET_CAPE.get(),
                 AetherItems.SHIELD_OF_REPULSION.get(),
                 AetherItems.MUSIC_DISC_AETHER_TUNE.get(),
+                AetherItems.MUSIC_DISC_SLIDERS_WRATH.get(),
                 AetherItems.CLOUD_STAFF.get(),
                 AetherItems.LIGHTNING_KNIFE.get(),
                 AetherItems.PHOENIX_BOW.get(),
@@ -397,7 +399,9 @@ public class AetherItemTagData extends FabricTagProvider.ItemTagProvider {
                 AetherItems.MUSIC_DISC_AETHER_TUNE.get(),
                 AetherItems.MUSIC_DISC_ASCENDING_DAWN.get(),
                 AetherItems.MUSIC_DISC_CHINCHILLA.get(),
-                AetherItems.MUSIC_DISC_HIGH.get());
+                AetherItems.MUSIC_DISC_HIGH.get(),
+                AetherItems.MUSIC_DISC_KLEPTO.get(),
+                AetherItems.MUSIC_DISC_SLIDERS_WRATH.get());
         this.tag(ItemTags.BOOKSHELF_BOOKS).add(AetherItems.BOOK_OF_LORE.get());
         this.tag(ItemTags.BEACON_PAYMENT_ITEMS).add(
                 AetherItems.ZANITE_GEMSTONE.get(),

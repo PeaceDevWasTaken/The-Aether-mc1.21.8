@@ -2,8 +2,6 @@ package com.aetherteam.aether.item.combat;
 
 import com.aetherteam.aether.AetherTags;
 import com.aetherteam.aether.client.AetherSoundEvents;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.Util;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.ArmorItem;
@@ -107,7 +105,6 @@ public enum AetherArmorMaterials implements ArmorMaterial {
 	}
 
 	@Override
-	@Environment(EnvType.CLIENT)
 	public String getName() {
 		return this.name;
 	}

@@ -2,12 +2,10 @@ package com.aetherteam.aether.blockentity;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.block.AetherBlocks;
-import com.aetherteam.aether.item.miscellaneous.DungeonKeyItem;
 import io.github.fabricators_of_create.porting_lib.block.CustomDataPacketHandlingBlockEntity;
 import io.github.fabricators_of_create.porting_lib.block.CustomUpdateTagHandlingBlockEntity;
 import io.github.fabricators_of_create.porting_lib.transfer.WrappedStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.InventoryStorage;
-import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SidedStorageBlockEntity;
@@ -38,7 +36,6 @@ import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.*;
 import net.minecraft.world.level.block.state.BlockState;
 
-import org.jetbrains.annotations.Nullable;
 import java.util.stream.IntStream;
 
 /**
@@ -93,15 +90,12 @@ public class TreasureChestBlockEntity extends RandomizableContainerBlockEntity i
      * @return Whether the Treasure Chest was unlocked.
      */
     public boolean tryUnlock(Player player) {
-        ItemStack stack = player.getMainHandItem();
-        boolean keyMatches = stack.getItem() instanceof DungeonKeyItem dungeonKeyItem && this.getKind().equals(dungeonKeyItem.getDungeonType());
-        if (this.getLocked() && keyMatches && this.level != null) {
+        if (this.getLocked() && this.level != null) {
             this.setLocked(false);
             this.setChanged();
             this.level.markAndNotifyBlock(this.worldPosition, this.level.getChunkAt(this.worldPosition), this.getBlockState(), this.getBlockState(), 2, 512);
             return true;
         } else {
-            player.displayClientMessage(Component.translatable(this.getKind().getNamespace() + "." + this.getKind().getPath() + "_treasure_chest_locked"), true);
             return false;
         }
     }

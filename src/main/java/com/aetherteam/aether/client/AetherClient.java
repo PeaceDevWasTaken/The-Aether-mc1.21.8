@@ -17,9 +17,9 @@ import com.aetherteam.aether.item.AetherItems;
 import com.aetherteam.aether.network.AetherPacketHandler;
 import com.aetherteam.aether.perk.CustomizationsOptions;
 import com.aetherteam.cumulus.CumulusConfig;
+import com.aetherteam.nitrogen.event.listeners.TooltipListeners;
 import com.google.common.reflect.Reflection;
 import io.github.fabricators_of_create.porting_lib.client_events.event.client.RegisterEntitySpectatorShadersCallback;
-import io.github.fabricators_of_create.porting_lib.config.ConfigEvents;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.loader.api.FabricLoader;
@@ -27,8 +27,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.item.ItemProperties;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemStack;
 
 import java.util.Map;
 
@@ -47,6 +49,7 @@ public class AetherClient implements ClientModInitializer {
         AetherRenderers.init();
         registerGuiFactories();
         registerItemModelProperties();
+        registerTooltipOverrides();
         registerLoreOverrides();
         autoApplyPacks();
 
@@ -105,11 +108,36 @@ public class AetherClient implements ClientModInitializer {
                 (stack, world, living, i) -> stack.getHoverName().getString().equalsIgnoreCase("hammer of jeb") ? 1.0F : 0.0F);
     }
 
+    public static void registerTooltipOverrides() {
+        TooltipListeners.PREDICATES.put(AetherItems.BLUE_GUMMY_SWET, (player, stack, components, component) -> {
+            if (AetherConfig.SERVER.healing_gummy_swets.get() && component.getContents() instanceof TranslatableContents contents && contents.getKey().endsWith(".1")) {
+                return Component.translatable(contents.getKey() + ".health");
+            } else {
+                return component;
+            }
+        });
+        TooltipListeners.PREDICATES.put(AetherItems.GOLDEN_GUMMY_SWET, (player, stack, components, component) -> {
+            if (AetherConfig.SERVER.healing_gummy_swets.get() && component.getContents() instanceof TranslatableContents contents && contents.getKey().endsWith(".1")) {
+                return Component.translatable(contents.getKey() + ".health");
+            } else {
+                return component;
+            }
+        });
+        TooltipListeners.PREDICATES.put(AetherItems.LIFE_SHARD, (player, stack, components, component) -> {
+            if (component.getContents() instanceof TranslatableContents contents && contents.getKey().endsWith(".1")) {
+                return Component.translatable(contents.getKey(), AetherConfig.SERVER.maximum_life_shards.get());
+            } else {
+                return component;
+            }
+        });
+    }
+
     /**
      * Applies a unique lore entry in the Book of Lore for the Hammer of Jeb Easter Egg item texture.
      */
     public static void registerLoreOverrides() {
         LoreBookMenu.addLoreEntryOverride(stack -> stack.is(AetherItems.HAMMER_OF_KINGBDOGZ.get()) && stack.getHoverName().getString().equalsIgnoreCase("hammer of jeb"), "lore.item.aether.hammer_of_jeb");
+        LoreBookMenu.addLoreEntryOverride(stack -> ItemStack.isSameItemSameTags(stack, AetherItems.createSwetBannerItemStack()), "lore.item.aether.swet_banner");
     }
 
     /**
@@ -146,7 +174,7 @@ public class AetherClient implements ClientModInitializer {
     /**
      * Used to work around a classloading crash on the server.
      */
-    public static void setToSunAltarScreen(Component name) {
-        Minecraft.getInstance().setScreen(new SunAltarScreen(name));
+    public static void setToSunAltarScreen(Component name, int timeScale) {
+        Minecraft.getInstance().setScreen(new SunAltarScreen(name, timeScale));
     }
 }

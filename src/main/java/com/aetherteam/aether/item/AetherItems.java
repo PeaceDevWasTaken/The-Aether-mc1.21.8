@@ -2,6 +2,7 @@ package com.aetherteam.aether.item;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.api.AetherMoaTypes;
+import com.aetherteam.aether.block.AetherBlocks;
 import com.aetherteam.aether.client.AetherSoundEvents;
 import com.aetherteam.aether.entity.AetherEntityTypes;
 import com.aetherteam.aether.item.accessories.cape.AgilityCapeItem;
@@ -58,6 +59,8 @@ import io.github.fabricators_of_create.porting_lib.util.LazySpawnEggItem;
 import io.github.fabricators_of_create.porting_lib.util.RegistryObject;
 import me.shedaniel.mm.api.ClassTinkerers;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextColor;
@@ -69,6 +72,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.material.Fluids;
 
 public class AetherItems {
@@ -234,7 +238,9 @@ public class AetherItems {
 	public static final RegistryObject<Item> MUSIC_DISC_AETHER_TUNE = ITEMS.register("music_disc_aether_tune", () -> new RecordItem(1, AetherSoundEvents.ITEM_MUSIC_DISC_AETHER_TUNE.get(), new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 2980));
 	public static final RegistryObject<Item> MUSIC_DISC_ASCENDING_DAWN  = ITEMS.register("music_disc_ascending_dawn", () -> new RecordItem(2, AetherSoundEvents.ITEM_MUSIC_DISC_ASCENDING_DAWN.get(), new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 7000));
 	public static final RegistryObject<Item> MUSIC_DISC_CHINCHILLA  = ITEMS.register("music_disc_chinchilla", () -> new RecordItem(3, AetherSoundEvents.ITEM_MUSIC_DISC_CHINCHILLA.get(), new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 3260));
-	public static final RegistryObject<Item> MUSIC_DISC_HIGH  = ITEMS.register("music_disc_high", () -> new RecordItem(4, AetherSoundEvents.ITEM_MUSIC_DISC_HIGH.get(), new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 2800));
+	public static final RegistryObject<Item> MUSIC_DISC_HIGH  = ITEMS.register("music_disc_high", () -> new RecordItem(4, AetherSoundEvents.ITEM_MUSIC_DISC_HIGH.get(), new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 3720));
+	public static final RegistryObject<Item> MUSIC_DISC_KLEPTO = ITEMS.register("music_disc_klepto", () -> new RecordItem(5, AetherSoundEvents.ITEM_MUSIC_DISC_KLEPTO.get(), new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 3840));
+	public static final RegistryObject<Item> MUSIC_DISC_SLIDERS_WRATH = ITEMS.register("music_disc_sliders_wrath", () -> new RecordItem(6, AetherSoundEvents.ITEM_MUSIC_DISC_SLIDERS_WRATH.get(), new Item.Properties().stacksTo(1).rarity(Rarity.RARE), 3440));
 
 	public static final RegistryObject<Item> SKYROOT_BUCKET = ITEMS.register("skyroot_bucket", () -> new SkyrootBucketItem(Fluids.EMPTY, new Item.Properties().stacksTo(16)));
 	public static final RegistryObject<Item> SKYROOT_WATER_BUCKET = ITEMS.register("skyroot_water_bucket", () -> new SkyrootBucketItem(Fluids.WATER, new Item.Properties().craftRemainder(SKYROOT_BUCKET.get()).stacksTo(1)));
@@ -302,5 +308,14 @@ public class AetherItems {
 		SkyrootBucketItem.REPLACEMENTS.put(() -> Items.TROPICAL_FISH_BUCKET, AetherItems.SKYROOT_TROPICAL_FISH_BUCKET);
 		SkyrootBucketItem.REPLACEMENTS.put(() -> Items.AXOLOTL_BUCKET, AetherItems.SKYROOT_AXOLOTL_BUCKET);
 		SkyrootBucketItem.REPLACEMENTS.put(() -> Items.TADPOLE_BUCKET, AetherItems.SKYROOT_TADPOLE_BUCKET);
+	}
+
+	public static ItemStack createSwetBannerItemStack() {
+		ItemStack bannerStack = new ItemStack(Items.BLACK_BANNER).setHoverName(Component.translatable("aether.block.aether.swet_banner").withStyle(ChatFormatting.GOLD));
+		CompoundTag tag = new CompoundTag();
+		tag.put("Patterns", AetherBlocks.SWET_BANNER_PATTERN.toListTag());
+		BlockItem.setBlockEntityData(bannerStack, BlockEntityType.BANNER, tag);
+		bannerStack.hideTooltipPart(ItemStack.TooltipPart.ADDITIONAL);
+		return bannerStack;
 	}
 }

@@ -39,13 +39,11 @@ import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerBossEvent;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.Mth;
-import net.minecraft.world.BossEvent;
-import net.minecraft.world.DifficultyInstance;
-import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.*;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
@@ -58,6 +56,7 @@ import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
@@ -65,12 +64,32 @@ import net.minecraft.world.phys.Vec3;
 
 import org.jetbrains.annotations.Nullable;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>, Enemy, IEntityAdditionalSpawnData {
+    private static final double DEFAULT_SPEED_MODIFIER = 1.0;
+    private static final double FROZEN_SPEED_MODIFIER = 0.3;
+    private static final float INCINERATION_DAMAGE = 10.0F;
+    private static final int INCINERATION_FIRE_DURATION = 8;
+    private static final int SUN_SPIRIT_FROZEN_DURATION = 175;
+    private static final int ICE_CRYSTAL_SHOOT_COUNT_INTERVAL = 5;
+    private static final int SHOOT_CRYSTAL_INTERVAL = 50;
+    private static final int SPAWN_FIRE_INTERVAL = 35;
+
     private static final EntityDataAccessor<Boolean> DATA_IS_FROZEN = SynchedEntityData.defineId(SunSpirit.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> DATA_FROZEN_DURATION = SynchedEntityData.defineId(SunSpirit.class, EntityDataSerializers.INT);
     private static final EntityDataAccessor<Component> DATA_BOSS_NAME = SynchedEntityData.defineId(SunSpirit.class, EntityDataSerializers.COMPONENT);
+    private static final Music SUN_SPIRIT_MUSIC = new Music(AetherSoundEvents.MUSIC_BOSS_SUN_SPIRIT.getHolder().orElseThrow(), 0, 0, true);
+    public static final Map<Block, Function<BlockState, BlockState>> DUNGEON_BLOCK_CONVERSIONS = new HashMap<>(Map.ofEntries(
+            Map.entry(AetherBlocks.LOCKED_HELLFIRE_STONE.get(), (blockState) -> AetherBlocks.HELLFIRE_STONE.get().defaultBlockState()),
+            Map.entry(AetherBlocks.LOCKED_LIGHT_HELLFIRE_STONE.get(), (blockState) -> AetherBlocks.LIGHT_HELLFIRE_STONE.get().defaultBlockState()),
+            Map.entry(AetherBlocks.BOSS_DOORWAY_HELLFIRE_STONE.get(), (blockState) -> Blocks.AIR.defaultBlockState()),
+            Map.entry(AetherBlocks.TREASURE_DOORWAY_HELLFIRE_STONE.get(), (blockState) -> Blocks.AIR.defaultBlockState())
+    ));
 
     /**
      * Boss health bar manager
@@ -85,17 +104,17 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
     private int chatLine;
     private int chatCooldown;
 
-    protected double velocity;
+    protected double speedModifier;
 
     public SunSpirit(EntityType<? extends SunSpirit> type, Level level) {
         super(type, level);
         this.moveControl = new BlankMoveControl(this);
-        this.bossFight = new ServerBossEvent(this.getBossName(), BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.PROGRESS);
+        this.bossFight = (ServerBossEvent) new ServerBossEvent(this.getBossName(), BossEvent.BossBarColor.RED, BossEvent.BossBarOverlay.PROGRESS).setPlayBossMusic(true);
         this.setBossFight(false);
         this.origin = this.position();
         this.xpReward = XP_REWARD_BOSS;
         this.noPhysics = true;
-        this.velocity =  1 - this.getHealth() / 700;
+        this.speedModifier = DEFAULT_SPEED_MODIFIER;
         this.setPersistenceRequired();
     }
 
@@ -128,7 +147,7 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
 
     public static AttributeSupplier.Builder createMobAttributes() {
         return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 50.0)
+                .add(Attributes.MAX_HEALTH, 500.0)
                 .add(Attributes.MOVEMENT_SPEED, 0.35);
     }
 
@@ -136,6 +155,7 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
     public void defineSynchedData() {
         super.defineSynchedData();
         this.getEntityData().define(DATA_IS_FROZEN, false);
+        this.getEntityData().define(DATA_FROZEN_DURATION, 0);
         this.getEntityData().define(DATA_BOSS_NAME, Component.literal("Sun Spirit"));
     }
 
@@ -149,7 +169,7 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
         if (this.getChatCooldown() > 0) {
             this.chatCooldown--;
         }
-        if (this.getHealth() > 0) {
+        if (this.getHealth() > 0 && !this.isFrozen()) {
             double x = this.getX() + (this.getRandom().nextFloat() - 0.5F) * this.getRandom().nextFloat();
             double y = this.getBoundingBox().minY + this.getRandom().nextFloat() - 0.5;
             double z = this.getZ() + (this.getRandom().nextFloat() - 0.5F) * this.getRandom().nextFloat();
@@ -157,6 +177,7 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
             this.burnEntities();
         }
         this.setYRot(Mth.rotateIfNecessary(this.getYRot(), this.getYHeadRot(), 20));
+        this.speedModifier = (this.isFrozen() ? FROZEN_SPEED_MODIFIER : DEFAULT_SPEED_MODIFIER);
     }
 
     /**
@@ -177,8 +198,8 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
         List<Entity> entities = this.level().getEntities(this, this.getBoundingBox().expandTowards(0, -2, 0).contract(-0.75, 0, -0.75).contract(0.75, 0, 0.75));
         for (Entity target : entities) {
             if (target instanceof LivingEntity) {
-                target.hurt(AetherDamageTypes.entityDamageSource(this.level(), AetherDamageTypes.INCINERATION, this), 20);
-                target.setSecondsOnFire(8);
+                target.hurt(AetherDamageTypes.entityDamageSource(this.level(), AetherDamageTypes.INCINERATION, this), INCINERATION_DAMAGE);
+                target.setSecondsOnFire(INCINERATION_FIRE_DURATION);
             }
         }
     }
@@ -192,7 +213,11 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
         this.bossFight.setProgress(this.getHealth() / this.getMaxHealth());
         this.trackDungeon();
         this.checkIceCrystals();
-        this.setFrozen(this.hurtTime > 0);
+        if (this.getFrozenDuration() > 0) {
+            this.setFrozenDuration(this.getFrozenDuration() - 1);
+        } else {
+            this.setFrozen(false);
+        }
     }
 
     /**
@@ -216,44 +241,53 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
             if (this.getChatCooldown() <= 0) {
                 this.setChatCooldown(14);
                 if (this.getDungeon() == null || this.getDungeon().isPlayerWithinRoomInterior(player)) {
-                    AetherPlayer aetherPlayer = player.getComponent(AetherCapabilities.AETHER_PLAYER_CAPABILITY);
-                    if (!AetherConfig.COMMON.repeat_sun_spirit_dialogue.get()) {
-                        if (aetherPlayer.hasSeenSunSpiritDialogue() && this.chatLine == 0) {
-                            this.chatLine = 10;
-                        }
-                    }
-                    switch (this.chatLine++) {
-                        case 0 -> this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line0").withStyle(ChatFormatting.RED));
-                        case 1 -> this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line1").withStyle(ChatFormatting.RED));
-                        case 2 -> this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line2").withStyle(ChatFormatting.RED));
-                        case 3 -> this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line3").withStyle(ChatFormatting.RED));
-                        case 4 -> this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line4").withStyle(ChatFormatting.RED));
-                        case 5 -> {
-                            this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line5.1").withStyle(ChatFormatting.RED));
-                            this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line5.2").withStyle(ChatFormatting.RED));
-                        }
-                        case 6 -> {
-                            this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line6.1").withStyle(ChatFormatting.RED));
-                            this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line6.2").withStyle(ChatFormatting.RED));
-                        }
-                        case 7 -> {
-                            this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line7.1").withStyle(ChatFormatting.RED));
-                            this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line7.2").withStyle(ChatFormatting.RED));
-                        }
-                        case 8 -> this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line8").withStyle(ChatFormatting.RED));
-                        case 9 -> {
-                            this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line9").withStyle(ChatFormatting.GOLD));
-                            this.setBossFight(true);
-                            if (this.getDungeon() != null) {
-                                this.closeRoom();
+                    if (this.level().getDifficulty() != Difficulty.PEACEFUL) {
+                        AetherPlayer aetherPlayer = player.getComponent(AetherCapabilities.AETHER_PLAYER_CAPABILITY);
+                        if (!AetherConfig.COMMON.repeat_sun_spirit_dialogue.get()) {
+                            if (aetherPlayer.hasSeenSunSpiritDialogue() && this.chatLine == 0) {
+                                this.chatLine = 10;
                             }
-                            AetherEventDispatch.onBossFightStart(this, this.getDungeon());
-                            aetherPlayer.setSeenSunSpiritDialogue(true);
                         }
-                        default -> {
-                            this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line10").withStyle(ChatFormatting.RED));
-                            this.chatLine = 9;
+                        if (this.chatLine < 9) {
+                            this.playSound(this.getInteractSound(), 1.0F, this.getVoicePitch());
                         }
+                        switch (this.chatLine++) {
+                            case 0 -> this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line0").withStyle(ChatFormatting.RED));
+                            case 1 -> this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line1").withStyle(ChatFormatting.RED));
+                            case 2 -> this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line2").withStyle(ChatFormatting.RED));
+                            case 3 -> this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line3").withStyle(ChatFormatting.RED));
+                            case 4 -> this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line4").withStyle(ChatFormatting.RED));
+                            case 5 -> {
+                                this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line5.1").withStyle(ChatFormatting.RED));
+                                this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line5.2").withStyle(ChatFormatting.RED));
+                            }
+                            case 6 -> {
+                                this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line6.1").withStyle(ChatFormatting.RED));
+                                this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line6.2").withStyle(ChatFormatting.RED));
+                            }
+                            case 7 -> {
+                                this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line7.1").withStyle(ChatFormatting.RED));
+                                this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line7.2").withStyle(ChatFormatting.RED));
+                            }
+                            case 8 -> this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line8").withStyle(ChatFormatting.RED));
+                            case 9 -> {
+                                this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line9").withStyle(ChatFormatting.GOLD));
+                                this.setHealth(this.getMaxHealth());
+                                this.setBossFight(true);
+                                if (this.getDungeon() != null) {
+                                    this.closeRoom();
+                                }
+                                this.playSound(this.getActivateSound(), 1.0F, this.getVoicePitch());
+                                AetherEventDispatch.onBossFightStart(this, this.getDungeon());
+                                aetherPlayer.setSeenSunSpiritDialogue(true);
+                            }
+                            default -> {
+                                this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line10").withStyle(ChatFormatting.RED));
+                                this.chatLine = 9;
+                            }
+                        }
+                    } else {
+                        this.chatWithNearby(Component.translatable("gui.aether.sun_spirit.line1").withStyle(ChatFormatting.RED));
                     }
                 } else {
                     this.displayTooFarMessage(player);
@@ -281,13 +315,14 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
     @Override
     public boolean hurt(DamageSource source, float amount) {
         boolean flag = super.hurt(source, amount);
-        if (!this.level().isClientSide() && flag && this.getHealth() > 0 && source.getEntity() instanceof LivingEntity entity) {
+        if (!this.level().isClientSide() && flag && this.getHealth() > 0 && source.getEntity() instanceof LivingEntity entity && source.getDirectEntity() instanceof IceCrystal) {
+            this.setFrozen(true);
+            this.setFrozenDuration(SUN_SPIRIT_FROZEN_DURATION);
             FireMinion minion = new FireMinion(AetherEntityTypes.FIRE_MINION.get(), this.level());
             minion.setPos(this.position());
             minion.setTarget(entity);
             this.level().addFreshEntity(minion);
         }
-        this.velocity = 1 - this.getHealth() / 700;
         return flag;
     }
 
@@ -298,7 +333,6 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
     public void reset() {
         this.setBossFight(false);
         this.setTarget(null);
-        this.setHealth(this.getMaxHealth());
         if (this.dungeon != null) {
             this.openRoom();
         }
@@ -373,16 +407,7 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
     @Nullable
     @Override
     public BlockState convertBlock(BlockState state) {
-        if (state.is(AetherBlocks.LOCKED_HELLFIRE_STONE.get())) {
-            return AetherBlocks.HELLFIRE_STONE.get().defaultBlockState();
-        }
-        if (state.is(AetherBlocks.LOCKED_LIGHT_HELLFIRE_STONE.get())) {
-            return AetherBlocks.LIGHT_HELLFIRE_STONE.get().defaultBlockState();
-        }
-        if (state.is(AetherBlocks.BOSS_DOORWAY_HELLFIRE_STONE.get()) || state.is(AetherBlocks.TREASURE_DOORWAY_HELLFIRE_STONE.get())) {
-            return Blocks.AIR.defaultBlockState();
-        }
-        return null;
+        return DUNGEON_BLOCK_CONVERSIONS.getOrDefault(state.getBlock(), (blockState) -> null).apply(state);
     }
 
     /**
@@ -454,11 +479,32 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
     }
 
     /**
+     * @return The remaining duration for how long the Sun Spirit is frozen, as an {@link Integer}.
+     */
+    public int getFrozenDuration() {
+        return this.getEntityData().get(DATA_FROZEN_DURATION);
+    }
+    /**
+     * Sets the remaining duration for how long the Sun Spirit should be frozen.
+     *
+     * @param duration The {@link Integer} duration.
+     */
+    public void setFrozenDuration(int duration) {
+        this.getEntityData().set(DATA_FROZEN_DURATION, duration);
+    }
+
+    /**
      * @return The {@link Component} for the boss name.
      */
     @Override
     public Component getBossName() {
-        return this.getEntityData().get(DATA_BOSS_NAME);
+        if (this.hasCustomName()) {
+            return this.getCustomName();
+        } else if (!AetherConfig.COMMON.randomize_boss_names.get()) {
+            return Component.translatable("entity.aether.sun_spirit");
+        } else {
+            return this.getEntityData().get(DATA_BOSS_NAME);
+        }
     }
 
     /**
@@ -524,6 +570,15 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
     }
 
     /**
+     * @return The {@link Music} for this boss's fight.
+     */
+    @Nullable
+    @Override
+    public Music getBossMusic() {
+        return SUN_SPIRIT_MUSIC;
+    }
+
+    /**
      * @return The {@link Integer} for the cooldown until another chat message can display.
      */
     public int getChatCooldown() {
@@ -553,23 +608,48 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
      */
     @Override
     public boolean isInvulnerableTo(DamageSource source) {
-        return this.isRemoved() || !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && !source.is(AetherTags.DamageTypes.IS_COLD);
+        if (this.isRemoved()) {
+            return true;
+        } else {
+            if (this.isFrozen()) {
+                return !(source.getEntity() instanceof LivingEntity) || source.getEntity() instanceof SunSpirit;
+            } else {
+                return !source.is(DamageTypeTags.BYPASSES_INVULNERABILITY) && !source.is(AetherTags.DamageTypes.IS_COLD);
+            }
+        }
     }
 
-    protected SoundEvent getShootSound() {
-        return AetherSoundEvents.ENTITY_SUN_SPIRIT_SHOOT.get();
+    protected SoundEvent getInteractSound() {
+        return AetherSoundEvents.ENTITY_SUN_SPIRIT_INTERACT.get();
+    }
+
+    protected SoundEvent getActivateSound() {
+        return AetherSoundEvents.ENTITY_SUN_SPIRIT_ACTIVATE.get();
+    }
+
+    protected SoundEvent getShootFireSound() {
+        return AetherSoundEvents.ENTITY_SUN_SPIRIT_SHOOT_FIRE.get();
+    }
+
+    protected SoundEvent getShootIceSound() {
+        return AetherSoundEvents.ENTITY_SUN_SPIRIT_SHOOT_ICE.get();
     }
 
     @Nullable
     @Override
-    protected SoundEvent getHurtSound(DamageSource pDamageSource) {
-        return null;
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return AetherSoundEvents.ENTITY_SUN_SPIRIT_HURT.get();
     }
 
     @Nullable
     @Override
     protected SoundEvent getDeathSound() {
-        return null;
+        return AetherSoundEvents.ENTITY_SUN_SPIRIT_DEATH.get();
+    }
+
+    @Override
+    protected float getSoundVolume() {
+        return 3.0F;
     }
 
     /**
@@ -684,8 +764,8 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
         @Override
         public void tick() {
             boolean changedCourse = this.outOfBounds();
-            double x = Mth.sin(this.rotation * Mth.DEG_TO_RAD) * this.sunSpirit.getAttributeValue(Attributes.MOVEMENT_SPEED) * this.sunSpirit.velocity;
-            double z = -Mth.cos(this.rotation * Mth.DEG_TO_RAD) * this.sunSpirit.getAttributeValue(Attributes.MOVEMENT_SPEED) * this.sunSpirit.velocity;
+            double x = Mth.sin(this.rotation * Mth.DEG_TO_RAD) * this.sunSpirit.getAttributeValue(Attributes.MOVEMENT_SPEED) * this.sunSpirit.speedModifier;
+            double z = -Mth.cos(this.rotation * Mth.DEG_TO_RAD) * this.sunSpirit.getAttributeValue(Attributes.MOVEMENT_SPEED) * this.sunSpirit.speedModifier;
             this.sunSpirit.setDeltaMovement(x, 0, z);
             if (changedCourse || ++this.courseChangeTimer >= 20) {
                 if (this.sunSpirit.getRandom().nextInt(3) == 0) {
@@ -754,17 +834,18 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
      */
     public static class ShootFireballGoal extends Goal {
         private final SunSpirit sunSpirit;
-        private int shootInterval;
-        private int crystalCount = 3;
+        private int shootCrystalInterval;
+        private int crystalCount;
 
         public ShootFireballGoal(SunSpirit sunSpirit) {
             this.sunSpirit = sunSpirit;
-            this.shootInterval = (int) (55 + sunSpirit.getHealth() / 2);
+            this.shootCrystalInterval = SHOOT_CRYSTAL_INTERVAL;
+            this.crystalCount = ICE_CRYSTAL_SHOOT_COUNT_INTERVAL;
         }
 
         @Override
         public boolean canUse() {
-            return this.sunSpirit.isBossFight() && --this.shootInterval <= 0;
+            return this.sunSpirit.isBossFight() && --this.shootCrystalInterval <= 0;
         }
 
         @Override
@@ -772,13 +853,14 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
             AbstractCrystal crystal;
             if (--this.crystalCount <= 0) {
                 crystal = new IceCrystal(this.sunSpirit.level(), this.sunSpirit);
-                this.crystalCount = 4 + this.sunSpirit.getRandom().nextInt(4);
+                this.crystalCount = ICE_CRYSTAL_SHOOT_COUNT_INTERVAL;
+                this.sunSpirit.playSound(this.sunSpirit.getShootIceSound(), 3.0F, this.sunSpirit.level().getRandom().nextFloat() - this.sunSpirit.level().getRandom().nextFloat() * 0.2F + 1.2F);
             } else {
                 crystal = new FireCrystal(this.sunSpirit.level(), this.sunSpirit);
+                this.sunSpirit.playSound(this.sunSpirit.getShootFireSound(), 3.0F, this.sunSpirit.level().getRandom().nextFloat() - this.sunSpirit.level().getRandom().nextFloat() * 0.2F + 1.2F);
             }
-            this.sunSpirit.playSound(this.sunSpirit.getShootSound(), 1.0F, this.sunSpirit.level().getRandom().nextFloat() - this.sunSpirit.level().getRandom().nextFloat() * 0.2F + 1.2F);
             this.sunSpirit.level().addFreshEntity(crystal);
-            this.shootInterval = (int) (15 + this.sunSpirit.getHealth() / 2);
+            this.shootCrystalInterval = SHOOT_CRYSTAL_INTERVAL;
         }
 
         @Override
@@ -792,16 +874,16 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
      */
     public static class SummonFireGoal extends Goal {
         private final SunSpirit sunSpirit;
-        private int shootInterval;
+        private int summonFireInterval;
 
         public SummonFireGoal(SunSpirit sunSpirit) {
             this.sunSpirit = sunSpirit;
-            this.shootInterval = 10 + sunSpirit.getRandom().nextInt(40);
+            this.summonFireInterval = SPAWN_FIRE_INTERVAL;
         }
 
         @Override
         public boolean canUse() {
-            return this.sunSpirit.isBossFight() && --this.shootInterval <= 0;
+            return this.sunSpirit.isBossFight() && --this.summonFireInterval <= 0;
         }
 
         @Override
@@ -814,7 +896,7 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
                 }
                 pos = pos.below();
             }
-            this.shootInterval = 10 + this.sunSpirit.getRandom().nextInt(40);
+            this.summonFireInterval = SPAWN_FIRE_INTERVAL;
         }
 
         @Override

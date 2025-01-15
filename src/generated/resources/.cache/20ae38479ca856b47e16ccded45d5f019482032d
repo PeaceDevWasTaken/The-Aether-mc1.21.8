@@ -1,7 +1,25 @@
+<<<<<<< HEAD:src/generated/resources/.cache/20ae38479ca856b47e16ccded45d5f019482032d
 // 1.20.1	2024-05-18T16:11:29.102867228	The Aether/Loot Tables
 72f0aa574c8af007e01ce5d0f1429b611414a77b data/aether/loot_tables/entities/sheepuff/cyan.json
 f46e6a140ca62218de348fbec97d9e4cfcd36fc7 data/aether/loot_tables/entities/phyg.json
 4456968e01300ae8b75f0589c27d56fc4bcc054c data/aether/loot_tables/blocks/boss_doorway_angelic_stone.json
+=======
+// 1.20.1	2024-10-04T11:43:18.1213389	Loot Tables
+6fd07ff3ea848d0b3b26cbf2b2d5c37dd5dc8b9a data/aether/loot_tables/advancements/enter_aether.json
+a2337d3e3c05d3efabc3f907351bfe480fd09caa data/aether/loot_tables/blocks/aerogel.json
+cb18a05b606bd3951085b27c35172c0e9867f0b0 data/aether/loot_tables/blocks/aerogel_slab.json
+5ee47e9d9c365fe3349c9c2fbd189b4be0f59d0c data/aether/loot_tables/blocks/aerogel_stairs.json
+8decda96a5b33958999bddeaf114843896074114 data/aether/loot_tables/blocks/aerogel_wall.json
+dafd7e53d410ab2e9c9208f8317b5be67b61a58b data/aether/loot_tables/blocks/aether_dirt.json
+39f9cbd8fcb2ce2c6c9900abc41a205aba25b6e3 data/aether/loot_tables/blocks/aether_dirt_path.json
+8b9df47e38daaf1f85c66f5bc7afe4ef8bdc655b data/aether/loot_tables/blocks/aether_farmland.json
+2a5f7828b026f93fc16cc124a6f4a39bae849b70 data/aether/loot_tables/blocks/aether_grass_block.json
+41dab5272ac58a021ef1ad7df632c7aa83226ae9 data/aether/loot_tables/blocks/aether_portal.json
+894213e5b4e24153f1d62d192cd15b8e4e0eff5d data/aether/loot_tables/blocks/altar.json
+c1eddc87f6eddb88c5eb10ba31dee1ab3f7f4425 data/aether/loot_tables/blocks/ambrosium_block.json
+ef73404114ae303b88aa9b7b09274d8c9a9ef52a data/aether/loot_tables/blocks/ambrosium_ore.json
+9b8941d6d7dc0a81717c731607567e2715cb8a81 data/aether/loot_tables/blocks/ambrosium_torch.json
+>>>>>>> 1.20.1-develop:src/generated/resources/.cache/59eb3dbb5f86130e09b3c62d89b9525ee01cf52d
 86e53de0981495d8410e337c88bb33d9447f7522 data/aether/loot_tables/blocks/ambrosium_wall_torch.json
 0dadef755b35872f8135c2fc6526b7a617c5d009 data/aether/loot_tables/blocks/chest_mimic.json
 22900fede72d4f2f6d456e83b7f680ce274e38e4 data/aether/loot_tables/chests/dungeon/bronze/bronze_dungeon_neptune.json
@@ -144,10 +162,24 @@ af0dae9e0e221b0a6d65eca990d948dcac191a59 data/aether/loot_tables/blocks/locked_s
 93ca175c433ccd83045ce5483f6dc09a1b0f014e data/aether/loot_tables/blocks/stripped_skyroot_wood.json
 919177a5f5e3b3d10ca47085a6caa28da698f3e6 data/aether/loot_tables/blocks/treasure_doorway_hellfire_stone.json
 aebb8f6fff5ea30bc0b9529f5b7bc9465211df90 data/aether/loot_tables/blocks/unstable_obsidian.json
+<<<<<<< HEAD:src/generated/resources/.cache/20ae38479ca856b47e16ccded45d5f019482032d
 5c463a846d8a3ac1baf067d7ca75aad5879fa41d data/aether/loot_tables/blocks/skyroot_fence_gate.json
 0f801168da30e37aa5cec6c2c013b834e97e7db4 data/aether/loot_tables/blocks/enchanted_aether_grass_block.json
 12b2e541b47534cc901914484f7a31622ecfb7e1 data/aether/loot_tables/entities/sun_spirit.json
 2ef0f98d132a2784906b3d2c562a28030437d26f data/aether/loot_tables/blocks/holystone_slab.json
+=======
+c25bc4429e6fdc93e2539e5ea00e725cd0be1e96 data/aether/loot_tables/blocks/white_flower.json
+e65fda4782be9ad19f115cb31ac72385ff429ea3 data/aether/loot_tables/blocks/zanite_block.json
+aa76016edd2b965b0c6c06eaaecb9123cbc1503c data/aether/loot_tables/blocks/zanite_ore.json
+0e4ba4e6b5c0cf6ceca673b930b21ba30c7a8af1 data/aether/loot_tables/chests/dungeon/bronze/bronze_dungeon.json
+9a2115a6837fbd12af8fd387546638f2ca1a52eb data/aether/loot_tables/chests/dungeon/bronze/bronze_dungeon_disc.json
+ace4a9e2cb46d872c43430c9c859ff6fa0a6d8cc data/aether/loot_tables/chests/dungeon/bronze/bronze_dungeon_gummies.json
+a1b60e449be97bda514ff546733eb09e3259c1cb data/aether/loot_tables/chests/dungeon/bronze/bronze_dungeon_loot.json
+22900fede72d4f2f6d456e83b7f680ce274e38e4 data/aether/loot_tables/chests/dungeon/bronze/bronze_dungeon_neptune.json
+9a38be52bb1aeba35899f1f215b2e4d68465e84f data/aether/loot_tables/chests/dungeon/bronze/bronze_dungeon_reward.json
+ce433ef9d921e6d8773b3429fee5a40a3b87cfdf data/aether/loot_tables/chests/dungeon/bronze/bronze_dungeon_trash.json
+dae789339a7b4bbd56475cea556c88d594441afd data/aether/loot_tables/chests/dungeon/bronze/bronze_dungeon_treasure.json
+>>>>>>> 1.20.1-develop:src/generated/resources/.cache/59eb3dbb5f86130e09b3c62d89b9525ee01cf52d
 a48566c3c74d316e869050234d0fc9445d886bf1 data/aether/loot_tables/chests/dungeon/gold/gold_dungeon_reward.json
 bae7317ea3619908a85059d9f4672ec7ec8b362b data/aether/loot_tables/blocks/skyroot_log.json
 4cdd8a2671c6522cbf42096a064c2e61e95a63ab data/aether/loot_tables/entities/valkyrie.json

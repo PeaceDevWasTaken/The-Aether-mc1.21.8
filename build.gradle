@@ -1,5 +1,7 @@
 plugins {
+    id 'java-library'
     id 'eclipse'
+    id 'idea'
     id 'maven-publish'
     id 'fabric-loom' version '1.7-SNAPSHOT'
     id 'io.github.0ffz.github-packages' version '[1,2)'
@@ -220,5 +222,13 @@ modrinth {
     dependencies {
         embedded.version "accessories", "${project.accessories_version}+${project.mc_version}"
         embedded.version "cumulus", "${project.cumulus_version}"
+    }
+}
+
+// IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
     }
 }

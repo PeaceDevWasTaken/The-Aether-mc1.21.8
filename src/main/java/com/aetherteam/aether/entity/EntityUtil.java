@@ -5,12 +5,14 @@ import com.aetherteam.aether.mixin.mixins.common.accessor.EntityAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LightningBolt;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 
 public final class EntityUtil {
     /**
@@ -19,10 +21,10 @@ public final class EntityUtil {
      * @param source The {@link Entity} to copy rotations from.
      */
     public static void copyRotations(Entity entity, Entity source) {
-        entity.setYRot(source.getYRot() % 360.0F);
-        entity.setXRot(source.getXRot() % 360.0F);
-        entity.setYBodyRot(source.getYRot());
-        entity.setYHeadRot(source.getYRot());
+        entity.setYRot(Mth.rotLerp((float) (1.0 / 3.0), source.getYRot(), source.yRotO));
+        entity.setXRot(Mth.rotLerp((float) (1.0 / 3.0), source.getXRot(), source.xRotO));
+        entity.setYBodyRot(Mth.rotLerp((float) (1.0 / 3.0), source.getYRot(), source.yRotO));
+        entity.setYHeadRot(Mth.rotLerp((float) (1.0 / 3.0), source.getYRot(), source.yRotO));
     }
 
     /**
@@ -84,5 +86,23 @@ public final class EntityUtil {
             lightningBolt.setPos(projectile.getX(), projectile.getY(), projectile.getZ());
             projectile.level().addFreshEntity(lightningBolt);
         }
+    }
+
+    /**
+     * Checks whether a square surface area with a given radius is exposed to sky light.
+     *
+     * @param level The {@link LevelAccessor} to check in.
+     * @param pos The starting {@link BlockPos}.
+     * @param hitboxRadius The {@link Integer} radius of the area, correlating to the entity's hitbox.
+     * @return Whether the area is exposed to sky, as a {@link Boolean}.
+     */
+    public static boolean wholeHitboxCanSeeSky(LevelAccessor level, BlockPos pos, int hitboxRadius) {
+        boolean flag = true;
+        for (int xOffset = -hitboxRadius; xOffset <= hitboxRadius; xOffset++) {
+            for (int zOffset = -hitboxRadius; zOffset <= hitboxRadius; zOffset++) {
+                flag = flag && level.canSeeSky(pos.offset(xOffset, 0, zOffset));
+            }
+        }
+        return flag;
     }
 }

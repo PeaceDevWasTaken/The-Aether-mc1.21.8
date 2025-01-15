@@ -173,6 +173,7 @@ public class AetherCreativeTabs {
                 output.accept(AetherBlocks.TREASURE_CHEST.get());
                 output.accept(AetherBlocks.CHEST_MIMIC.get());
                 output.accept(AetherBlocks.PRESENT.get());
+                output.accept(AetherItems.createSwetBannerItemStack());
             }).build());
     public static RegistryObject<CreativeModeTab> AETHER_REDSTONE_BLOCKS = CREATIVE_MODE_TABS.register("redstone_blocks", () -> PortingLibCreativeTab.builder()
             .withTabsBefore(new ResourceLocation(Aether.MODID, "functional_blocks"))
@@ -270,6 +271,7 @@ public class AetherCreativeTabs {
                 output.accept(AetherItems.VICTORY_MEDAL.get());
                 output.accept(AetherItems.MUSIC_DISC_AETHER_TUNE.get());
                 output.accept(AetherItems.MUSIC_DISC_ASCENDING_DAWN.get());
+                output.accept(AetherItems.MUSIC_DISC_SLIDERS_WRATH.get());
                 output.accept(AetherItems.AETHER_PORTAL_FRAME.get());
             }).build());
     public static RegistryObject<CreativeModeTab> AETHER_ARMOR_AND_ACCESSORIES = CREATIVE_MODE_TABS.register("armor_and_accessories", () -> PortingLibCreativeTab.builder()

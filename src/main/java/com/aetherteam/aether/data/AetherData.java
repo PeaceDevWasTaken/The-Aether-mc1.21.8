@@ -45,11 +45,12 @@ public class AetherData implements DataGeneratorEntrypoint {
         pack.addProvider(AetherBiomeTagData::new);
         pack.addProvider(AetherStructureTagData::new);
         pack.addProvider(AetherDamageTypeTagData::new);
+        pack.addProvider(AetherSoundTagData::new);
 
         // pack.mcmeta
         PackMetadataGenerator packMeta = pack.addProvider((packOutput, r) -> new PackMetadataGenerator(packOutput));
         Map<PackType, Integer> packTypes = Map.of(PackType.SERVER_DATA, SharedConstants.getCurrentVersion().getPackVersion(PackType.SERVER_DATA));
-        packMeta.add(PackMetadataSection.TYPE, new PackMetadataSection(Component.translatable("pack.aether.mod.description"), SharedConstants.getCurrentVersion().getPackVersion(PackType.CLIENT_RESOURCES)/*, packTypes*/));
+        packMeta.add(PackMetadataSection.TYPE, new PackMetadataSection(Component.translatable("pack.aether.mod.description"), SharedConstants.getCurrentVersion().getPackVersion(PackType.CLIENT_RESOURCES)/*, packTypes*/)); //todo
     }
 
     @Override

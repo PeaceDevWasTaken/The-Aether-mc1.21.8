@@ -17,6 +17,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
 import net.minecraft.advancements.*;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.commands.CommandFunction;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -24,6 +25,8 @@ import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.storage.loot.predicates.LocationCheck;
+import net.minecraft.world.level.storage.loot.predicates.MatchTool;
 
 import java.util.Comparator;
 import java.util.function.Consumer;
@@ -149,6 +152,28 @@ public class AetherAdvancementData extends FabricAdvancementProvider {
                         FrameType.TASK, true, true, false)
                 .addCriterion("aechor_petal", InventoryChangeTrigger.TriggerInstance.hasItems(AetherItems.AECHOR_PETAL.get()))
                 .save(consumer, new ResourceLocation(Aether.MODID,"obtain_petal").toString());
+
+        Advancement preventAechorPlantSpawning = Advancement.Builder.advancement()
+                .parent(obtainPetal)
+                .display(AetherBlocks.PURPLE_FLOWER.get(),
+                        Component.translatable("advancement.aether.prevent_aechor_petal_spawning"),
+                        Component.translatable("advancement.aether.prevent_aechor_petal_spawning.desc"),
+                        null,
+                        FrameType.TASK, true, true, false)
+                .requirements(RequirementsStrategy.OR)
+                .addCriterion("place_flower", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().of(AetherTags.Blocks.ENCHANTED_GRASS).build()), ItemPredicate.Builder.item().of(AetherTags.Items.AECHOR_PLANT_SPAWNABLE_DETERRENT)))
+                .addCriterion("enchant_grass", itemUsedOnLocationCheckAbove(LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().of(AetherTags.Blocks.ENCHANTED_GRASS).build()), LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().of(AetherTags.Blocks.AECHOR_PLANT_SPAWNABLE_DETERRENT).build()), ItemPredicate.Builder.item().of(AetherItems.AMBROSIUM_SHARD.get())))
+                .save(consumer, new ResourceLocation(Aether.MODID, "prevent_aechor_petal_spawning").toString());
+
+        Advancement preventSwetSpawning = Advancement.Builder.advancement()
+                .parent(preventAechorPlantSpawning)
+                .display(AetherItems.createSwetBannerItemStack(),
+                        Component.translatable("advancement.aether.prevent_swet_spawning"),
+                        Component.translatable("advancement.aether.prevent_swet_spawning.desc"),
+                        null,
+                        FrameType.TASK, true, true, false)
+                .addCriterion("place_banner", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(LocationPredicate.Builder.location(), ItemPredicate.Builder.item().of(Items.BLACK_BANNER).hasNbt(AetherItems.createSwetBannerItemStack().getTag())))
+                .save(consumer, new ResourceLocation(Aether.MODID, "prevent_swet_spawning").toString());
 
         Advancement incubateMoa = Advancement.Builder.advancement()
                 .parent(obtainEgg)
@@ -345,5 +370,10 @@ public class AetherAdvancementData extends FabricAdvancementProvider {
                 .addCriterion("aether_sleep", new PlayerTrigger.TriggerInstance(CriteriaTriggers.SLEPT_IN_BED.getId(),
                         EntityPredicate.wrap(EntityPredicate.Builder.entity().located(LocationPredicate.inDimension(AetherDimensions.AETHER_LEVEL)).build())))
                 .save(consumer, new ResourceLocation(Aether.MODID, "aether_sleep").toString());
+    }
+
+    private static ItemUsedOnLocationTrigger.TriggerInstance itemUsedOnLocationCheckAbove(LocationPredicate.Builder location, LocationPredicate.Builder above, ItemPredicate.Builder item) {
+        ContextAwarePredicate contextawarepredicate = ContextAwarePredicate.create(LocationCheck.checkLocation(location).build(), LocationCheck.checkLocation(above, BlockPos.ZERO.above()).build(), MatchTool.toolMatches(item).build());
+        return new ItemUsedOnLocationTrigger.TriggerInstance(CriteriaTriggers.ITEM_USED_ON_BLOCK.getId(), ContextAwarePredicate.ANY, contextawarepredicate);
     }
 }

@@ -3,6 +3,7 @@ package com.aetherteam.aether;
 import io.wispforest.accessories.Accessories;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.entity.EntityType;
@@ -44,6 +45,7 @@ public class AetherTags {
 		public static final TagKey<Block> AETHER_ANIMALS_SPAWNABLE_ON = tag("aether_animals_spawnable_on");
 		public static final TagKey<Block> SWET_SPAWNABLE_ON = tag("swet_spawnable_on");
 		public static final TagKey<Block> AECHOR_PLANT_SPAWNABLE_ON = tag("aechor_plant_spawnable_on");
+		public static final TagKey<Block> AECHOR_PLANT_SPAWNABLE_DETERRENT = tag("aechor_plant_spawnable_deterrent");
 		public static final TagKey<Block> COCKATRICE_SPAWNABLE_BLACKLIST = tag("cockatrice_spawnable_blacklist");
 		public static final TagKey<Block> INFINIBURN = tag("infiniburn");
 		public static final TagKey<Block> ALLOWED_FLAMMABLES = tag("allowed_flammables");
@@ -70,6 +72,7 @@ public class AetherTags {
 		public static final TagKey<Item> SENTRY_BLOCKS = tag("sentry_blocks");
 		public static final TagKey<Item> ANGELIC_BLOCKS = tag("angelic_blocks");
 		public static final TagKey<Item> HELLFIRE_BLOCKS = tag("hellfire_blocks");
+		public static final TagKey<Item> AECHOR_PLANT_SPAWNABLE_DETERRENT = tag("aechor_plant_spawnable_deterrent");
 
 		public static final TagKey<Item> CRAFTS_SKYROOT_PLANKS = tag("crafts_skyroot_planks");
 		public static final TagKey<Item> PLANKS_CRAFTING = tag("planks_crafting");
@@ -178,6 +181,7 @@ public class AetherTags {
 		public static final TagKey<EntityType<?>> TREATED_AS_AETHER_ENTITY = tag("treated_as_aether_entity");
 		public static final TagKey<EntityType<?>> TREATED_AS_VANILLA_ENTITY = tag("treated_as_vanilla_entity");
 		public static final TagKey<EntityType<?>> DUNGEON_ENTITIES = tag("dungeon_entities");
+		public static final TagKey<EntityType<?>> SLIDER_DAMAGING_PROJECTILES = tag("slider_damaging_projectiles");
 
 		private static TagKey<EntityType<?>> tag(String name) {
 			return TagKey.create(Registries.ENTITY_TYPE, new ResourceLocation(Aether.MODID, name));
@@ -234,6 +238,18 @@ public class AetherTags {
 
 		private static TagKey<DamageType> tag(String name) {
 			return TagKey.create(Registries.DAMAGE_TYPE, new ResourceLocation(Aether.MODID, name));
+		}
+	}
+
+	public static class SoundEvents {
+		public static final TagKey<SoundEvent> PORTAL_SOUNDS = tag("portal_sounds");
+		public static final TagKey<SoundEvent> AMBIENT_PORTAL_SOUNDS = tag("ambient_portal_sounds");
+		public static final TagKey<SoundEvent> ACTIVATED_PORTAL_SOUNDS = tag("activated_portal_sounds");
+		public static final TagKey<SoundEvent> ACHIEVEMENT_SOUNDS = tag("achievement_sounds");
+		public static final TagKey<SoundEvent> BOSS_MUSIC = tag("boss_music");
+
+		private static TagKey<SoundEvent> tag(String name) {
+			return TagKey.create(Registries.SOUND_EVENT, new ResourceLocation(Aether.MODID, name));
 		}
 	}
 }
