@@ -37,7 +37,6 @@ public class AetherTitleScreen extends TitleScreen implements TitleScreenBehavio
 	private static final ResourceLocation AETHER_LOGO = new ResourceLocation(Aether.MODID, "textures/gui/title/aether.png");
 	public static final Music MENU = new Music(AetherSoundEvents.MUSIC_MENU.getHolder().orElseThrow(), 20, 600, true);
 	private final PanoramaRenderer panorama = new PanoramaRenderer(new CubeMap(new ResourceLocation(Aether.MODID, "textures/gui/title/panorama/panorama")));
-//	private AetherModUpdateIndicator modUpdateNotification;
 	private boolean alignedLeft;
 	private int rows;
 
@@ -54,8 +53,6 @@ public class AetherTitleScreen extends TitleScreen implements TitleScreenBehavio
 	protected void init() {
 		super.init();
 		this.setupButtons();
-//		this.modUpdateNotification = new AetherModUpdateIndicator(this); TODO: PORT
-//		this.modUpdateNotification.init();
 	}
 
 	public void setupButtons() {
@@ -115,7 +112,6 @@ public class AetherTitleScreen extends TitleScreen implements TitleScreenBehavio
 		this.setupLogo(guiGraphics, fadeAmount, scale);
 		int roundedFadeAmount = Mth.ceil(fadeAmount * 255.0F) << 24;
 		if ((roundedFadeAmount & -67108864) != 0) {
-//			ForgeHooksClient.renderMainMenu(this, guiGraphics, this.font, this.width, this.height, roundedFadeAmount); TODO: PORT
 			if (titleScreenAccessor.aether$getSplash() != null) {
 				SplashRendererAccessor splashRendererAccessor = (SplashRendererAccessor) titleScreenAccessor.aether$getSplash();
 				if (splashRendererAccessor.cumulus$getSplash() != null && !splashRendererAccessor.cumulus$getSplash().isEmpty()) {
@@ -131,17 +127,6 @@ public class AetherTitleScreen extends TitleScreen implements TitleScreenBehavio
 					guiGraphics.drawCenteredString(AetherTitleScreen.this.font, splashRendererAccessor.cumulus$getSplash(), 0, (int) (-16 / scale), 16776960 | roundedFadeAmount);
 					poseStack.popPose();
 				}
-			}
-
-			if (this.alignedLeft) {
-				TitleScreenBehavior.super.renderRightBranding(guiGraphics, this, this.font, roundedFadeAmount);
-			} else {
-//				BrandingControl.forEachLine(true, true, (brandingLine, branding) -> TODO: PORT
-//						guiGraphics.drawString(this.font, branding, 2, this.height - (10 + brandingLine * (this.font.lineHeight + 1)), 16777215 | roundedFadeAmount)
-//				);
-//				BrandingControl.forEachAboveCopyrightLine((brandingLine, branding) ->
-//						guiGraphics.drawString(this.font, branding, this.width - this.font.width(branding), this.height - (10 + (brandingLine + 1) * (this.font.lineHeight + 1)), 16777215 | roundedFadeAmount)
-//				);
 			}
 		}
 
@@ -166,10 +151,6 @@ public class AetherTitleScreen extends TitleScreen implements TitleScreenBehavio
 			}
 		}
 		TitleScreenBehavior.super.handleImageButtons(this, xOffset);
-
-		if (fadeAmount >= 1.0F) {
-//			this.modUpdateNotification.render(guiGraphics, mouseX, mouseY, partialTicks); TODO: PORT
-		}
 	}
 
 	/**

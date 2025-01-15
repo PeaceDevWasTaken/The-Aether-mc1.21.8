@@ -54,9 +54,6 @@ public class VanillaLeftTitleScreen extends TitleScreen implements TitleScreenBe
                         button.setY(80 + buttonCount * 25);
                         button.setWidth(200);
                         buttonCount++;
-                        if (button.getMessage().equals(Component.translatable("fml.menu.mods"))) {
-//                            this.modUpdateNotification = TitleScreenModUpdateIndicator.init(this, button); TODO: PORT
-                        }
                     }
                 }
             }
@@ -80,7 +77,6 @@ public class VanillaLeftTitleScreen extends TitleScreen implements TitleScreenBe
             if (titleScreenAccessor.getWarningLabel() != null) {
                 titleScreenAccessor.getWarningLabel().render(guiGraphics, roundedFadeAmount);
             }
-//            ForgeHooksClient.renderMainMenu(this, guiGraphics, this.font, this.width, this.height, roundedFadeAmount); TODO: PORT
             if (titleScreenAccessor.aether$getSplash() != null) {
                 SplashRendererAccessor splashRendererAccessor = (SplashRendererAccessor) titleScreenAccessor.aether$getSplash();
                 if (splashRendererAccessor.cumulus$getSplash() != null && !splashRendererAccessor.cumulus$getSplash().isEmpty()) {
@@ -94,7 +90,6 @@ public class VanillaLeftTitleScreen extends TitleScreen implements TitleScreenBe
                     poseStack.popPose();
                 }
             }
-            TitleScreenBehavior.super.renderRightBranding(guiGraphics, this, this.font, roundedFadeAmount);
         }
 
         int xOffset = TitleScreenBehavior.super.handleButtonVisibility(this, fadeAmount);
@@ -107,10 +102,6 @@ public class VanillaLeftTitleScreen extends TitleScreen implements TitleScreenBe
             }
         }
         TitleScreenBehavior.super.handleImageButtons(this, xOffset);
-
-        if (fadeAmount >= 1.0F) {
-//            this.modUpdateNotification.render(guiGraphics, mouseX, mouseY, partialTicks); TODO: PORT
-        }
     }
 
     /**

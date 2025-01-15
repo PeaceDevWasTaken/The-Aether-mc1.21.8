@@ -4,7 +4,6 @@ import com.aetherteam.aether.mixin.mixins.client.accessor.TitleScreenAccessor;
 import com.aetherteam.cumulus.CumulusConfig;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.Util;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
@@ -31,19 +30,6 @@ public interface TitleScreenBehavior {
         guiGraphics.setColor(1.0F, 1.0F, 1.0F, titleScreenAccessor.aether$isFading() ? (float) Mth.ceil(Mth.clamp(fadeAmount, 0.0F, 1.0F)) : 1.0F);
         guiGraphics.blit(panoramaOverlay, 0, 0, titleScreen.width, titleScreen.height, 0.0F, 0.0F, 16, 128, 16, 128);
         return titleScreenAccessor.aether$isFading() ? Mth.clamp(fadeAmount - 1.0F, 0.0F, 1.0F) : 1.0F;
-    }
-
-    /**
-     * [CODE COPY] - {@link TitleScreen#render(GuiGraphics, int, int, float)}.<br><br>
-     * Copied branding render segment from render code, but aligned it right.
-     */
-    default void renderRightBranding(GuiGraphics guiGraphics, TitleScreen titleScreen, Font font, int roundedFadeAmount) {
-//        BrandingControl.forEachLine(true, true, (brandingLine, branding) -> TODO: PORT
-//                guiGraphics.drawString(font, branding, titleScreen.width - font.width(branding) - 1, titleScreen.height - (10 + (brandingLine + 1) * (font.lineHeight + 1)), 16777215 | roundedFadeAmount)
-//        );
-//        BrandingControl.forEachAboveCopyrightLine((brandingLine, branding) ->
-//                guiGraphics.drawString(font, branding, 1, titleScreen.height - (brandingLine + 1) * (font.lineHeight + 1), 16777215 | roundedFadeAmount)
-//        );
     }
 
     /**
