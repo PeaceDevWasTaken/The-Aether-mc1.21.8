@@ -132,11 +132,6 @@ public class Parachute extends Entity {
         return false;
     }
 
-//    @Override TODO: PORT
-//    public boolean shouldRiderSit() {
-//        return false;
-//    }
-
     @Override
     public double getPassengersRidingOffset() {
         return 1.35;
