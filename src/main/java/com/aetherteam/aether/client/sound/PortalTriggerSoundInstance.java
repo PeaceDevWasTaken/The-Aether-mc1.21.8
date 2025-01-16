@@ -8,7 +8,8 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
-import net.minecraftforge.common.util.LazyOptional;
+
+import java.util.Optional;
 
 public class PortalTriggerSoundInstance extends AbstractTickableSoundInstance {
     private final Player player;
@@ -64,7 +65,7 @@ public class PortalTriggerSoundInstance extends AbstractTickableSoundInstance {
 
     @Override
     public void tick() {
-        LazyOptional<AetherPlayer> aetherPlayer = player.getCapability(AetherCapabilities.AETHER_PLAYER_CAPABILITY);
+        Optional<AetherPlayer> aetherPlayer = AetherCapabilities.AETHER_PLAYER_CAPABILITY.maybeGet(this.player);
         aetherPlayer.ifPresent((cap) -> {
             if (!cap.isInPortal()) {
                 this.fade++;

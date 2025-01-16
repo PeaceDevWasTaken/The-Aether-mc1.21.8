@@ -1,4 +1,5 @@
 {
+  "replace": false,
   "values": [
     "aether:ui.toast.aether_general",
     "aether:ui.toast.aether_bronze",

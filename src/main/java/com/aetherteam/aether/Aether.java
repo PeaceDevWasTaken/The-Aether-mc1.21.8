@@ -334,16 +334,16 @@ public class Aether implements ModInitializer {
      */
     private void setupTooltipsPack(AddPackFindersEvent event) {
         if (event.getPackType() == PackType.CLIENT_RESOURCES) {
-            Path resourcePath = ModList.get().getModFileById(Aether.MODID).getFile().findResource("packs/tooltips");
-            PathPackResources pack = new PathPackResources(ModList.get().getModFileById(Aether.MODID).getFile().getFileName() + ":" + resourcePath, true, resourcePath);
+            Path resourcePath = FabricLoader.getInstance().getModContainer(Aether.MODID).orElseThrow().findPath("packs/tooltips").orElseThrow();
+            PathPackResources pack = new PathPackResources(Aether.MODID + ":" + resourcePath, true, resourcePath);
             PackMetadataSection metadata = new PackMetadataSection(Component.translatable("pack.aether.colorblind.tooltips"), SharedConstants.getCurrentVersion().getPackVersion(PackType.CLIENT_RESOURCES));
             event.addRepositorySource((source) ->
                     source.accept(Pack.create(
                             "builtin/aether_tooltips",
                             Component.translatable("pack.aether.tooltips.title"),
-                            ModList.get().isLoaded("aether_genesis"),
+                            FabricLoader.getInstance().isModLoaded("aether_genesis"),
                             (string) -> pack,
-                            new Pack.Info(metadata.getDescription(), metadata.getPackFormat(PackType.SERVER_DATA), metadata.getPackFormat(PackType.CLIENT_RESOURCES), FeatureFlagSet.of(), pack.isHidden()),
+                            new Pack.Info(metadata.getDescription(), metadata.getPackFormat(), FeatureFlagSet.of()),
                             PackType.CLIENT_RESOURCES,
                             Pack.Position.TOP,
                             false,

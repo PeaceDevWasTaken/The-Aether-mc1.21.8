@@ -7,7 +7,6 @@ execute unless data entity @p Inventory[{Slot:100b}] run item replace entity @p 
 execute unless data entity @p Inventory[{Slot:101b}] run item replace entity @p armor.legs with aether:gravitite_leggings{Unbreakable:1}
 execute unless data entity @p Inventory[{Slot:102b}] run item replace entity @p armor.chest with aether:gravitite_chestplate{Unbreakable:1}
 execute unless data entity @p Inventory[{Slot:103b}] run item replace entity @p armor.head with aether:gravitite_helmet{Unbreakable:1}
-execute unless data entity @p ForgeCaps."curios:inventory".Curios[{Identifier:"aether_gloves"}].StacksHandler.Stacks.Items[0] run curios replace aether_gloves 0 @p with aether:gravitite_gloves{Unbreakable:1}
 
 give @p aether:skyroot_water_bucket
 give @p aether:enchanted_berry 64

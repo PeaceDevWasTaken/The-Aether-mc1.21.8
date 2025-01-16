@@ -1,4 +1,5 @@
 {
+  "replace": false,
   "values": [
     "aether:white_flower",
     "aether:purple_flower"

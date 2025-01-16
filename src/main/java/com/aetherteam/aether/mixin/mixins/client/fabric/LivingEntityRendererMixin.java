@@ -1,0 +1,20 @@
+package com.aetherteam.aether.mixin.mixins.client.fabric;
+
+import com.aetherteam.aether.entity.miscellaneous.Parachute;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import net.minecraft.client.renderer.entity.LivingEntityRenderer;
+import net.minecraft.world.entity.LivingEntity;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+
+@Mixin(LivingEntityRenderer.class)
+public class LivingEntityRendererMixin {
+    @WrapOperation(method = "render(Lnet/minecraft/world/entity/LivingEntity;FFLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/MultiBufferSource;I)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;isPassenger()Z"))
+    private boolean render(LivingEntity instance, Operation<Boolean> original) {
+        if (instance.getVehicle() instanceof Parachute) {
+            return false;
+        }
+        return original.call(instance);
+    }
+}

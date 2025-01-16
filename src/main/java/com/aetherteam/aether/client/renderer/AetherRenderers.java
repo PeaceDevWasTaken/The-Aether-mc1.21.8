@@ -10,7 +10,6 @@ import com.aetherteam.aether.client.renderer.accessory.layer.ArmorStandCapeLayer
 import com.aetherteam.aether.client.renderer.accessory.model.CapeModel;
 import com.aetherteam.aether.client.renderer.accessory.model.GlovesModel;
 import com.aetherteam.aether.client.renderer.accessory.model.PendantModel;
-import com.aetherteam.aether.client.renderer.block.FastModel;
 import com.aetherteam.aether.client.renderer.blockentity.ChestMimicRenderer;
 import com.aetherteam.aether.client.renderer.blockentity.SkyrootBedRenderer;
 import com.aetherteam.aether.client.renderer.blockentity.TreasureChestRenderer;

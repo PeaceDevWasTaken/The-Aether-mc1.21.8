@@ -63,12 +63,10 @@ public class DimensionListener {
 
     /**
      * @see DimensionHooks#tickTime(Level)
-     * @see DimensionHooks#fallFromAether(Level)
      * @see DimensionHooks#checkEternalDayConfig(Level)
      */
     public static void onWorldTick(ServerLevel level) {
         DimensionHooks.tickTime(level);
-        DimensionHooks.fallFromAether(level);
         DimensionHooks.checkEternalDayConfig(level);
     }
 

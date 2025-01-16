@@ -20,14 +20,15 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
-import net.minecraftforge.common.util.LazyOptional;
+import net.minecraft.world.level.entity.EntityTypeTest;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Optional;
 
 @Mixin(Entity.class)
 public class EntityMixin {
@@ -39,20 +40,20 @@ public class EntityMixin {
      */
     @Inject(at = @At(value = "TAIL"), method = "tick()V")
     private void travel(CallbackInfo ci) {
-        Entity entity = (Entity) (Object) this;
-        Level level = entity.level();
+        Level level = ((Entity) (Object) this).level();
+
         if (level instanceof ServerLevel serverLevel) {
             if (!AetherConfig.SERVER.disable_falling_to_overworld.get()) {
-                if (serverLevel.dimension() == LevelUtil.destinationDimension()) {
-                    if (entity.getY() <= serverLevel.getMinBuildHeight() && !entity.isPassenger() && serverLevel.getBiome(entity.blockPosition()).is(AetherTags.Biomes.FALL_TO_OVERWORLD)) {
+                if (level.dimension() == LevelUtil.destinationDimension()) {
+                    for (Entity entity : serverLevel.getEntities(EntityTypeTest.forClass(Entity.class), (entity) -> entity.getY() <= serverLevel.getMinBuildHeight() && !entity.isPassenger() && level.getBiome(entity.blockPosition()).is(AetherTags.Biomes.FALL_TO_OVERWORLD))) {
                         if (entity instanceof Player || entity.isVehicle() || (entity instanceof Saddleable) && ((Saddleable) entity).isSaddled()) { // Checks if an entity is a player or a vehicle of a player.
                             entityFell(entity);
                         } else if (entity instanceof Projectile projectile && projectile.getOwner() instanceof Player) {
                             entityFell(projectile);
                         } else if (entity instanceof ItemEntity itemEntity) {
-                            LazyOptional<DroppedItem> droppedItem = DroppedItem.get(itemEntity);
-                            if (droppedItem.isPresent() && droppedItem.resolve().isPresent()) {
-                                if (itemEntity.getOwner() instanceof Player || droppedItem.resolve().get().getOwner() instanceof Player) { // Checks if an entity is an item that was dropped by a player.
+                            Optional<DroppedItem> droppedItem = DroppedItem.get(itemEntity);
+                            if (droppedItem.isPresent()) {
+                                if (itemEntity.getOwner() instanceof Player || droppedItem.get().getOwner() instanceof Player) { // Checks if an entity is an item that was dropped by a player.
                                     entityFell(entity);
                                 }
                             }
