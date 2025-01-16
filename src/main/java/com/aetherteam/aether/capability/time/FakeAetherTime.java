@@ -11,7 +11,6 @@ import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-// TODO: Stop depending on cardinal components
 public class FakeAetherTime implements AetherTime {
     @Override
     public Level getLevel() {

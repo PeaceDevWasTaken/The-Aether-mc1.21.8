@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-// TODO: Implement DisplaySerializer within the future
 public class PlacementBanRecipeDisplay<R extends AbstractPlacementBanRecipe<?, ?>> extends BasicDisplay {
     private final CategoryIdentifier<?> categoryIdentifier;
 

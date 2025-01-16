@@ -35,17 +35,9 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.blockentity.*;
 import net.minecraft.client.renderer.entity.*;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.decoration.ArmorStand;
-
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 public class AetherRenderers {
     public static void registerEntityRenderers() {
@@ -213,20 +205,4 @@ public class AetherRenderers {
         registerCuriosRenderers();
         LivingEntityFeatureRendererRegistrationCallback.EVENT.register(AetherRenderers::addEntityLayers);
     }
-
-//    @SubscribeEvent //todo
-//    public static void bakeModels(ModelEvent.ModifyBakingResult event) {
-//        List<Map.Entry<ResourceLocation, BakedModel>> models = new ArrayList<>();
-//        for (Map.Entry<ResourceLocation, BakedModel> model : event.getModels().entrySet()) {
-//            if (model.getKey().getNamespace().equals(Aether.MODID)) {
-//                String path = model.getKey().getPath();
-//                if (path.equals(BuiltInRegistries.BLOCK.getKey(AetherBlocks.BERRY_BUSH.get()).getPath())) {
-//                    models.add(model);
-//                } else if (path.equals(BuiltInRegistries.BLOCK.getKey(AetherBlocks.BERRY_BUSH.get()).getPath())) {
-//                    models.add(model);
-//                }
-//            }
-//        }
-//        models.forEach(entry -> event.getModels().put(entry.getKey(), new FastModel(entry.getValue())));
-//    }
 }

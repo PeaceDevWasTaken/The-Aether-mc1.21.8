@@ -182,7 +182,7 @@ public abstract class AetherBlockStateProvider extends NitrogenBlockStateProvide
                 .element().from(0.0F, 0.0F, 0.0F).to(16.0F, 16.0F, 16.0F).shade(true).allFaces((direction, builder) -> builder.texture("#bush").end()).end()
                 .element().from(0.8F, 0.0F, 8.0F).to(15.2F, 16.0F, 8.0F).rotation().origin(8.0F, 8.0F, 8.0F).axis(Direction.Axis.Y).angle(45.0F).rescale(true).end().shade(true).face(Direction.NORTH).texture("#stem").end().face(Direction.SOUTH).texture("#stem").end().end()
                 .element().from(8.0F, 0.0F, 0.8F).to(8.0F, 16.0F, 15.2F).rotation().origin(8.0F, 8.0F, 8.0F).axis(Direction.Axis.Y).angle(45.0F).rescale(true).end().shade(true).face(Direction.WEST).texture("#stem").end().face(Direction.EAST).texture("#stem").end().end()
-                .renderType(new ResourceLocation("cutout"));
+                ;
     }
 
     public BlockModelBuilder pottedStemModel(Block block, Block stem, String location) {
@@ -244,7 +244,7 @@ public abstract class AetherBlockStateProvider extends NitrogenBlockStateProvide
                 .face(Direction.WEST).uvs(3.0F, 3.0F, 13.0F, 13.0F).texture("#bush").end()
                 .face(Direction.UP).uvs(3.0F, 3.0F, 13.0F, 13.0F).texture("#bush").end()
                 .face(Direction.DOWN).uvs(3.0F, 3.0F, 13.0F, 13.0F).texture("#bush").end().end()
-                .renderType(new ResourceLocation("cutout"));
+                ;
         this.getVariantBuilder(bush).partialState().addModels(new ConfiguredModel(pot));
     }
 

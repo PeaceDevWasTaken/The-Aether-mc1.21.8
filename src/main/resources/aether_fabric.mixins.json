@@ -15,6 +15,7 @@
     "client.fabric.ExistingFileHelperMixin",
     "client.fabric.GameRendererMixin",
     "client.fabric.GuiMixin",
+    "client.fabric.ItemBlockRenderTypesMixin",
     "client.fabric.LevelRendererMixin",
     "client.fabric.LivingEntityRendererMixin",
     "client.fabric.MinecraftMixin",
