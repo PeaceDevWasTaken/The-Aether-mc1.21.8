@@ -119,7 +119,7 @@ public class AetherOverlays {
                 renderMoaJumps(guiGraphics, window, player);
             }
         });
-        // TODO: [Fabric Port] Not much to do here besides a injection!!!
+        // Not much to do here besides a injection!!!
 //        event.registerAbove(ResourceLocation.withDefaultNamespace("player_health"), ResourceLocation.fromNamespaceAndPath(Aether.MODID, "silver_life_shard_hearts"), (guiGraphics, partialTicks) -> {
 //            Minecraft minecraft = Minecraft.getInstance();
 //            Window window = minecraft.getWindow();
