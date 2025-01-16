@@ -3,6 +3,7 @@ package com.aetherteam.aether.event.hooks;
 import com.aetherteam.aether.AetherConfig;
 import com.aetherteam.aether.AetherTags;
 import com.aetherteam.aether.block.AetherBlocks;
+import com.aetherteam.aether.capability.AetherCapabilities;
 import com.aetherteam.aether.capability.accessory.MobAccessory;
 import com.aetherteam.aether.capability.item.DroppedItem;
 import com.aetherteam.aether.capability.lightning.LightningTracker;
@@ -23,7 +24,6 @@ import com.aetherteam.aether.item.accessories.gloves.GlovesItem;
 import com.aetherteam.aether.item.accessories.miscellaneous.ShieldOfRepulsionItem;
 import com.aetherteam.aether.item.accessories.pendant.PendantItem;
 import com.aetherteam.aether.item.miscellaneous.bucket.SkyrootBucketItem;
-import com.aetherteam.aether.mixin.AetherMixinHooks;
 import com.aetherteam.aether.utils.FabricUtils;
 import io.github.fabricators_of_create.porting_lib.entity.events.living.MobEffectEvent;
 import io.github.fabricators_of_create.porting_lib.entity.events.EntityStruckByLightningEvent;
@@ -33,6 +33,7 @@ import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.api.slot.SlotReference;
 import io.wispforest.accessories.api.slot.SlotType;
+import io.wispforest.accessories.api.slot.SlotTypeReference;
 import io.wispforest.accessories.data.SlotTypeLoader;
 import io.wispforest.accessories.impl.ExpandedSimpleContainer;
 import net.minecraft.advancements.CriteriaTriggers;
@@ -543,39 +544,36 @@ public class EntityHooks {
 
     /**
      * Damages certain accessory items dropped from entities if they're not guaranteed drops.
-     * @param entity The {@link LivingEntity} dropping the accessories.
-     * @param itemDrops The {@link Collection} of {@link ItemEntity} drops.
+     *
+     * @param entity      The {@link LivingEntity} dropping the accessories.
+     * @param itemStacks   The {@link List} of {@link ItemStack} drops.
      * @param recentlyHit Whether the entity was recently hit, as a {@link Boolean}.
-     * @param looting The {@link Integer} for the looting enchantment value.
+     * @param looting     The {@link Integer} for the looting enchantment value.
      * @return The new {@link Collection} of {@link ItemEntity} drops.
-     * @see com.aetherteam.aether.event.listeners.EntityListener#onCurioDrops(CurioDropsEvent)
+     * @see com.aetherteam.aether.event.listeners.EntityListener#listen()
      */
-    public static Collection<ItemEntity> handleEntityCurioDrops(LivingEntity entity, Collection<ItemEntity> itemDrops, boolean recentlyHit, int looting) {
+    public static List<ItemStack> handleEntityAccessoryDrops(LivingEntity entity, List<ItemStack> itemStacks, boolean recentlyHit, int looting) {
         if (entity instanceof Mob mob) {
-            MobAccessory.get(mob).ifPresent((accessoryMob) -> {
-                String[] allSlots = {"hands", "necklace", "aether_gloves", "aether_pendant"};
-                for (String identifier : allSlots) {
-                    List<ItemStack> itemStacks = itemDrops.stream().map(ItemEntity::getItem).filter((stack) -> AetherMixinHooks.getIdentifierForItem(accessoryMob.getMob(), stack).equals(identifier)).toList();
-                    if (!itemStacks.isEmpty()) {
-                        ItemStack itemStack = itemStacks.get(0);
-                        float f = accessoryMob.getEquipmentDropChance(identifier);
-                        boolean flag = f > 1.0F;
-                        if (!itemStack.isEmpty()) {
-                            itemDrops.removeIf((itemEntity) -> ItemStack.isSameItemSameTags(itemEntity.getItem(), itemStack));
+            String[] allSlots = {"hands", "necklace", "aether_gloves", "aether_pendant"};
+            for (String identifier : allSlots) {
+                if (!itemStacks.isEmpty()) {
+                    ItemStack itemStack = itemStacks.get(0);
+                    float f = AetherCapabilities.MOB_ACCESSORY_CAPABILITY.maybeGet(mob).orElseThrow().getEquipmentDropChance(identifier);
+                    boolean flag = f > 1.0F;
+                    if (!itemStack.isEmpty()) {
+                        itemStacks.removeIf((stack) -> ItemStack.isSameItemSameTags(stack, itemStack));
+                    }
+                    if (!itemStack.isEmpty() && !EnchantmentHelper.hasVanishingCurse(itemStack) && recentlyHit && Math.max(mob.getRandom().nextFloat() - (float) looting * 0.01F, 0.0F) < f) {
+                        if (!flag && itemStack.isDamageableItem()) {
+                            itemStack.setDamageValue(itemStack.getMaxDamage() - mob.getRandom().nextInt(1 + mob.getRandom().nextInt(Math.max(itemStack.getMaxDamage() - 3, 1))));
                         }
-                        if (!itemStack.isEmpty() && !EnchantmentHelper.hasVanishingCurse(itemStack) && recentlyHit && Math.max(mob.getRandom().nextFloat() - (float) looting * 0.01F, 0.0F) < f) {
-                            if (!flag && itemStack.isDamageableItem()) {
-                                itemStack.setDamageValue(itemStack.getMaxDamage() - accessoryMob.getMob().getRandom().nextInt(1 + accessoryMob.getMob().getRandom().nextInt(Math.max(itemStack.getMaxDamage() - 3, 1))));
-                            }
-                            ItemEntity itemEntity = new ItemEntity(accessoryMob.getMob().level(), accessoryMob.getMob().getX(), accessoryMob.getMob().getY(), accessoryMob.getMob().getZ(), itemStack);
-                            itemEntity.setDefaultPickUpDelay();
-                            itemDrops.add(itemEntity);
-                        }
+                        itemStacks.add(itemStack);
                     }
                 }
-            });
+            }
+
         }
-        return itemDrops;
+        return itemStacks;
     }
 
     /**
@@ -594,16 +592,15 @@ public class EntityHooks {
                 if (handler != null) {
                     if (experience > 0) {
                         String[] allSlots = {"hands", "necklace", "aether_gloves", "aether_pendant"};
-//                        for (String identifier : allSlots) {
-//                            SlotType slotType = SlotTypeLoader.getSlotType(mob, identifier);
-//                            Optional<SlotResult> optionalSlotResult = handler.findCurio(identifier, 0);
-//                            if (optionalSlotResult.isPresent()) {
-//                                ItemStack stack = optionalSlotResult.get().stack();
-//                                if (!stack.isEmpty() && accessoryMob.getEquipmentDropChance(identifier) <= 1.0F) {
-//                                    experience += 1 + mob.getRandom().nextInt(3);
-//                                }
-//                            }
-//                        }
+                        for (String identifier : allSlots) {
+                            AccessoriesContainer accessoriesContainer = handler.getContainer(new SlotTypeReference(identifier));
+                            if (accessoriesContainer != null) {
+                                ItemStack stack = accessoriesContainer.getAccessories().getItem(0);
+                                if (!stack.isEmpty() && accessoryMob.getEquipmentDropChance(identifier) <= 1.0F) {
+                                    experience += 1 + mob.getRandom().nextInt(3);
+                                }
+                            }
+                        }
                     }
                 }
             }
