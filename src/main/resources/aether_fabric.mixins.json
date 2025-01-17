@@ -7,7 +7,6 @@
   "refmap": "aether.refmap.json",
   "mixins": [
     "common.fabric.PopulateDefaultEquipmentHook",
-    "common.fabric.ServerGamePacketListenerImplMixin",
     "common.fabric.ServerPlayerGameModeMixin"
   ],
   "client": [

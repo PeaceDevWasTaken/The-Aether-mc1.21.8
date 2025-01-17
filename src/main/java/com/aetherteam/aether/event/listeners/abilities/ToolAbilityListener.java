@@ -81,7 +81,6 @@ public class ToolAbilityListener {
         checkEntityTooFar(event, event.getTarget(), event.getEntity(), InteractionHand.MAIN_HAND);
     }
 
-    // TODO: PORT (Reintroduce these as events in 1.21 instead of mixins)
 //    /**
 //     * @see ToolAbilityListener#checkEntityTooFar(PlayerEvents, Entity, Player, InteractionHand)
 //     * @see ToolAbilityListener#checkBlockTooFar(PlayerEvents, Player, InteractionHand)

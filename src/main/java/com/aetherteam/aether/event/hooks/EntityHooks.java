@@ -222,12 +222,14 @@ public class EntityHooks {
             AccessoriesCapability handler = mob.accessoriesCapability();
             if (handler != null) {
                 SlotType slotType = SlotTypeLoader.getSlotType(mob, identifier);
-                AccessoriesContainer container = handler.getContainer(slotType);
-                if (container != null) {
-                    ExpandedSimpleContainer stackHandler = container.getAccessories();
-                    ItemStack itemStack = stackHandler.getItem(0);
-                    if (!itemStack.isEmpty() && random.nextFloat() < 0.5F * chanceMultiplier) {
-                        stackHandler.setItem(0, EnchantmentHelper.enchantItem(random, itemStack, (int) (5.0F + chanceMultiplier * (float) random.nextInt(18)), false));
+                if (slotType != null) {
+                    AccessoriesContainer container = handler.getContainer(slotType);
+                    if (container != null) {
+                        ExpandedSimpleContainer stackHandler = container.getAccessories();
+                        ItemStack itemStack = stackHandler.getItem(0);
+                        if (!itemStack.isEmpty() && random.nextFloat() < 0.5F * chanceMultiplier) {
+                            stackHandler.setItem(0, EnchantmentHelper.enchantItem(random, itemStack, (int) (5.0F + chanceMultiplier * (float) random.nextInt(18)), false));
+                        }
                     }
                 }
             }
