@@ -63,7 +63,7 @@ public abstract class AbstractAetherFurnaceBlockEntity extends AbstractFurnaceBl
                 abstractFurnaceBlockEntityAccessor.aether$setLitDuration(abstractFurnaceBlockEntityAccessor.aether$getLitTime());
                 if (abstractFurnaceBlockEntityAccessor.callIsLit()) {
                     flag1 = true;
-                    if (itemstack.getItem().hasCraftingRemainingItem())
+                    if (!itemstack.getRecipeRemainder().isEmpty())
                         abstractFurnaceBlockEntityAccessor.aether$getItems().set(1, itemstack.getRecipeRemainder());
                     else
                     if (flag3) {
