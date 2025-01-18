@@ -5,7 +5,9 @@ import com.aetherteam.aether.mixin.mixins.client.accessor.TitleScreenAccessor;
 import com.aetherteam.cumulus.mixin.mixins.client.accessor.SplashRendererAccessor;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
+import net.minecraft.SharedConstants;
 import net.minecraft.Util;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
@@ -13,6 +15,7 @@ import net.minecraft.client.gui.components.LogoRenderer;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.renderer.PanoramaRenderer;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -90,6 +93,17 @@ public class VanillaLeftTitleScreen extends TitleScreen implements TitleScreenBe
                     poseStack.popPose();
                 }
             }
+
+            String string = "Minecraft " + SharedConstants.getCurrentVersion().getName();
+            if (this.minecraft.isDemo()) {
+                string = string + " Demo";
+            } else {
+                string = string + ("release".equalsIgnoreCase(this.minecraft.getVersionType()) ? "" : "/" + this.minecraft.getVersionType());
+            }
+            if (Minecraft.checkModStatus().shouldReportAsModified()) {
+                string = string + I18n.get("menu.modded");
+            }
+            guiGraphics.drawString(this.font, string, 2, this.height - 10, 16777215 | roundedFadeAmount);
         }
 
         int xOffset = TitleScreenBehavior.super.handleButtonVisibility(this, fadeAmount);

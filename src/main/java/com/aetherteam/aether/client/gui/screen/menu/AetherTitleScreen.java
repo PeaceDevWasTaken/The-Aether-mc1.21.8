@@ -10,6 +10,7 @@ import com.aetherteam.cumulus.mixin.mixins.client.accessor.SplashRendererAccesso
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.fabricmc.fabric.api.client.screen.v1.Screens;
+import net.minecraft.SharedConstants;
 import net.minecraft.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -25,6 +26,7 @@ import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.resolver.ServerAddress;
 import net.minecraft.client.renderer.CubeMap;
 import net.minecraft.client.renderer.PanoramaRenderer;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.Music;
@@ -128,6 +130,17 @@ public class AetherTitleScreen extends TitleScreen implements TitleScreenBehavio
 					poseStack.popPose();
 				}
 			}
+
+			String string = "Minecraft " + SharedConstants.getCurrentVersion().getName();
+			if (this.minecraft.isDemo()) {
+				string = string + " Demo";
+			} else {
+				string = string + ("release".equalsIgnoreCase(this.minecraft.getVersionType()) ? "" : "/" + this.minecraft.getVersionType());
+			}
+			if (Minecraft.checkModStatus().shouldReportAsModified()) {
+				string = string + I18n.get("menu.modded");
+			}
+			guiGraphics.drawString(this.font, string, 2, this.height - 10, 16777215 | roundedFadeAmount);
 		}
 
 		int xOffset = TitleScreenBehavior.super.handleButtonVisibility(this, fadeAmount);
