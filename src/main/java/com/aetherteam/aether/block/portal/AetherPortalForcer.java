@@ -124,7 +124,7 @@ public class AetherPortalForcer implements ITeleporter {
     private Optional<BlockUtil.FoundRectangle> findPortalAround(BlockPos pos, WorldBorder worldBorder) {
         PoiManager poiManager = this.level.getPoiManager();
         poiManager.ensureLoadedAndValid(this.level, pos, 128);
-        Optional<PoiRecord> optionalPoi = poiManager.getInSquare((poiType) -> poiType.is(AetherPoi.AETHER_PORTAL.getKey()), pos, 128, PoiManager.Occupancy.ANY)
+        Optional<PoiRecord> optionalPoi = poiManager.getInSquare((poiType) -> poiType.value().equals(AetherPoi.AETHER_PORTAL), pos, 128, PoiManager.Occupancy.ANY)
                 .filter((poiRecord) -> worldBorder.isWithinBounds(poiRecord.getPos()))
                 .sorted(Comparator.<PoiRecord>comparingDouble((poiRecord) -> poiRecord.getPos().distSqr(pos)).thenComparingInt((poiRecord) -> poiRecord.getPos().getY()))
                 .filter((poiRecord) -> this.level.getBlockState(poiRecord.getPos()).hasProperty(BlockStateProperties.HORIZONTAL_AXIS))

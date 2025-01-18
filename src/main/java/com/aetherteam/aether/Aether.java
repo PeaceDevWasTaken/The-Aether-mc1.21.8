@@ -102,7 +102,6 @@ public class Aether implements ModInitializer {
                 AetherFoliagePlacerTypes.FOLIAGE_PLACERS,
                 AetherTrunkPlacerTypes.TRUNK_PLACERS,
                 AetherTreeDecoratorTypes.TREE_DECORATORS,
-                AetherPoi.POI,
                 AetherStructureTypes.STRUCTURE_TYPES,
                 AetherStructurePieceTypes.STRUCTURE_PIECE_TYPES,
                 AetherStructureProcessors.STRUCTURE_PROCESSOR_TYPES,
@@ -170,6 +169,7 @@ public class Aether implements ModInitializer {
         Reflection.initialize(AetherRecipeBookTypes.class);
         Reflection.initialize(AetherBlockPathTypes.class);
         Reflection.initialize(AetherMobCategory.class);
+        Reflection.initialize(AetherPoi.class);
 
         AetherAdvancementTriggers.init();
 
