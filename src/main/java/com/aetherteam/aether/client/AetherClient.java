@@ -7,6 +7,7 @@ import com.aetherteam.aether.client.event.listeners.abilities.AccessoryAbilityCl
 import com.aetherteam.aether.client.event.listeners.capability.AetherPlayerClientListener;
 import com.aetherteam.aether.client.gui.screen.inventory.*;
 import com.aetherteam.aether.client.particle.AetherParticleTypes;
+import com.aetherteam.aether.client.renderer.AetherModelLoadingPlugin;
 import com.aetherteam.aether.client.renderer.AetherOverlays;
 import com.aetherteam.aether.client.renderer.AetherRenderers;
 import com.aetherteam.aether.client.renderer.level.AetherRenderEffects;
@@ -22,6 +23,7 @@ import com.google.common.reflect.Reflection;
 import io.github.fabricators_of_create.porting_lib.client_events.event.client.RegisterEntitySpectatorShadersCallback;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
+import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
@@ -52,6 +54,8 @@ public class AetherClient implements ClientModInitializer {
         registerTooltipOverrides();
         registerLoreOverrides();
         autoApplyPacks();
+
+        ModelLoadingPlugin.register(new AetherModelLoadingPlugin());
 
         AetherPacketHandler.INSTANCE.initClientListener();
 
