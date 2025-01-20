@@ -396,18 +396,12 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
     }
 
     /**
-     * [CODE COPY] - {@link LivingEntity#canBeAffected(MobEffectInstance)}.<br><br>
      * Warning for "deprecation" is suppressed because the method is fine to override.<br><br>
      * The Sun Spirit is immune to all effects unless the event hook determines otherwise.
      */
     @SuppressWarnings("deprecation")
     @Override //code copy
-    public boolean canBeAffected(MobEffectInstance pEffectInstance) {
-        MobEffectEvent.Applicable event = new MobEffectEvent.Applicable(this, pEffectInstance);
-        NeoForge.EVENT_BUS.post(event);
-        if (event.getResult() != MobEffectEvent.Applicable.Result.DEFAULT) {
-            return event.getResult() == MobEffectEvent.Applicable.Result.APPLY;
-        }
+    public boolean canBeAffected(MobEffectInstance effectInstance) {
         return false;
     }
 
