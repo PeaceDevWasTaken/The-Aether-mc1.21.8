@@ -336,7 +336,7 @@ public class Aether implements ModInitializer {
         if (event.getPackType() == PackType.CLIENT_RESOURCES) {
             Path resourcePath = FabricLoader.getInstance().getModContainer(Aether.MODID).orElseThrow().findPath("packs/tooltips").orElseThrow();
             PathPackResources pack = new PathPackResources(Aether.MODID + ":" + resourcePath, true, resourcePath);
-            PackMetadataSection metadata = new PackMetadataSection(Component.translatable("pack.aether.colorblind.tooltips"), SharedConstants.getCurrentVersion().getPackVersion(PackType.CLIENT_RESOURCES));
+            PackMetadataSection metadata = new PackMetadataSection(Component.translatable("pack.aether.tooltips.description"), SharedConstants.getCurrentVersion().getPackVersion(PackType.CLIENT_RESOURCES));
             event.addRepositorySource((source) ->
                     source.accept(Pack.create(
                             "builtin/aether_tooltips",
