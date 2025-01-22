@@ -269,9 +269,7 @@ public class AccessoriesScreen extends EffectRenderingInventoryScreen<Accessorie
         Minecraft minecraft = this.getMinecraft();
         LocalPlayer clientPlayer = minecraft.player;
         if (clientPlayer != null && clientPlayer.inventoryMenu.getCarried().isEmpty()) {
-            if (this.isRenderButtonHovered) {
-                guiGraphics.renderTooltip(this.font, Component.translatable("gui.curios.toggle"), mouseX, mouseY);
-            } else if (this.hoveredSlot != null && this.hoveredSlot.hasItem()) {
+            if (!this.isRenderButtonHovered && this.hoveredSlot != null && this.hoveredSlot.hasItem()) {
                 guiGraphics.renderTooltip(this.font, this.hoveredSlot.getItem(), mouseX, mouseY);
             }
         }

@@ -28,6 +28,10 @@ public abstract class AetherLanguageProvider extends NitrogenLanguageProvider {
         this.output = output;
     }
 
+    public void addAccessoriesIdentifier(String key, String name) {
+        this.add("accessories.slot." + key, name);
+    }
+
     public void addMoaSkinsText(String key, String name) {
         this.addGuiText("moa_skins." + key, name);
     }

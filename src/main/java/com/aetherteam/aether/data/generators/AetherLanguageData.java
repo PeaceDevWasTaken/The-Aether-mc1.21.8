@@ -921,12 +921,12 @@ public class AetherLanguageData extends AetherLanguageProvider {
         this.addKeyInfo("invisibility_toggle.desc", "Toggle Invisibility");
 
 
-        this.addCuriosIdentifier("aether_pendant", "Pendant");
-        this.addCuriosIdentifier("aether_cape", "Cape");
-        this.addCuriosIdentifier("aether_ring", "Ring");
-        this.addCuriosIdentifier("aether_shield", "Shield");
-        this.addCuriosIdentifier("aether_gloves", "Gloves");
-        this.addCuriosIdentifier("aether_accessory", "Accessory");
+        this.addAccessoriesIdentifier("aether_pendant", "Pendant");
+        this.addAccessoriesIdentifier("aether_cape", "Cape");
+        this.addAccessoriesIdentifier("aether_ring", "Ring");
+        this.addAccessoriesIdentifier("aether_shield", "Shield");
+        this.addAccessoriesIdentifier("aether_gloves", "Gloves");
+        this.addAccessoriesIdentifier("aether_accessory", "Accessory");
 
         this.addCuriosModifier("aether_pendant", "When around neck:");
         this.addCuriosModifier("aether_cape", "When on back:");
