@@ -15,9 +15,9 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:purple_banner"
+        "recipe": "aether:skyroot_purple_banner"
       },
-      "trigger": "aether:skyroot_recipe_unlocked"
+      "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
