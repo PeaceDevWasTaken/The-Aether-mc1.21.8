@@ -21,41 +21,19 @@ import java.util.function.Consumer;
 
 @Mixin(LootTable.class)
 public abstract class LootTableMixin {
-
-    @Inject(
-        method = "getRandomItems(Lnet/minecraft/world/level/storage/loot/LootContext;)Lit/unimi/dsi/fastutil/objects/ObjectArrayList;",
-        at = @At(value = "HEAD")
-    )
-    private void aetherFabric$addLootTableId1(LootContext context, CallbackInfoReturnable<ObjectArrayList<ItemStack>> cir) {
-        var lootTableId = context.getLevel().registryAccess()
-            .registry(Registries.LOOT_TABLE)
-            .flatMap(lootTables -> {
-                return lootTables.getResourceKey((LootTable)(Object)this)
-                    .map(ResourceKey::location);
-            });
-
-        ((LootContextExtension) context).setTableId(lootTableId.orElse(null));
-    }
-
-    @Inject(
-        method = "getRandomItemsRaw(Lnet/minecraft/world/level/storage/loot/LootContext;Ljava/util/function/Consumer;)V",
-        at = @At(value = "HEAD")
-    )
-    private void aetherFabric$addLootTableId2(LootContext context, Consumer<ItemStack> output, CallbackInfo ci) {
-        var lootTableId = context.getLevel().registryAccess()
-            .registry(Registries.LOOT_TABLE)
-            .flatMap(lootTables -> {
-                return lootTables.getResourceKey((LootTable)(Object)this)
-                    .map(ResourceKey::location);
-            });
-
-        ((LootContextExtension) context).setTableId(lootTableId.orElse(null));
-    }
-
     @WrapMethod(method = "getRandomItemsRaw(Lnet/minecraft/world/level/storage/loot/LootContext;Ljava/util/function/Consumer;)V")
-    private void finishCollectingLoot(LootContext lootContext, Consumer<ItemStack> consumer, Operation<Void> original) {
+    private void finishCollectingLoot(LootContext context, Consumer<ItemStack> consumer, Operation<Void> original) {
+        var lootTableId = context.getLevel().registryAccess()
+            .registry(Registries.LOOT_TABLE)
+            .flatMap(lootTables -> {
+                return lootTables.getResourceKey((LootTable)(Object)this)
+                    .map(ResourceKey::location);
+            });
+
+        ((LootContextExtension) context).setTableId(lootTableId.orElse(null));
+
         ObjectArrayList<ItemStack> stacks = new ObjectArrayList<>();
-        original.call(lootContext, (Consumer<ItemStack>) stacks::add);
-        AetherLootTableModifications.apply(stacks, lootContext).forEach(consumer);
+        original.call(context, (Consumer<ItemStack>) stacks::add);
+        AetherLootTableModifications.apply(stacks, context).forEach(consumer);
     }
 }
