@@ -8,5 +8,7 @@ public interface LootContextExtension {
     @Nullable
     ResourceLocation getTableId();
 
-    void setTableId(ResourceLocation tableId);
+    void pushTableId(ResourceLocation tableId);
+
+    void popTableId();
 }

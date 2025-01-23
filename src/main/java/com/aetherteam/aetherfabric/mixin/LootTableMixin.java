@@ -11,11 +11,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootTable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.function.Consumer;
 
@@ -30,10 +25,12 @@ public abstract class LootTableMixin {
                     .map(ResourceKey::location);
             });
 
-        ((LootContextExtension) context).setTableId(lootTableId.orElse(null));
+        ((LootContextExtension) context).pushTableId(lootTableId.orElse(null));
 
         ObjectArrayList<ItemStack> stacks = new ObjectArrayList<>();
         original.call(context, (Consumer<ItemStack>) stacks::add);
         AetherLootTableModifications.apply(stacks, context).forEach(consumer);
+
+        ((LootContextExtension) context).popTableId();
     }
 }

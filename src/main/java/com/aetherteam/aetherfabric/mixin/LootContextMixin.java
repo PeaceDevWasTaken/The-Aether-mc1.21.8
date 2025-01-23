@@ -7,20 +7,30 @@ import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 @Mixin(LootContext.class)
 public abstract class LootContextMixin implements LootContextExtension {
 
     @Nullable
     @Unique
-    private ResourceLocation aetherFabric$tableId = null;
+    private Deque<ResourceLocation> aetherFabric$tableId = new ArrayDeque<>();
 
     @Override
     public @Nullable ResourceLocation getTableId() {
-        return this.aetherFabric$tableId;
+        if (this.aetherFabric$tableId.isEmpty()) return null;
+
+        return this.aetherFabric$tableId.peek();
     }
 
     @Override
-    public void setTableId(ResourceLocation tableId) {
-        this.aetherFabric$tableId = tableId;
+    public void pushTableId(ResourceLocation tableId) {
+        this.aetherFabric$tableId.push(tableId);
+    }
+
+    @Override
+    public void popTableId() {
+        this.aetherFabric$tableId.pop();
     }
 }
