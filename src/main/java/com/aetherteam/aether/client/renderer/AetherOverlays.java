@@ -39,6 +39,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 public class AetherOverlays {
@@ -244,8 +246,10 @@ public class AetherOverlays {
     private static void renderHammerCooldownOverlay(GuiGraphics guiGraphics, Minecraft minecraft, Window window, LocalPlayer player) {
         if (AetherConfig.CLIENT.enable_hammer_cooldown_overlay.get()) {
             Inventory inventory = player.getInventory();
-            if (inventory.hasAnyMatching((itemStack) -> itemStack.is(AetherItems.HAMMER_OF_KINGBDOGZ.get()))) {
-                for (ItemStack itemStack : inventory.items) {
+            if (inventory.contains((itemStack) -> itemStack.is(AetherItems.HAMMER_OF_KINGBDOGZ.get()))) {
+                List<ItemStack> items = new ArrayList<>(inventory.items);
+                items.addAll(inventory.offhand);
+                for (ItemStack itemStack : items) {
                     Item item = itemStack.getItem();
                     if (item == AetherItems.HAMMER_OF_KINGBDOGZ.get()) {
                         float cooldownPercent = player.getCooldowns().getCooldownPercent(item, 0.0F);
