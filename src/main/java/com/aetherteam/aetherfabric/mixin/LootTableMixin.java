@@ -23,7 +23,7 @@ import java.util.function.Consumer;
 public abstract class LootTableMixin {
     @WrapMethod(method = "getRandomItemsRaw(Lnet/minecraft/world/level/storage/loot/LootContext;Ljava/util/function/Consumer;)V")
     private void finishCollectingLoot(LootContext context, Consumer<ItemStack> consumer, Operation<Void> original) {
-        var lootTableId = context.getLevel().registryAccess()
+        var lootTableId = context.getLevel().getServer().reloadableRegistries().get()
             .registry(Registries.LOOT_TABLE)
             .flatMap(lootTables -> {
                 return lootTables.getResourceKey((LootTable)(Object)this)
