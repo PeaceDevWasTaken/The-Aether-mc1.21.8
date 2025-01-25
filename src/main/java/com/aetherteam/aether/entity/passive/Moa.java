@@ -745,7 +745,7 @@ public class Moa extends MountableAnimal implements WingedBird {
      * Changes the value of {@link AetherAttributes#MOA_MAX_JUMPS} with the default value of {@link MoaType#maxJumps()} if the attribute value isn't matching.
      */
     public int getMaxJumps() {
-        AttributeInstance attribute = this.getAttribute(AetherAttributes.MOA_MAX_JUMPS);
+        AttributeInstance attribute = this.getAttribute(AetherAttributes.MOA_MAX_JUMPS.aetherFabric$getDelegate());
         int defaultValue = this.getMoaType() != null ? this.getMoaType().maxJumps() : 3;
 
         if(attribute != null) {

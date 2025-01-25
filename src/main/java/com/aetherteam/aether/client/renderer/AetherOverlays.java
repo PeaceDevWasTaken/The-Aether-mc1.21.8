@@ -296,7 +296,7 @@ public class AetherOverlays {
      * @return           The {@link ResourceLocation} of the feather that should be rendered
      */
     private static ResourceLocation getMoaJumpTexture(Moa moa, double count) {
-        AttributeInstance instance = moa.getAttribute(AetherAttributes.MOA_MAX_JUMPS);
+        AttributeInstance instance = moa.getAttribute(AetherAttributes.MOA_MAX_JUMPS.aetherFabric$getDelegate());
         if(instance != null) {
             if (count < instance.getBaseValue()) {
                 return getDefaultJumpsTexture(moa.getMoaType());
