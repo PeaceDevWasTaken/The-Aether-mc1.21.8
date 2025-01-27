@@ -6,6 +6,7 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "aether.refmap.json",
   "mixins": [
+    "client.jei.GuiEventHandlerMixin",
     "common.AbstractArrowMixin",
     "common.ArmorStandMixin",
     "common.DimensionTypeMixin",

@@ -59,6 +59,7 @@ public class AetherPacketHandler {
 		register(NpcPlayerInteractPacket.class, NpcPlayerInteractPacket::decode);
 		register(OpenAccessoriesPacket.class, OpenAccessoriesPacket::decode);
 		register(OpenInventoryPacket.class, OpenInventoryPacket::decode);
+		register(QuarkBackpackPacket.class, QuarkBackpackPacket::decode);
 		register(ServerDeveloperGlowPacket.Apply.class, ServerDeveloperGlowPacket.Apply::decode);
 		register(ServerDeveloperGlowPacket.Remove.class, ServerDeveloperGlowPacket.Remove::decode);
         register(ServerHaloPacket.Apply.class, ServerHaloPacket.Apply::decode);

@@ -22,6 +22,7 @@ import com.aetherteam.aether.data.resources.AetherMobCategory;
 import com.aetherteam.aether.effect.AetherEffects;
 import com.aetherteam.aether.entity.AetherEntityTypes;
 import com.aetherteam.aether.entity.ai.AetherBlockPathTypes;
+import com.aetherteam.aether.integration.quark.QuarkCompat;
 import com.aetherteam.aether.inventory.AetherRecipeBookTypes;
 import com.aetherteam.aether.inventory.menu.AetherMenuTypes;
 import com.aetherteam.aether.item.AetherCreativeTabs;
@@ -132,6 +133,10 @@ public class Aether {
         ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, AetherConfig.SERVER_SPEC);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, AetherConfig.COMMON_SPEC);
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, AetherConfig.CLIENT_SPEC);
+
+        if (ModList.get().isLoaded("quark")) {
+            QuarkCompat.Common.init(modEventBus);
+        }
     }
 
     public void commonSetup(FMLCommonSetupEvent event) {

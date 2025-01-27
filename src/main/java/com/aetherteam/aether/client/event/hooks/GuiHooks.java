@@ -10,6 +10,7 @@ import com.aetherteam.aether.client.gui.screen.perks.AetherCustomizationsScreen;
 import com.aetherteam.aether.client.gui.screen.perks.MoaSkinsScreen;
 import com.aetherteam.aether.entity.AetherBossMob;
 import com.aetherteam.aether.event.hooks.DimensionHooks;
+import com.aetherteam.aether.integration.quark.AccessoriesBackpackScreen;
 import com.aetherteam.aether.inventory.menu.AccessoriesMenu;
 import com.aetherteam.aether.network.AetherPacketHandler;
 import com.aetherteam.aether.network.packet.serverbound.OpenAccessoriesPacket;
@@ -111,9 +112,9 @@ public class GuiHooks {
      */
     @Nullable
     private static AbstractContainerScreen<?> canCreateAccessoryButtonForScreen(Screen screen) {
-        if (screen instanceof InventoryScreen || screen instanceof CuriosScreen || screen instanceof CreativeModeInventoryScreen || (screen instanceof AccessoriesScreen && shouldAddButton)) {
+        if (screen instanceof InventoryScreen || screen instanceof CuriosScreen || screen instanceof CreativeModeInventoryScreen || ((screen instanceof AccessoriesScreen || screen instanceof AccessoriesBackpackScreen) && shouldAddButton)) {
             return (AbstractContainerScreen<?>) screen;
-        } else if (screen instanceof AccessoriesScreen) {
+        } else if (screen instanceof AccessoriesScreen || screen instanceof AccessoriesBackpackScreen) {
             shouldAddButton = true;
         }
         return null;
@@ -274,8 +275,12 @@ public class GuiHooks {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.player != null && minecraft.getOverlay() == null && minecraft.screen == null) {
             if (!AetherConfig.CLIENT.disable_accessory_button.get() && AetherKeys.OPEN_ACCESSORY_INVENTORY.consumeClick()) {
-                PacketRelay.sendToServer(AetherPacketHandler.INSTANCE, new OpenAccessoriesPacket(ItemStack.EMPTY));
-                shouldAddButton = false; // The AccessoryButton is not added to menus opened with the key.
+                if (minecraft.gameMode != null && minecraft.gameMode.isServerControlledInventory()) {
+                    minecraft.player.sendOpenInventory();
+                } else {
+                    PacketRelay.sendToServer(AetherPacketHandler.INSTANCE, new OpenAccessoriesPacket(ItemStack.EMPTY));
+                    shouldAddButton = false; // The AccessoryButton is not added to menus opened with the key.
+                }
             }
         }
     }

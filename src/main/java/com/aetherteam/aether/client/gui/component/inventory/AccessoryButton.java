@@ -1,6 +1,8 @@
 package com.aetherteam.aether.client.gui.component.inventory;
 
 import com.aetherteam.aether.client.gui.screen.inventory.AccessoriesScreen;
+import com.aetherteam.aether.integration.quark.AccessoriesBackpackMenu;
+import com.aetherteam.aether.integration.quark.AccessoriesBackpackScreen;
 import com.aetherteam.aether.network.AetherPacketHandler;
 import com.aetherteam.aether.network.packet.serverbound.OpenAccessoriesPacket;
 import com.aetherteam.aether.network.packet.serverbound.OpenInventoryPacket;
@@ -32,7 +34,7 @@ public class AccessoryButton extends ImageButton {
                         ItemStack stack = player.containerMenu.getCarried();
                         player.containerMenu.setCarried(ItemStack.EMPTY);
 
-                        if (parentScreen instanceof AccessoriesScreen) {
+                        if (parentScreen instanceof AccessoriesScreen || parentScreen instanceof AccessoriesBackpackScreen) {
                             InventoryScreen inventory = new InventoryScreen(player);
                             minecraft.setScreen(inventory);
                             player.inventoryMenu.setCarried(stack);
@@ -58,6 +60,10 @@ public class AccessoryButton extends ImageButton {
             }
         } else if (this.parentScreen instanceof AccessoriesScreen screen) {
             if (screen.getMenu().hasButton) {
+                super.render(guiGraphics, mouseX, mouseY, partialTicks);
+            }
+        } else if (this.parentScreen instanceof AccessoriesBackpackScreen screen) {
+            if (((AccessoriesBackpackMenu) screen.getMenu()).hasButton) {
                 super.render(guiGraphics, mouseX, mouseY, partialTicks);
             }
         } else {

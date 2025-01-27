@@ -9,12 +9,18 @@ import java.util.Set;
 
 public class AetherMixinPlugin implements IMixinConfigPlugin {
     private boolean isOptiFineInstalled = false;
+    private boolean isJEIInstalled = false;
 
     @Override
     public void onLoad(String mixinPackage) {
         try {
             Class.forName("optifine.Installer", false, getClass().getClassLoader());
             isOptiFineInstalled = true;
+        } catch (ClassNotFoundException e) {
+        }
+        try {
+            Class.forName("mezz.jei.api.JeiPlugin", false, getClass().getClassLoader());
+            isJEIInstalled = true;
         } catch (ClassNotFoundException e) {
         }
     }
@@ -29,6 +35,9 @@ public class AetherMixinPlugin implements IMixinConfigPlugin {
         if (this.isOptiFineInstalled) {
             if (mixinClassName.equals("com.aetherteam.aether.mixin.mixins.client.BossHealthOverlayMixin")) return false;
             if (mixinClassName.equals("com.aetherteam.aether.mixin.mixins.client.optifine.BossHealthOverlayMixin")) return true;
+        }
+        if (mixinClassName.equals("com.aetherteam.aether.mixin.mixins.client.jei.GuiEventHandlerMixin")) {
+            return this.isJEIInstalled;
         }
 
         return !mixinClassName.equals("com.aetherteam.aether.mixin.mixins.client.optifine.BossHealthOverlayMixin");

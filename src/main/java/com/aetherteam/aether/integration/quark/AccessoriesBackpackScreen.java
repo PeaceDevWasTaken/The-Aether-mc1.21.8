@@ -1,11 +1,13 @@
-package com.aetherteam.aether.client.gui.screen.inventory;
+package com.aetherteam.aether.integration.quark;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.AetherConfig;
 import com.aetherteam.aether.client.AetherKeys;
+import com.aetherteam.aether.client.gui.component.inventory.AccessoryButton;
+import com.aetherteam.aether.client.gui.screen.inventory.AccessoriesScreen;
+import com.aetherteam.aether.client.gui.screen.inventory.RecipeBookBehavior;
 import com.aetherteam.aether.client.gui.screen.perks.AetherCustomizationsScreen;
 import com.aetherteam.aether.client.gui.screen.perks.MoaSkinsScreen;
-import com.aetherteam.aether.integration.quark.AccessoriesBackpackScreen;
 import com.aetherteam.aether.inventory.menu.AccessoriesMenu;
 import com.aetherteam.aether.mixin.mixins.client.accessor.ScreenAccessor;
 import com.aetherteam.aether.network.AetherPacketHandler;
@@ -17,12 +19,12 @@ import com.aetherteam.nitrogen.network.PacketRelay;
 import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
-import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.client.gui.screens.recipebook.RecipeUpdateListener;
@@ -32,11 +34,19 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Tuple;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.PacketDistributor;
+import org.violetmoon.quark.addons.oddities.client.screen.BackpackInventoryScreen;
+import org.violetmoon.quark.addons.oddities.inventory.BackpackMenu;
+import org.violetmoon.quark.addons.oddities.module.BackpackModule;
+import org.violetmoon.quark.base.QuarkClient;
+import org.violetmoon.quark.base.network.message.oddities.HandleBackpackMessage;
 import top.theillusivec4.curios.Curios;
+import top.theillusivec4.curios.client.gui.CuriosButton;
 import top.theillusivec4.curios.client.gui.CuriosScreen;
 import top.theillusivec4.curios.client.gui.RenderButton;
 import top.theillusivec4.curios.common.inventory.CosmeticCurioSlot;
@@ -47,60 +57,49 @@ import top.theillusivec4.curios.common.network.client.CPacketToggleRender;
 
 import javax.annotation.Nullable;
 
-/**
- * [CODE COPY] - {@link CuriosScreen}.<br>
- * [CODE COPY] - {@link InventoryScreen}.<br><br>
- * Modified to register slots for Aether accessories only.
- */
-public class AccessoriesScreen extends EffectRenderingInventoryScreen<AccessoriesMenu> implements RecipeUpdateListener, RecipeBookBehavior<AccessoriesMenu, AccessoriesScreen> {
-    public static final ResourceLocation ACCESSORIES_BUTTON = new ResourceLocation(Aether.MODID, "textures/gui/inventory/button/accessories_button.png");
+public class AccessoriesBackpackScreen extends BackpackInventoryScreen {
     public static final ResourceLocation SKINS_BUTTON = new ResourceLocation(Aether.MODID, "textures/gui/perks/skins/skins_button.png");
     public static final ResourceLocation CUSTOMIZATION_BUTTON = new ResourceLocation(Aether.MODID, "textures/gui/perks/customization/customization_button.png");
+    public static final ResourceLocation RECIPE_BUTTON = new ResourceLocation("textures/gui/recipe_button.png");
 
-    private static final ResourceLocation ACCESSORIES_INVENTORY = new ResourceLocation(Aether.MODID, "textures/gui/inventory/accessories.png");
-    private static final ResourceLocation ACCESSORIES_INVENTORY_CREATIVE = new ResourceLocation(Aether.MODID, "textures/gui/inventory/accessories_creative.png");
+    private static final ResourceLocation ACCESSORIES_INVENTORY = new ResourceLocation(Aether.MODID, "textures/gui/inventory/quark_backpack_accessories.png");
+    private static final ResourceLocation ACCESSORIES_INVENTORY_CREATIVE = new ResourceLocation(Aether.MODID, "textures/gui/inventory/quark_backpack_accessories_creative.png");
     private static final ResourceLocation CURIO_INVENTORY = new ResourceLocation(Curios.MODID, "textures/gui/inventory.png");
-    private static final ResourceLocation RECIPE_BUTTON_LOCATION = new ResourceLocation("textures/gui/recipe_button.png");
 
     private static final SimpleContainer DESTROY_ITEM_CONTAINER = new SimpleContainer(1);
-    private final RecipeBookComponent recipeBookComponent = new RecipeBookComponent();
     private boolean widthTooNarrow;
-    private boolean buttonClicked;
     private boolean isRenderButtonHovered;
     @Nullable
     private Slot destroyItemSlot;
+    private final Player player;
+    private boolean closeHack = false;
+    private boolean buttonClicked;
 
-    public AccessoriesScreen(AccessoriesMenu accessoriesMenu, Inventory playerInventory, Component title) {
-        super(accessoriesMenu, playerInventory, title);
-    }
-
-    @Override
-    protected void containerTick() {
-        RecipeBookBehavior.super.containerTick(this);
+    public AccessoriesBackpackScreen(InventoryMenu backpack, Inventory inventory, Component component) {
+        super(backpack, inventory, component);
+        this.player = inventory.player;
     }
 
     @Override
     public void init() {
         super.init();
+        this.clearWidgets();
+
         // Basic Curio-based initialization.
         if (this.getMinecraft().player != null) {
             this.imageWidth = this.getMinecraft().player.isCreative() ? 176 + this.creativeXOffset() : 176;
         }
         this.widthTooNarrow = this.width < 379;
-        this.getRecipeBookComponent().init(this.width, this.height, this.getMinecraft(), this.widthTooNarrow, this.getMenu());
-        this.updateScreenPosition();
-        this.addWidget(this.getRecipeBookComponent());
-        this.setInitialFocus(this.getRecipeBookComponent());
 
         if (this.getMinecraft().player != null && this.getRecipeBookComponent().isVisible()) {
-            this.getRecipeBookComponent().toggleVisibility();
+//            this.getRecipeBookComponent().toggleVisibility();
             this.updateScreenPosition();
         }
 
-        this.addRenderableWidget(new ImageButton(this.getGuiLeft() + 142, this.height / 2 - 22, 20, 18, 0, 0, 19, RECIPE_BUTTON_LOCATION, (pressed) -> {
+        this.addRenderableWidget(new ImageButton(this.getGuiLeft() + 136, this.height / 2 - 22, 20, 18, 0, 0, 19, RECIPE_BUTTON, (pressed) -> {
             this.getRecipeBookComponent().toggleVisibility();
             this.updateScreenPosition();
-            pressed.setPosition(this.getGuiLeft() + 142, this.height / 2 - 22);
+            pressed.setPosition(this.getGuiLeft() + 136, this.height / 2 - 22);
             this.buttonClicked = true;
         }));
 
@@ -144,12 +143,12 @@ public class AccessoriesScreen extends EffectRenderingInventoryScreen<Accessorie
             @Override
             public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
                 super.render(guiGraphics, mouseX, mouseY, partialTick);
-                if (!AccessoriesScreen.this.getRecipeBookComponent().isVisible()) {
-                    this.setX(AccessoriesScreen.this.getGuiLeft() - 22);
-                    this.setY(AccessoriesScreen.this.getGuiTop() + 2);
+                if (!AccessoriesBackpackScreen.this.getRecipeBookComponent().isVisible()) {
+                    this.setX(AccessoriesBackpackScreen.this.getGuiLeft() - 22);
+                    this.setY(AccessoriesBackpackScreen.this.getGuiTop() + 2);
                 } else {
-                    this.setX(AccessoriesScreen.this.getGuiLeft() + 2);
-                    this.setY(AccessoriesScreen.this.getGuiTop() - 22);
+                    this.setX(AccessoriesBackpackScreen.this.getGuiLeft() + 2);
+                    this.setY(AccessoriesBackpackScreen.this.getGuiTop() - 22);
                 }
             }
         };
@@ -168,12 +167,12 @@ public class AccessoriesScreen extends EffectRenderingInventoryScreen<Accessorie
             @Override
             public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
                 super.render(guiGraphics, mouseX, mouseY, partialTick);
-                if (!AccessoriesScreen.this.getRecipeBookComponent().isVisible()) {
-                    this.setX(AccessoriesScreen.this.getGuiLeft() - 22);
-                    this.setY(AccessoriesScreen.this.getGuiTop() + 24);
+                if (!AccessoriesBackpackScreen.this.getRecipeBookComponent().isVisible()) {
+                    this.setX(AccessoriesBackpackScreen.this.getGuiLeft() - 22);
+                    this.setY(AccessoriesBackpackScreen.this.getGuiTop() + 24);
                 } else {
-                    this.setX(AccessoriesScreen.this.getGuiLeft() + 24);
-                    this.setY(AccessoriesScreen.this.getGuiTop() - 22);
+                    this.setX(AccessoriesBackpackScreen.this.getGuiLeft() + 24);
+                    this.setY(AccessoriesBackpackScreen.this.getGuiTop() - 22);
                 }
             }
         };
@@ -192,8 +191,8 @@ public class AccessoriesScreen extends EffectRenderingInventoryScreen<Accessorie
                         (button) -> NetworkHandler.INSTANCE.send(PacketDistributor.SERVER.noArg(), new CPacketToggleRender(curioSlot.getIdentifier(), inventorySlot.getSlotIndex()))) {
                     @Override
                     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-                        this.setX(AccessoriesScreen.this.getGuiLeft() + inventorySlot.x + 11);
-                        this.setY(AccessoriesScreen.this.getGuiTop() + inventorySlot.y - 3);
+                        this.setX(AccessoriesBackpackScreen.this.getGuiLeft() + inventorySlot.x + 11);
+                        this.setY(AccessoriesBackpackScreen.this.getGuiTop() + inventorySlot.y - 3);
                     }
                 });
             }
@@ -202,14 +201,10 @@ public class AccessoriesScreen extends EffectRenderingInventoryScreen<Accessorie
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground(guiGraphics);
-        if (this.getRecipeBookComponent().isVisible() && this.widthTooNarrow) {
-            this.renderBg(guiGraphics, partialTicks, mouseX, mouseY);
-            this.getRecipeBookComponent().render(guiGraphics, mouseX, mouseY, partialTicks);
-        } else {
-            this.getRecipeBookComponent().render(guiGraphics, mouseX, mouseY, partialTicks);
+        this.renderables.removeIf(renderable -> renderable instanceof CuriosButton);
+
+        if (!this.getRecipeBookComponent().isVisible() || !this.widthTooNarrow) {
             super.render(guiGraphics, mouseX, mouseY, partialTicks);
-            this.getRecipeBookComponent().renderGhostRecipe(guiGraphics, this.getGuiLeft(), this.getGuiTop(), false, partialTicks);
 
             boolean isButtonHovered = false;
             for (Renderable renderable : this.renderables) {
@@ -246,9 +241,10 @@ public class AccessoriesScreen extends EffectRenderingInventoryScreen<Accessorie
             if (this.getMinecraft().player != null) {
                 this.imageWidth = this.getMinecraft().player.isCreative() ? 176 + this.creativeXOffset() : 176;
             }
+        } else {
+            super.render(guiGraphics, mouseX, mouseY, partialTicks);
         }
         this.renderTooltip(guiGraphics, mouseX, mouseY);
-        this.getRecipeBookComponent().renderTooltip(guiGraphics, this.getGuiLeft(), this.getGuiTop(), mouseX, mouseY);
     }
 
     @Override
@@ -258,6 +254,18 @@ public class AccessoriesScreen extends EffectRenderingInventoryScreen<Accessorie
             int j = this.getGuiTop();
             guiGraphics.blit(this.getMinecraft().player.isCreative() ? ACCESSORIES_INVENTORY_CREATIVE : ACCESSORIES_INVENTORY, i, j, 0, 0, this.getXSize() + this.creativeXOffset(), this.getYSize());
             InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, i + 33, j + 75, 30, (float) (i + 31) - mouseX, (float) (j + 75 - 50) - mouseY, this.getMinecraft().player);
+            this.moveCharmsButtons();
+        }
+    }
+
+    private void moveCharmsButtons() {
+        for (Renderable renderable : this.renderables) {
+            // Charms buttons have a static Y pos, so use that to only focus on them.
+            if (renderable instanceof ImageButton img) {
+                if (img.getY() == this.height / 2 - 22) {
+                    img.setPosition(img.getX(), img.getY() - 29);
+                }
+            }
         }
     }
 
@@ -290,11 +298,11 @@ public class AccessoriesScreen extends EffectRenderingInventoryScreen<Accessorie
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        if (this.getRecipeBookComponent().isVisible() && this.widthTooNarrow) {
-            this.getRecipeBookComponent().toggleVisibility();
-            this.updateScreenPosition();
-            return true;
-        } else
+//        if (this.getRecipeBookComponent().isVisible() && this.widthTooNarrow) {
+//            this.getRecipeBookComponent().toggleVisibility();
+//            this.updateScreenPosition();
+//            return true;
+//        } else
         if (AetherKeys.OPEN_ACCESSORY_INVENTORY.isActiveAndMatches(InputConstants.getKey(keyCode, scanCode))) {
             LocalPlayer playerEntity = this.getMinecraft().player;
             if (playerEntity != null) {
@@ -311,32 +319,7 @@ public class AccessoriesScreen extends EffectRenderingInventoryScreen<Accessorie
         if (this.isRenderButtonHovered) {
             return false;
         }
-        return (!this.widthTooNarrow || !this.getRecipeBookComponent().isVisible()) && super.isHovering(rectX, rectY, rectWidth, rectHeight, pointX, pointY);
-    }
-
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (this.getRecipeBookComponent().mouseClicked(mouseX, mouseY, button)) {
-            this.setFocused(this.getRecipeBookComponent());
-            return true;
-        } else {
-            return (!this.widthTooNarrow || !this.getRecipeBookComponent().isVisible()) && super.mouseClicked(mouseX, mouseY, button);
-        }
-    }
-
-    @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        if (this.buttonClicked) {
-            this.buttonClicked = false;
-            return true;
-        } else {
-            return super.mouseReleased(mouseX, mouseY, button);
-        }
-    }
-
-    @Override
-    protected boolean hasClickedOutside(double mouseX, double mouseY, int guiLeft, int guiTop, int mouseButton) {
-        return RecipeBookBehavior.super.hasClickedOutside(this, mouseX, mouseY, guiLeft, guiTop, mouseButton);
+        return super.isHovering(rectX, rectY, rectWidth, rectHeight, pointX, pointY);
     }
 
     /**
@@ -345,7 +328,7 @@ public class AccessoriesScreen extends EffectRenderingInventoryScreen<Accessorie
      */
     @Override
     protected void slotClicked(@Nullable Slot slot, int slotId, int mouseButton, ClickType type) {
-        RecipeBookBehavior.super.slotClicked(this, slot);
+        this.getRecipeBookComponent().slotClicked(slot);
         if (this.getMinecraft().player != null && this.getMinecraft().gameMode != null) {
             boolean flag = type == ClickType.QUICK_MOVE;
             if (slot != null || type == ClickType.QUICK_CRAFT) {
@@ -363,18 +346,35 @@ public class AccessoriesScreen extends EffectRenderingInventoryScreen<Accessorie
                     }
                 }
             }
-            super.slotClicked(slot, slotId, mouseButton, type);
+            if (slot != null) {
+                slotId = slot.index;
+            }
+            this.minecraft.gameMode.handleInventoryMouseClick(this.menu.containerId, slotId, mouseButton, type, this.minecraft.player);
         }
     }
 
     @Override
-    public void recipesUpdated() {
-        RecipeBookBehavior.super.recipesUpdated(this);
+    public boolean mouseReleased(double mouseX, double mouseY, int button) {
+        if (this.buttonClicked) {
+            this.buttonClicked = false;
+            return true;
+        } else {
+            return super.mouseReleased(mouseX, mouseY, button);
+        }
     }
 
     @Override
-    public RecipeBookComponent getRecipeBookComponent() {
-        return this.recipeBookComponent;
+    public void containerTick() {
+        super.containerTick();
+
+        if (!BackpackModule.isEntityWearingBackpack(this.player)) {
+            ItemStack curr = this.player.containerMenu.getCarried();
+            BackpackMenu.saveCraftingInventory(this.player);
+            this.closeHack = true;
+            QuarkClient.ZETA_CLIENT.sendToServer(new HandleBackpackMessage(false));
+            this.minecraft.setScreen(new AccessoriesScreen(new AccessoriesMenu(player.containerMenu.containerId, player.getInventory()), this.player.getInventory(), this.title));
+            this.player.inventoryMenu.setCarried(curr);
+        }
     }
 
     @Override
@@ -384,26 +384,12 @@ public class AccessoriesScreen extends EffectRenderingInventoryScreen<Accessorie
         return j > 13;
     }
 
-    /**
-     * Offsets the accessories screen button based on what screen is currently open.
-     * @param screen The current {@link Screen}.
-     * @return A {@link Tuple} containing the x and y {@link Integer}s.
-     */
-    public static Tuple<Integer, Integer> getButtonOffset(Screen screen) {
-        int x = 0;
-        int y = 0;
-        if (screen instanceof InventoryScreen || screen instanceof CuriosScreen) {
-            x = AetherConfig.CLIENT.button_inventory_x.get();
-            y = AetherConfig.CLIENT.button_inventory_y.get();
+    @Override
+    public void removed() {
+        if (this.closeHack) {
+            this.closeHack = false;
+            return;
         }
-        if (screen instanceof CreativeModeInventoryScreen) {
-            x = AetherConfig.CLIENT.button_creative_x.get();
-            y = AetherConfig.CLIENT.button_creative_y.get();
-        }
-        if (screen instanceof AccessoriesScreen || screen instanceof AccessoriesBackpackScreen) {
-            x = AetherConfig.CLIENT.button_accessories_x.get();
-            y = AetherConfig.CLIENT.button_accessories_y.get();
-        }
-        return new Tuple<>(x, y);
+        super.removed();
     }
 }

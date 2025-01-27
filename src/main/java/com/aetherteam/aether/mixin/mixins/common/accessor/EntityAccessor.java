@@ -23,4 +23,7 @@ public interface EntityAccessor {
 
     @Invoker
     Vec3 callGetRelativePortalPosition(Direction.Axis axis, BlockUtil.FoundRectangle portal);
+
+    @Accessor("isInsidePortal")
+    boolean aether$isIsInsidePortal();
 }
