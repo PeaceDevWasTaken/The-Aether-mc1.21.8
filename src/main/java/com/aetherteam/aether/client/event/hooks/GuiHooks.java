@@ -262,8 +262,12 @@ public class GuiHooks {
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.player != null && minecraft.getOverlay() == null && minecraft.screen == null) {
             if (!AetherConfig.CLIENT.disable_accessory_button.get() && AetherKeys.OPEN_ACCESSORY_INVENTORY.consumeClick()) {
-                PacketDistributor.sendToServer(new OpenAccessoriesPacket(ItemStack.EMPTY));
-                shouldAddButton = false; // The AccessoryButton is not added to menus opened with the key.
+                if (minecraft.gameMode != null && minecraft.gameMode.isServerControlledInventory()) {
+                    minecraft.player.sendOpenInventory();
+                } else {
+                    PacketDistributor.sendToServer(new OpenAccessoriesPacket(ItemStack.EMPTY));
+                    shouldAddButton = false; // The AccessoryButton is not added to menus opened with the key.
+                }
             }
         }
     }
