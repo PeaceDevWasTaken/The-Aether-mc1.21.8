@@ -1,3 +1,14 @@
+# The Aether - NeoForge - 1.20.1-1.5.2
+
+Changes
+
+- Accessories inventory now supports displaying Quark backpack slots.
+
+Fixes
+
+- Accessories inventory hotkey no longer overrides mount inventories.
+- Update JEI integration to fix a console error.
+
 # The Aether - NeoForge - 1.20.1-1.5.1
 
 Additions
