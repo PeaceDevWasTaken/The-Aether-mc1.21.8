@@ -109,17 +109,19 @@ public class QuarkCompat {
 
         @SubscribeEvent
         public static void clientSetup(TickEvent.ClientTickEvent event) {
-            Minecraft mc = Minecraft.getInstance();
-            if (isInventoryGUI(mc.screen) && !backpackRequested && BackpackModule.isEntityWearingBackpack(mc.player) && !((EntityAccessor) mc.player).aether$isIsInsidePortal()) {
-                requestBackpack();
-                mc.player.inventoryMenu.setCarried(mc.player.getItemBySlot(EquipmentSlot.CHEST));
-                backpackRequested = true;
-            } else if (mc.screen instanceof BackpackInventoryScreen) {
-                if (heldStack != null) {
-                    mc.player.inventoryMenu.setCarried(heldStack);
-                    heldStack = null;
+            if (ModList.get().isLoaded("quark")) {
+                Minecraft mc = Minecraft.getInstance();
+                if (isInventoryGUI(mc.screen) && !backpackRequested && BackpackModule.isEntityWearingBackpack(mc.player) && !((EntityAccessor) mc.player).aether$isIsInsidePortal()) {
+                    requestBackpack();
+                    mc.player.inventoryMenu.setCarried(mc.player.getItemBySlot(EquipmentSlot.CHEST));
+                    backpackRequested = true;
+                } else if (mc.screen instanceof BackpackInventoryScreen) {
+                    if (heldStack != null) {
+                        mc.player.inventoryMenu.setCarried(heldStack);
+                        heldStack = null;
+                    }
+                    backpackRequested = false;
                 }
-                backpackRequested = false;
             }
         }
 
