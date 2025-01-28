@@ -1,7 +1,6 @@
 package com.aetherteam.aether.integration.quark;
 
 import com.aetherteam.aether.inventory.menu.AccessoriesButtonMenu;
-import com.aetherteam.aether.inventory.menu.AccessoriesMenu;
 import com.aetherteam.aether.inventory.menu.AetherMenuTypes;
 import com.aetherteam.aether.mixin.mixins.common.accessor.AbstractContainerMenuAccessor;
 import com.mojang.datafixers.util.Pair;

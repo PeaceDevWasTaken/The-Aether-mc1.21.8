@@ -41,6 +41,9 @@ public class AccessoryButton extends ImageButton {
                             minecraft.setScreen(inventory);
                             player.inventoryMenu.setCarried(stack);
                             PacketRelay.sendToServer(AetherPacketHandler.INSTANCE, new OpenInventoryPacket(stack));
+                            if (ModList.get().isLoaded("quark") && QuarkCompat.ClientForge.isAccessoriesBackpackGUI(parentScreen)) {
+                                QuarkCompat.ClientForge.requestInventoryBackpack();
+                            }
                         } else {
                             PacketRelay.sendToServer(AetherPacketHandler.INSTANCE, new OpenAccessoriesPacket(stack));
                         }

@@ -5,13 +5,11 @@ import com.aetherteam.aether.client.gui.screen.inventory.AccessoriesScreen;
 import com.aetherteam.aether.inventory.menu.AccessoriesMenu;
 import com.aetherteam.aether.mixin.mixins.common.accessor.EntityAccessor;
 import com.aetherteam.aether.network.AetherPacketHandler;
-import com.aetherteam.aether.network.packet.serverbound.OpenInventoryPacket;
 import com.aetherteam.aether.network.packet.serverbound.QuarkBackpackPacket;
 import com.aetherteam.nitrogen.network.PacketRelay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleMenuProvider;
@@ -36,8 +34,6 @@ import org.violetmoon.quark.addons.oddities.client.screen.BackpackInventoryScree
 import org.violetmoon.quark.addons.oddities.inventory.BackpackMenu;
 import org.violetmoon.quark.addons.oddities.item.BackpackItem;
 import org.violetmoon.quark.addons.oddities.module.BackpackModule;
-import org.violetmoon.quark.base.QuarkClient;
-import org.violetmoon.quark.base.network.message.oddities.HandleBackpackMessage;
 
 public class QuarkCompat {
     public static class Common {
@@ -102,7 +98,11 @@ public class QuarkCompat {
         private static ItemStack heldStack = null;
         private static boolean backpackRequested;
 
-        public static void requestBackpack() {
+        public static void requestInventoryBackpack() {
+            BackpackModule.requestBackpack();
+        }
+
+        public static void requestAccessoriesBackpack() {
             heldStack = Minecraft.getInstance().player.inventoryMenu.getCarried();
             PacketRelay.sendToServer(AetherPacketHandler.INSTANCE, new QuarkBackpackPacket(true));
         }
@@ -111,8 +111,8 @@ public class QuarkCompat {
         public static void clientSetup(TickEvent.ClientTickEvent event) {
             if (ModList.get().isLoaded("quark")) {
                 Minecraft mc = Minecraft.getInstance();
-                if (isInventoryGUI(mc.screen) && !backpackRequested && BackpackModule.isEntityWearingBackpack(mc.player) && !((EntityAccessor) mc.player).aether$isIsInsidePortal() && !mc.player.isCreative()) {
-                    requestBackpack();
+                if (isAccessoriesInventoryGUI(mc.screen) && !backpackRequested && BackpackModule.isEntityWearingBackpack(mc.player) && !((EntityAccessor) mc.player).aether$isIsInsidePortal() && !mc.player.isCreative()) {
+                    requestAccessoriesBackpack();
                     mc.player.inventoryMenu.setCarried(mc.player.getItemBySlot(EquipmentSlot.CHEST));
                     backpackRequested = true;
                 } else if (mc.screen instanceof BackpackInventoryScreen) {
@@ -125,7 +125,7 @@ public class QuarkCompat {
             }
         }
 
-        private static boolean isInventoryGUI(Screen gui) {
+        private static boolean isAccessoriesInventoryGUI(Screen gui) {
             return gui != null && gui.getClass() == AccessoriesScreen.class;
         }
 
