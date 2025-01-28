@@ -66,6 +66,7 @@ dependencies {
 
 //    implementation fg.deobf("top.theillusivec4.curios:curios-forge:${project.curios_version}+${project.mc_version}")
 
+    modImplementation(include("io.github.fabricators_of_create.Porting-Lib:base:$port_lib_version_base+$mc_version"))
     for (String module in port_lib_modules.split(",")) {
         modImplementation(include("io.github.fabricators_of_create.Porting-Lib:$module:$port_lib_version+$mc_version"))
     }
