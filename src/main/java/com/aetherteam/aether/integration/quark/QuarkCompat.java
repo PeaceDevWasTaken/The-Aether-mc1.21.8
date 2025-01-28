@@ -111,7 +111,7 @@ public class QuarkCompat {
         public static void clientSetup(TickEvent.ClientTickEvent event) {
             if (ModList.get().isLoaded("quark")) {
                 Minecraft mc = Minecraft.getInstance();
-                if (isInventoryGUI(mc.screen) && !backpackRequested && BackpackModule.isEntityWearingBackpack(mc.player) && !((EntityAccessor) mc.player).aether$isIsInsidePortal()) {
+                if (isInventoryGUI(mc.screen) && !backpackRequested && BackpackModule.isEntityWearingBackpack(mc.player) && !((EntityAccessor) mc.player).aether$isIsInsidePortal() && !mc.player.isCreative()) {
                     requestBackpack();
                     mc.player.inventoryMenu.setCarried(mc.player.getItemBySlot(EquipmentSlot.CHEST));
                     backpackRequested = true;
