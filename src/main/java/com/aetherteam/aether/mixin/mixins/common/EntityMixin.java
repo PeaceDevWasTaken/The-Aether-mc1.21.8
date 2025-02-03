@@ -107,7 +107,11 @@ public class EntityMixin implements EntityExtension {
                 List<Entity> passengers = entity.getPassengers();
                 serverLevel.getProfiler().push("aether_fall");
                 entity.setPortalCooldown();
-                DimensionTransition transition = new DimensionTransition(destination, new Vec3(entity.getX(), destination.getMaxBuildHeight(), entity.getZ()), entity.getDeltaMovement(), entity.getYRot(), entity.getXRot(), false, DimensionTransition.DO_NOTHING);
+                double vehicleOffset = 0.0;
+                if (entity.getVehicle() != null) {
+                    vehicleOffset = entity.getVehicle().getBbHeight();
+                }
+                DimensionTransition transition = new DimensionTransition(destination, new Vec3(entity.getX(), destination.getMaxBuildHeight() - entity.getBbHeight() - vehicleOffset, entity.getZ()), entity.getDeltaMovement(), entity.getYRot(), entity.getXRot(), false, DimensionTransition.DO_NOTHING);
                 Entity target = entity.changeDimension(transition);
                 serverLevel.getProfiler().pop();
                 // Check for passengers.
