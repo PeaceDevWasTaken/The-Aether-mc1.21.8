@@ -1,3 +1,27 @@
+# The Aether - NeoForge - 1.21.1-1.5.4
+
+Additions
+
+- Added a new client config option `"Disables the Aether's Moa Skins button from appearing in GUIs"` for disabling the Moa Skins button; this config will only apply for players who do not have any skins.
+- Added a message when damaging the Sun Spirit with an Ice Crystal to indicate it can be damaged by conventional means as well.
+- Update es_es translation.
+- Update fr_fr translation.
+- Update ja_jp translation.
+- Update ms_my translation.
+- Update ru_ru translation.
+- Update sk_sk translation.
+- Update sv_se translation.
+- update uk_ua translation.
+
+Fixes
+
+- Fix using the accessories menu hotkey `I` will no longer override opening a mount's inventory.
+- Fix Hammer of Kingbdogz cooldown bar not displaying when equipped to the offhand.
+- Fix gloves not disappearing from the Smithing Table menu's armor stand after removing.
+- Fix `MinecraftAccessor` in the wrong location.
+- Fix a config-loading crash from the Aether's day cycle system.
+- Fix not being able to create Immersive Portals' portals from the Aether to the Overworld.
+
 # The Aether - NeoForge - 1.21.1-1.5.3
 
 Fixes
