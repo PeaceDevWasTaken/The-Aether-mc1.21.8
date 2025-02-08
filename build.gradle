@@ -201,7 +201,7 @@ curseforge {
         changelogType = "markdown"
         addGameVersion("${project.mc_version}")
         addGameVersion("Fabric")
-        mainArtifact(tasks.build) {
+        mainArtifact(remapJar) {
             displayName = "${project.mod_name} - ${version}"
             relations {
                 embeddedLibrary "curios"
@@ -218,7 +218,7 @@ modrinth {
     versionType = "${project.version_type}"
     versionName = "${project.mod_name} - ${version}"
     changelog = new File("$rootDir/docs/CHANGELOG.md").text
-    uploadFile = tasks.build
+    uploadFile = remapJar
     gameVersions = ["${project.mc_version}"]
     loaders = ["fabric"]
     dependencies {
