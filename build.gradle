@@ -204,7 +204,7 @@ curseforge {
         mainArtifact(remapJar) {
             displayName = "${project.mod_name} - ${version}"
             relations {
-                embeddedLibrary "curios"
+                embeddedLibrary "accessories"
                 embeddedLibrary "cumulus"
             }
         }
