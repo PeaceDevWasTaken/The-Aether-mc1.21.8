@@ -222,7 +222,7 @@ modrinth {
     gameVersions = ["${project.mc_version}"]
     loaders = ["fabric"]
     dependencies {
-        embedded.version "accessories", "${project.accessories_version}+${project.mc_version}"
+        embedded.project "accessories", "${project.accessories_version}"
         embedded.project "cumulus"
 //        embedded.version "cumulus", "${project.cumulus_version}" //todo publish and fix for beta.2
     }
