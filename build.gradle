@@ -223,7 +223,8 @@ modrinth {
     loaders = ["fabric"]
     dependencies {
         embedded.version "accessories", "${project.accessories_version}+${project.mc_version}"
-        embedded.version "cumulus", "${project.cumulus_version}"
+        embedded.project "cumulus"
+//        embedded.version "cumulus", "${project.cumulus_version}" //todo publish and fix for beta.2
     }
 }
 
