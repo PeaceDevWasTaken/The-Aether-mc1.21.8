@@ -214,7 +214,7 @@ curseforge {
 modrinth {
     token = System.getenv("MODRINTH_TOKEN")
     projectId = "${project.modrinth_id}"
-    versionNumber = "${version}"
+    versionNumber = "${project.mc_version}-${project.mod_version}-fabric"
     versionType = "${project.version_type}"
     versionName = "${project.mod_name} - ${version}"
     changelog = new File("$rootDir/docs/CHANGELOG.md").text
