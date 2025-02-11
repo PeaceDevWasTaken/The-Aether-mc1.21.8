@@ -204,7 +204,8 @@ curseforge {
         mainArtifact(remapJar) {
             displayName = "${project.mod_name} - ${version}"
             relations {
-                embeddedLibrary "accessories"
+                requiredDependency "fabric-api"
+                requiredDependency "accessories"
                 embeddedLibrary "cumulus"
             }
         }
@@ -222,7 +223,8 @@ modrinth {
     gameVersions = ["${project.mc_version}"]
     loaders = ["fabric"]
     dependencies {
-        embedded.version "accessories", "${project.accessories_version}"
+        required.version "fabric-api", "${project.fabric_api_version}"
+        required.version "accessories", "${project.accessories_version}"
         embedded.version "cumulus", "${project.cumulus_version}"
     }
 }
