@@ -24,7 +24,7 @@ public class MobAccessoryAttachment {
     }
 
     private MobAccessoryAttachment(Map<String, Float> dropChances) {
-        this.accessoryDropChances = dropChances;
+        this.accessoryDropChances = new HashMap<>(dropChances);
     }
 
     public void setGuaranteedDrop(SlotTypeReference identifier) {
