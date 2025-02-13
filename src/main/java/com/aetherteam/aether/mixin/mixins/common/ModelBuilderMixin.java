@@ -16,14 +16,14 @@ import java.util.Map;
  */
 @Mixin(ModelBuilder.class)
 public abstract class ModelBuilderMixin<T extends ModelBuilder<T>> {
-    @Shadow(remap = false)
+    @Shadow
     @Final
     protected Map<String, String> textures;
 
-    @Shadow(remap = false)
+    @Shadow
     protected abstract T self();
 
-    @Inject(at = @At(value = "HEAD"), method = "texture(Ljava/lang/String;Lnet/minecraft/resources/ResourceLocation;)Lio/github/fabricators_of_create/porting_lib/models/generators/ModelBuilder;", cancellable = true, remap = false)
+    @Inject(at = @At(value = "HEAD"), method = "texture(Ljava/lang/String;Lnet/minecraft/resources/ResourceLocation;)Lio/github/fabricators_of_create/porting_lib/models/generators/ModelBuilder;", cancellable = true)
     private void texture(String key, ResourceLocation texture, CallbackInfoReturnable<T> cir) {
         this.textures.put(key, texture.toString());
         cir.setReturnValue(this.self());
