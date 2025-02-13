@@ -1,3 +1,10 @@
+# The Aether - Fabric - 1.20.1-1.5.2-beta.4
+
+Fixes
+
+- Fix another mixin incompatibility.
+- Fix trivia lines overlapping in loading screens.
+
 # The Aether - Fabric - 1.20.1-1.5.2-beta.3
 
 Fixes
