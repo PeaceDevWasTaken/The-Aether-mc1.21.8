@@ -1,6 +1,6 @@
 name: '✨ Feature Request'
 description: Create an issue about an idea that you would like to see in The Aether
-labels: [ "type/request" ]
+type: Feature
 title: 'Feature Request: <title>'
 body:
   - type: markdown
