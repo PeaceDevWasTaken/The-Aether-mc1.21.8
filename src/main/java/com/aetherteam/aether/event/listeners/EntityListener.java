@@ -205,7 +205,7 @@ public class EntityListener {
                 }
                 if (capsTag != null && capsTag.contains("curios:inventory")) {
                     CompoundTag curiosInventoryTag = capsTag.getCompound("curios:inventory");
-                    if (curiosInventoryTag.contains("Curios")) {
+                    if (curiosInventoryTag.contains("Curios") && !curiosInventoryTag.getBoolean("AccessoriesEncoded")) {
                         Tag curiosTag = curiosInventoryTag.get("Curios");
                         if (curiosTag instanceof ListTag curiosListTag) {
                             for (Tag tag : curiosListTag) {
@@ -219,7 +219,11 @@ public class EntityListener {
                                                 for (Tag itemTag : listTag) {
                                                     if (itemTag instanceof CompoundTag itemCompoundTag) {
                                                         if (itemCompoundTag.contains("id")) {
-                                                            Item item = BuiltInRegistries.ITEM.get(ResourceLocation.parse(itemCompoundTag.getString("id")));
+                                                            var location = ResourceLocation.parse(itemCompoundTag.getString("id"));
+
+                                                            if (!location.getNamespace().equals("aether")) continue;
+
+                                                            Item item = BuiltInRegistries.ITEM.get(location);
                                                             if (item != Items.AIR) {
                                                                 ItemStack stack = new ItemStack(item);
                                                                 AccessoriesCapability accessories = AccessoriesCapability.get(player);
