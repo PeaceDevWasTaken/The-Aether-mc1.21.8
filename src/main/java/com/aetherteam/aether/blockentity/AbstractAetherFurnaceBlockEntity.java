@@ -2,11 +2,11 @@ package com.aetherteam.aether.blockentity;
 
 import com.aetherteam.aether.AetherTags;
 import com.aetherteam.aether.mixin.mixins.common.accessor.AbstractFurnaceBlockEntityAccessor;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
-import net.minecraft.core.NonNullList;
-import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.*;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.util.Mth;
+import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.WorldlyContainer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
@@ -189,5 +189,31 @@ public abstract class AbstractAetherFurnaceBlockEntity extends AbstractFurnaceBl
         } else {
             return true;
         }
+    }
+
+    @Override
+    public void setItem(int index, ItemStack stack) {
+        super.setItem(index, stack);
+        if (this.getLevel() != null) {
+            this.getLevel().sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 1 | 2);
+        }
+    }
+
+    @Override
+    public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider registry) {
+        this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
+        ContainerHelper.loadAllItems(tag, this.items, registry);
+    }
+
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider registry) {
+        CompoundTag tag = super.getUpdateTag(registry);
+        ContainerHelper.saveAllItems(tag, this.items, registry);
+        return tag;
+    }
+
+    @Override
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
     }
 }
