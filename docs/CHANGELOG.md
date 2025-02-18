@@ -1,3 +1,11 @@
+# The Aether - Fabric - 1.20.1-1.5.2-beta.5
+
+Fixes
+
+- Fix a crash between portal sounds and other mods' sound mixins.
+- Fix armor stands not dropping accessories.
+- Fix accessories not being unequippable from armor stands.
+
 # The Aether - Fabric - 1.20.1-1.5.2-beta.4
 
 Fixes
