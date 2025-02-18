@@ -95,7 +95,7 @@ public class EntityListener {
         }
 
         if (hitResult != null) {
-            position = hitResult.getLocation();
+            position = hitResult.getLocation().subtract(targetEntity.position());
         } else {
             position = targetEntity.position();
         }
