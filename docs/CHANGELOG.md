@@ -1,3 +1,17 @@
+# The Aether - NeoForge - 1.21.4-1.5.5
+
+Changes
+
+- Skyroot Buckets, Skyroot Water Buckets, and Skyroot Milk Buckets now have a `FluidBucketWrapper` capability.
+- Item slot data for the Altar and Freezer are now transferred to the client.
+
+Fixes
+
+- Fix a crash from mobs dropping accessories.
+- Fix buckets not having the `BUCKET_ENTITY_DATA` item component by default.
+- Fix a crash with the music manager.
+- Fix the Slider ignoring players that aren't in line of sight.
+
 # The Aether - NeoForge - 1.21.1-1.5.4
 
 Additions
