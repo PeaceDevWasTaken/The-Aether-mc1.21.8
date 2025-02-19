@@ -1,3 +1,13 @@
+# The Aether - Fabric - 1.21.1-1.5.5
+
+Fixes
+
+- Fix accessories not being unequippable from armor stands.
+- Fix chests of other mods sometimes having no loot due to a conflict.
+- Fix a crash from mobs dropping accessories.
+- Fix a crash with the music manager.
+- Fix the Slider ignoring players that aren't in line of sight.
+
 # The Aether - Fabric - 1.21.1-1.5.4
 
 Additions
