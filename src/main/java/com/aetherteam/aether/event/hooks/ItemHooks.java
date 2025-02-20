@@ -27,13 +27,13 @@ public class ItemHooks {
                     break;
                 }
             }
-            if (stack.is(AetherTags.Items.BRONZE_DUNGEON_LOOT)) {
+            if (stack.is(AetherTags.Items.BRONZE_DUNGEON_LOOT) && !components.contains(AetherItems.BRONZE_DUNGEON_TOOLTIP)) {
                 components.add(position, AetherItems.BRONZE_DUNGEON_TOOLTIP);
             }
-            if (stack.is(AetherTags.Items.SILVER_DUNGEON_LOOT)) {
+            if (stack.is(AetherTags.Items.SILVER_DUNGEON_LOOT) && !components.contains(AetherItems.SILVER_DUNGEON_TOOLTIP)) {
                 components.add(position, AetherItems.SILVER_DUNGEON_TOOLTIP);
             }
-            if (stack.is(AetherTags.Items.GOLD_DUNGEON_LOOT)) {
+            if (stack.is(AetherTags.Items.GOLD_DUNGEON_LOOT) && !components.contains(AetherItems.GOLD_DUNGEON_TOOLTIP)) {
                 components.add(position, AetherItems.GOLD_DUNGEON_TOOLTIP);
             }
         }
