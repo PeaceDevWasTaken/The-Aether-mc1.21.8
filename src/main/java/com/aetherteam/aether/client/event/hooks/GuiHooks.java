@@ -113,7 +113,7 @@ public class GuiHooks {
             GridLayout.RowHelper rowHelper = gridLayout.createRowHelper(1);
 
             if (user != null) {
-                if (AetherConfig.CLIENT.disable_skins_button.get() || PerkUtil.hasAnyMoaSkins().test(user)) { // Add the skins button if the config is enabled. If not, only display for players with access.
+                if (!AetherConfig.CLIENT.disable_skins_button.get() || PerkUtil.hasAnyMoaSkins().test(user)) { // Add the skins button if the config is enabled. If not, only display for players with access.
                     createSkinsButton(screen, rowHelper); // Skins button.
                 } else {
                     y -= 6;
