@@ -1,3 +1,10 @@
+# The Aether - Fabric - 1.20.1-1.5.2-beta.6
+
+Fixes
+
+- Fix dungeon tooltips for loot appearing twice.
+- Fix incorrect length for Aether discs' redstone signal output.
+
 # The Aether - Fabric - 1.20.1-1.5.2-beta.5
 
 Fixes
