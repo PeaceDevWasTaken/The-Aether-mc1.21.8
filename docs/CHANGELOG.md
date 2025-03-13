@@ -1,3 +1,10 @@
+# The Aether - Fabric - 1.21.1-1.5.6
+
+Fixes
+
+- Fix client config option `"Disables the Aether's Moa Skins button from appearing in GUIs"` not working properly.
+- Fix rendering for potted plants being broken.
+
 # The Aether - Fabric - 1.21.1-1.5.5
 
 Fixes
