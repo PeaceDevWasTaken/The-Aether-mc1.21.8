@@ -1,3 +1,9 @@
+# The Aether - Fabric - 1.20.1-1.5.2-beta.7
+
+Fixes
+
+- Fix crash caused by later version of Accessories.
+
 # The Aether - Fabric - 1.20.1-1.5.2-beta.6
 
 Fixes
