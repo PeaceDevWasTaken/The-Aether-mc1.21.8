@@ -9,7 +9,6 @@
     "common.fabric.ServerPlayerGameModeMixin"
   ],
   "client": [
-    "client.fabric.ArmorStandMixin",
     "client.fabric.BossHealthOverlayMixin",
     "client.fabric.ClientPacketListenerMixin",
     "client.fabric.ExistingFileHelperMixin",
