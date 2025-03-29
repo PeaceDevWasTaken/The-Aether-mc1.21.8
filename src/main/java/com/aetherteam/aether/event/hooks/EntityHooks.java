@@ -248,7 +248,7 @@ public class EntityHooks {
      */
     public static boolean dismountPrevention(Entity rider, Entity mount, boolean dismounting) {
         if (dismounting && rider.isShiftKeyDown()) {
-            return (mount instanceof MountableAnimal && !mount.onGround() && !FabricUtils.isInFluidType(mount) && !mount.isPassenger()) || (mount instanceof Swet swet && !swet.isFriendly());
+            return (mount instanceof MountableAnimal && !mount.onGround() && !FabricUtils.isInFluidType(mount) && !mount.isPassenger()) || (mount instanceof Swet swet && !swet.isFriendly() && !swet.isRemoved());
         }
         return false;
     }
