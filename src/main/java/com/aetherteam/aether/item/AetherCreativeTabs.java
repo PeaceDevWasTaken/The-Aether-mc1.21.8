@@ -16,6 +16,8 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
+import java.util.Optional;
+
 public class AetherCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, Aether.MODID);
 
@@ -404,8 +406,8 @@ public class AetherCreativeTabs {
      * @see Aether#eventSetup(IEventBus)
      */
     public static void buildCreativeModeTabs(CreativeModeTab creativeModeTab, FabricItemGroupEntries entries) {
-        ResourceKey<CreativeModeTab> tab = BuiltInRegistries.CREATIVE_MODE_TAB.getResourceKey(creativeModeTab).orElseThrow();
-        if (tab == CreativeModeTabs.COMBAT) {
+        Optional<ResourceKey<CreativeModeTab>> tab = BuiltInRegistries.CREATIVE_MODE_TAB.getResourceKey(creativeModeTab);
+        if (tab.isPresent() && tab.get() == CreativeModeTabs.COMBAT) {
             entries.addAfter(new ItemStack(Items.LEATHER_BOOTS), new ItemStack(AetherItems.LEATHER_GLOVES.get()));
             entries.addAfter(new ItemStack(Items.CHAINMAIL_BOOTS), new ItemStack(AetherItems.CHAINMAIL_GLOVES.get()));
             entries.addAfter(new ItemStack(Items.IRON_BOOTS), new ItemStack(AetherItems.IRON_GLOVES.get()));
