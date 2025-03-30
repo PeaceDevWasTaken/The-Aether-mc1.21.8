@@ -1,6 +1,6 @@
 package com.aetherteam.aether.mixin.mixins.client;
 
-import com.aetherteam.aether.event.events.FogEvents;
+import com.aetherteam.aether.event.events.AetherFogEvents;
 import com.aetherteam.aether.utils.FogAdjustmentHelper;
 import com.aetherteam.aether.utils.FogColorHelper;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -31,7 +31,7 @@ public class FogRendererMixin {
     private static void aetherFabric$onFogRenderering(Camera camera, FogRenderer.FogMode fogMode, float farPlaneDistance, boolean shouldCreateFog, float partialTick, CallbackInfo ci, @Local FogType fogType, @Local FogRenderer.FogData fogData){
         var helper = new FogAdjustmentHelper(camera, partialTick, fogMode, fogType, fogData.end, fogData.start, fogData.shape);
 
-        FogEvents.ON_FOG_RENDER.invoker().onRenderer(helper);
+        AetherFogEvents.ON_FOG_RENDER.invoker().onRenderer(helper);
 
         if (helper.isCanceled()) {
             RenderSystem.setShaderFogStart(helper.getNearPlaneDistance());
@@ -44,7 +44,7 @@ public class FogRendererMixin {
     private static void aetherFabric$adjustFogColor(float f, float g, float h, float i, Operation<Void> original, @Local(argsOnly = true) Camera activeRenderInfo, @Local(argsOnly = true, ordinal = 0) float partialTicks){
         var helper = new FogColorHelper(activeRenderInfo, partialTicks, f, g, h);
 
-        FogEvents.ON_FOG_COLORING.invoker().onColor(helper);
+        AetherFogEvents.ON_FOG_COLORING.invoker().onColor(helper);
 
         fogRed = helper.getRed();
         fogGreen = helper.getGreen();

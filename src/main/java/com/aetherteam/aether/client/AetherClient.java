@@ -70,11 +70,9 @@ public class AetherClient implements ClientModInitializer {
         AetherPlayerClientListener.init();
         DimensionClientListener.init();
         WorldPreviewListener.init();
-        LevelClientListener.init();
         HandRenderListener.init();
         AudioListener.init();
         MenuListener.init();
-        GuiListener.init();
         GuiListener.init();
         AetherColorResolvers.init();
         AetherRecipeCategories.registerRecipeCategories();

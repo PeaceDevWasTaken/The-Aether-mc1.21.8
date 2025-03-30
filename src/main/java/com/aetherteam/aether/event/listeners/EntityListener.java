@@ -1,6 +1,7 @@
 package com.aetherteam.aether.event.listeners;
 
 import com.aetherteam.aether.Aether;
+import com.aetherteam.aether.event.events.AetherEntityEvents;
 import com.aetherteam.aether.event.hooks.EntityHooks;
 import io.github.fabricators_of_create.porting_lib.core.event.BaseEvent;
 import io.github.fabricators_of_create.porting_lib.entity.events.*;
@@ -125,9 +126,10 @@ public class EntityListener {
     /**
      * @see EntityHooks#modifyExperience(LivingEntity, int)
      */
-    public static int onDropExperience(int experience, Player attackingPlayer, LivingEntity livingEntity) {
+    public static void onDropExperience(LivingEntity livingEntity, AetherEntityEvents.ExperienceDropHelper event) {
+        int experience = event.getDroppedExperience();
         int newExperience = EntityHooks.modifyExperience(livingEntity, experience);
-        return newExperience;
+        event.setDroppedExperience(newExperience);
     }
 
     /**
@@ -151,7 +153,7 @@ public class EntityListener {
         ShieldBlockEvent.EVENT.register(EntityListener::onShieldBlock);
         EntityStruckByLightningEvent.ENTITY_STRUCK_BY_LIGHTING.register(EntityListener::onLightningStrike);
         LivingEntityEvents.DROPS.register(EntityListener::onPlayerDrops);
-        LivingEntityEvents.EXPERIENCE_DROP.register(EntityListener::onDropExperience);
+        AetherEntityEvents.ON_EXPERIENCE_DROP.register((entity, attackingPlayer, helper) -> onDropExperience(entity, helper));
         MobEffectEvent.APPLICABLE.register(EntityListener::onEffectApply);
 
         OnDeathCallback.EVENT.register((currentState, entity, capability, damageSource, droppedStacks) -> {

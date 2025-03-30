@@ -5,7 +5,7 @@ import com.aetherteam.aether.utils.FogColorHelper;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 
-public class FogEvents {
+public class AetherFogEvents {
     public static final Event<OnFogRender> ON_FOG_RENDER = EventFactory.createArrayBacked(OnFogRender.class, invokers -> helper -> {
         for (var invoker : invokers) invoker.onRenderer(helper);
     });
