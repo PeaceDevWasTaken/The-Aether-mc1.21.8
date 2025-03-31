@@ -28,22 +28,17 @@ import net.minecraft.network.chat.contents.TranslatableContents;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.ModList;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
-import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.RegisterDimensionTransitionScreenEvent;
 import net.neoforged.neoforge.client.event.RegisterEntitySpectatorShadersEvent;
 import net.neoforged.neoforge.common.NeoForge;
 
 public class AetherClient {
-    private static boolean refreshPacks = false;
-
     public static void clientInit(IEventBus bus) {
         bus.addListener(AetherClient::clientSetup);
         bus.addListener(AetherClient::registerSpectatorShaders);
         bus.addListener(AetherClient::registerDimensionTransitionScreens);
-        bus.addListener(AetherClient::loadComplete);
 
         AetherClient.eventSetup(bus);
     }
@@ -58,7 +53,6 @@ public class AetherClient {
             registerTooltipOverrides();
         });
         registerLoreOverrides();
-        autoApplyPacks();
     }
 
     public static void registerItemModelProperties() {
@@ -106,20 +100,6 @@ public class AetherClient {
         LoreBookMenu.addLoreEntryOverride(registryAccess -> stack -> ItemStack.isSameItemSameComponents(stack, AetherItems.createSwetBannerItemStack(registryAccess.registryOrThrow(Registries.BANNER_PATTERN).asLookup())), "lore.item.aether.swet_banner");
     }
 
-    /**
-     * Auto applies resource packs on load.
-     */
-    public static void autoApplyPacks() {
-        if (ModList.get().isLoaded("tipsmod")) {
-            if (AetherConfig.CLIENT.enable_trivia.get()) {
-                Minecraft.getInstance().getResourcePackRepository().addPack("builtin/aether_tips");
-            } else {
-                Minecraft.getInstance().getResourcePackRepository().removePack("builtin/aether_tips");
-            }
-            refreshPacks = true;
-        }
-    }
-
     public static void eventSetup(IEventBus neoBus) {
         IEventBus bus = NeoForge.EVENT_BUS;
 
@@ -157,16 +137,6 @@ public class AetherClient {
     public static void registerDimensionTransitionScreens(RegisterDimensionTransitionScreenEvent event) {
         event.registerIncomingEffect(AetherDimensions.AETHER_LEVEL, AetherReceivingLevelScreen::new);
         event.registerOutgoingEffect(AetherDimensions.AETHER_LEVEL, AetherReceivingLevelScreen::new);
-    }
-
-    /**
-     * Refreshes resource packs at the end of loading, so that auto-applied packs in {@link AetherClient#autoApplyPacks()} get processed.
-     */
-    public static void loadComplete(FMLLoadCompleteEvent event) {
-        if (refreshPacks) {
-            Minecraft.getInstance().reloadResourcePacks();
-            refreshPacks = false;
-        }
     }
 
     /**

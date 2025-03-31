@@ -181,7 +181,7 @@ public class GuiHooks {
         generateTrivia(screen);
         if (screen instanceof GenericMessageScreen || screen instanceof LevelLoadingScreen || screen instanceof ReceivingLevelScreen) {
             Component triviaLine = Aether.TRIVIA_READER.getTriviaLine(); // Get the current trivia line to display.
-            if (triviaLine != null && AetherConfig.CLIENT.enable_trivia.get()) {
+            if (triviaLine != null && AetherConfig.STARTUP.enable_trivia.get()) {
                 Font font = Minecraft.getInstance().font;
                 int y = (screen.height - 7) - font.wordWrapHeight(triviaLine, screen.width);
                 for (FormattedCharSequence sequence : font.split(triviaLine, screen.width)) {

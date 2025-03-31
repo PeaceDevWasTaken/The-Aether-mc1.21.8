@@ -180,6 +180,7 @@ public class Aether {
         AetherBlocks.registerWoodTypes(); // Registered this early to avoid bugs with WoodTypes and signs.
 
         DIRECTORY.toFile().mkdirs(); // Ensures the Aether's config folder is generated.
+        mod.registerConfig(ModConfig.Type.STARTUP, AetherConfig.STARTUP_SPEC);
         mod.registerConfig(ModConfig.Type.SERVER, AetherConfig.SERVER_SPEC);
         mod.registerConfig(ModConfig.Type.COMMON, AetherConfig.COMMON_SPEC);
         mod.registerConfig(ModConfig.Type.CLIENT, AetherConfig.CLIENT_SPEC);
@@ -294,7 +295,7 @@ public class Aether {
                 event.registerItem(Capabilities.FluidHandler.ITEM, (stack, ctx) -> new SkyrootBucketWrapper(stack), item);
             }
         }
-        
+
         if (NeoForgeMod.MILK.isBound()) {
             event.registerItem(Capabilities.FluidHandler.ITEM, (stack, ctx) -> new SkyrootBucketWrapper(stack), AetherItems.SKYROOT_MILK_BUCKET);
         }
@@ -396,7 +397,7 @@ public class Aether {
      * The pack is loaded and automatically applied if Tips is installed through {@link AetherClient#autoApplyPacks()}.
      */
     private void setupTipsPack(AddPackFindersEvent event) {
-        if (event.getPackType() == PackType.CLIENT_RESOURCES && ModList.get().isLoaded("tipsmod")) {
+        if (event.getPackType() == PackType.CLIENT_RESOURCES && ModList.get().isLoaded("tipsmod") && AetherConfig.STARTUP.enable_trivia.get()) {
             Path resourcePath = ModList.get().getModFileById(Aether.MODID).getFile().findResource("packs/tips");
             PackMetadataSection metadata = new PackMetadataSection(Component.translatable("pack.aether.tips.description"), SharedConstants.getCurrentVersion().getPackVersion(PackType.CLIENT_RESOURCES));
             event.addRepositorySource((source) ->

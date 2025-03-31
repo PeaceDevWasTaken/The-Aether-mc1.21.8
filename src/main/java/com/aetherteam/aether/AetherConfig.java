@@ -9,6 +9,19 @@ import org.apache.commons.lang3.tuple.Pair;
 import java.util.List;
 
 public class AetherConfig {
+    public static class Startup {
+        public final ConfigValue<Boolean> enable_trivia;
+
+        public Startup(ModConfigSpec.Builder builder) {
+            builder.push("Gui");
+            enable_trivia = builder
+                .comment("Adds random trivia and tips to the bottom of loading screens")
+                .translation("config.aether.client.gui.enable_trivia")
+                .define("Enables random trivia", true);
+            builder.pop();
+        }
+    }
+
     public static class Server {
         public final ConfigValue<Boolean> enable_bed_explosions;
         public final ConfigValue<Boolean> tools_debuff;
@@ -230,7 +243,6 @@ public class AetherConfig {
         public final ConfigValue<Boolean> colder_lightmap;
         public final ConfigValue<Boolean> green_sunset;
 
-        public final ConfigValue<Boolean> enable_trivia;
         public final ConfigValue<Boolean> enable_silver_hearts;
         public final ConfigValue<Boolean> disable_accessory_button;
         public final ConfigValue<Boolean> disable_skins_button;
@@ -281,10 +293,6 @@ public class AetherConfig {
             builder.pop();
 
             builder.push("Gui");
-            enable_trivia = builder
-                    .comment("Adds random trivia and tips to the bottom of loading screens")
-                    .translation("config.aether.client.gui.enable_trivia")
-                    .define("Enables random trivia", true);
             enable_silver_hearts = builder
                     .comment("Makes the extra hearts given by life shards display as silver colored")
                     .translation("config.aether.client.gui.enable_silver_hearts")
@@ -383,6 +391,9 @@ public class AetherConfig {
         }
     }
 
+    public static final ModConfigSpec STARTUP_SPEC;
+    public static final Startup STARTUP;
+
     public static final ModConfigSpec SERVER_SPEC;
     public static final Server SERVER;
 
@@ -393,6 +404,10 @@ public class AetherConfig {
     public static final Client CLIENT;
 
     static {
+        final Pair<Startup, ModConfigSpec> startupSpecPair = new ModConfigSpec.Builder().configure(Startup::new);
+        STARTUP_SPEC = startupSpecPair.getRight();
+        STARTUP = startupSpecPair.getLeft();
+
         final Pair<Server, ModConfigSpec> serverSpecPair = new ModConfigSpec.Builder().configure(Server::new);
         SERVER_SPEC = serverSpecPair.getRight();
         SERVER = serverSpecPair.getLeft();
