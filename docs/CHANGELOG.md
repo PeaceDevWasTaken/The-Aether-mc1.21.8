@@ -1,3 +1,17 @@
+# The Aether - Fabric - 1.21.1-1.5.8
+
+Changes
+
+- The Sun Spirit no longer goes through blocks, but will break blocks in its path.
+- Crystal Islands now support generating with surface blocks of modded biomes.
+
+Fixes
+
+- Fix Cumulus world preview crash loops by adding a failsafe that disables the preview after a crash.
+- Fix Tips compatibility causing game resources to reload twice during startup.
+- Fix compatibility with gloves not working with some mods that change arm rotations.
+- Fix a crash caused by some mods' creative tabs not existing in registry.
+
 # The Aether - Fabric - 1.21.1-1.5.7
 
 Additions
