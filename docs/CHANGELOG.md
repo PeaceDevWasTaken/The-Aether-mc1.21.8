@@ -1,3 +1,10 @@
+# The Aether - Fabric - 1.20.1-1.5.2-beta.8
+
+Fixes
+
+- Fix the game breaking when trying to dismount when a Swet dies.
+- Fix conflicts with other mods' modifications of experience drops.
+
 # The Aether - Fabric - 1.20.1-1.5.2-beta.7
 
 Fixes
