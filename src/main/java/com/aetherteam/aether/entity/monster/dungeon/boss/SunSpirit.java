@@ -51,6 +51,7 @@ import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Explosion;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.block.Block;
@@ -58,6 +59,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.Shapes;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
@@ -185,7 +187,8 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
      */
     private void breakBlocks() {
         if (this.level() instanceof ServerLevel serverLevel) {
-            if (EventHooks.canEntityGrief(this.level(), this)) {
+            // TODO: [Fabric Porting] Protection API?
+            if (this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING)) {
                 BlockPos.betweenClosedStream(this.getBoundingBox().inflate(1, 0, 1)).forEach((pos) -> {
                     BlockState state = this.level().getBlockState(pos);
                     if (this.isBreakable(state)
