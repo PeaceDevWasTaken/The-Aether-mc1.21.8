@@ -30,7 +30,7 @@ public class SkyrootMobBucketItem extends MobBucketItem {
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         InteractionResult result = super.use(level, player, hand);
         if (result.getObject().is(Items.BUCKET)) {
-            result = InteractionResult.sidedSuccess(new ItemStack(AetherItems.SKYROOT_BUCKET.get()), level.isClientSide());
+            result = InteractionResult.SUCCESS.heldItemTransformedTo(new ItemStack(AetherItems.SKYROOT_BUCKET.get()));
         }
         return result;
     }

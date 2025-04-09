@@ -10,7 +10,7 @@ import net.neoforged.neoforge.event.level.BlockEvent;
  * Ambrosium dropping behavior is called by {@link com.aetherteam.aether.event.listeners.abilities.ToolAbilityListener#doHolystoneAbility(BlockEvent.BreakEvent)}.
  */
 public class HolystoneAxeItem extends AxeItem implements HolystoneTool {
-    public HolystoneAxeItem() {
-        super(AetherItemTiers.HOLYSTONE, new Item.Properties().attributes(AxeItem.createAttributes(AetherItemTiers.HOLYSTONE, 7.0F, -3.2F)));
+    public HolystoneAxeItem(Properties properties) {
+        super(AetherItemTiers.HOLYSTONE, 7.0F, -3.2F, properties);
     }
 }

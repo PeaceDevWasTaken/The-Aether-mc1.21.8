@@ -76,7 +76,7 @@ public class SkyrootBucketItem extends BucketItem {
                             if (!level.isClientSide()) {
                                 CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer) player, bucketStack);
                             }
-                            return InteractionResult.sidedSuccess(resultStack, level.isClientSide());
+                            return InteractionResult.SUCCESS.heldItemTransformedTo(resultStack);
                         }
                     }
                     return InteractionResult.FAIL;
@@ -89,7 +89,7 @@ public class SkyrootBucketItem extends BucketItem {
                             CriteriaTriggers.PLACED_BLOCK.trigger(serverPlayer, newPos, heldStack);
                         }
                         player.awardStat(Stats.ITEM_USED.get(this));
-                        return InteractionResult.sidedSuccess(getEmptySuccessItem(heldStack, player), level.isClientSide());
+                        return InteractionResult.SUCCESS.heldItemTransformedTo(getEmptySuccessItem(heldStack, player));
                     } else {
                         return InteractionResult.FAIL;
                     }

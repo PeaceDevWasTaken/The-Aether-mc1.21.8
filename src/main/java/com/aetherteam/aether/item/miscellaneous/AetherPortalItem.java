@@ -32,7 +32,7 @@ public class AetherPortalItem extends Item {
                 if (!player.getAbilities().instabuild) {
                     context.getItemInHand().shrink(1);
                 }
-                return InteractionResult.CONSUME.heldItemTransformedTo;
+                return InteractionResult.CONSUME;
             }
         }
         return InteractionResult.FAIL;

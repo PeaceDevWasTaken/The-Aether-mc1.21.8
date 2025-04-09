@@ -10,16 +10,19 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
+import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.Enchantments;
 import net.neoforged.neoforge.common.ItemAbilities;
 import net.neoforged.neoforge.common.ItemAbility;
 
 public class ValkyrieLanceItem extends SwordItem implements ValkyrieTool {
-    public ValkyrieLanceItem() {
-        super(AetherItemTiers.VALKYRIE, new Item.Properties().rarity(AetherItems.AETHER_LOOT).attributes(SwordItem.createAttributes(AetherItemTiers.VALKYRIE, 3, -2.7F)
-            .withModifierAdded(Attributes.BLOCK_INTERACTION_RANGE, new AttributeModifier(BLOCK_INTERACTION_RANGE_MODIFIER_UUID, RANGE_MODIFER, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
-            .withModifierAdded(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(ENTITY_INTERACTION_RANGE_MODIFIER_UUID, RANGE_MODIFER, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)));
+    public ValkyrieLanceItem(Properties properties) {
+        this(AetherItemTiers.VALKYRIE, 3.0F, -2.7F, properties);
+    }
+
+    public ValkyrieLanceItem(ToolMaterial material, float attackDamage, float attackSpeed, Properties properties) {
+        super(material, attackDamage, attackSpeed, properties.attributes(ValkyrieTool.createAttributes(material, attackDamage, attackSpeed)));
     }
 
     @Override

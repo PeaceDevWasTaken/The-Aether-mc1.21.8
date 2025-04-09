@@ -15,12 +15,12 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 
 public class FlamingSwordItem extends SwordItem {
-    public FlamingSwordItem() {
-        super(AetherItemTiers.FLAMING, new Item.Properties().rarity(AetherItems.AETHER_LOOT).attributes(SwordItem.createAttributes(AetherItemTiers.FLAMING, 3.0F, -2.4F)));
+    public FlamingSwordItem(Properties properties) {
+        super(AetherItemTiers.FLAMING, 3.0F, -2.4F, properties);
     }
 
     /**
-     * @see Aether#eventSetup(IEventBus) 
+     * @see Aether#eventSetup(IEventBus)
      * @see FlamingSwordItem#handleFlamingSwordAbility(LivingEntity, DamageSource)
      */
     public static void onLivingDamage(LivingDamageEvent.Post event) {

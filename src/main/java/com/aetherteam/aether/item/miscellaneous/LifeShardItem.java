@@ -34,9 +34,9 @@ public class LifeShardItem extends Item implements ConsumableItem {
                 if (!level.isClientSide()) {
                     this.consume(this, heldStack, player);
                     aetherPlayer.setSynched(player.getId(), INBTSynchable.Direction.CLIENT, "setLifeShardCount", aetherPlayer.getLifeShardCount() + 1);
-                    return InteractionResult.CONSUME.heldItemTransformedTo(heldStack);
+                    return InteractionResult.CONSUME;
                 } else {
-                    return InteractionResult.success(heldStack);
+                    return InteractionResult.SUCCESS;
                 }
             } else if (aetherPlayer.getLifeShardCount() >= aetherPlayer.getLifeShardLimit()) {
                 player.displayClientMessage(Component.translatable("aether.life_shard_limit", aetherPlayer.getLifeShardLimit()), true);

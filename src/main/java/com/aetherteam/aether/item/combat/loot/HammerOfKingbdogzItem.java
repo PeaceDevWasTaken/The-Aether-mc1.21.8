@@ -21,8 +21,8 @@ import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.level.Level;
 
 public class HammerOfKingbdogzItem extends SwordItem implements ProjectileItem {
-    public HammerOfKingbdogzItem() {
-        super(AetherItemTiers.HAMMER_OF_KINGBDOGZ, new Item.Properties().rarity(AetherItems.AETHER_LOOT).attributes(SwordItem.createAttributes(AetherItemTiers.HAMMER_OF_KINGBDOGZ, 3.0F, -2.4F)));
+    public HammerOfKingbdogzItem(Properties properties) {
+        super(AetherItemTiers.HAMMER_OF_KINGBDOGZ, 3.0F, -2.4F, properties);
     }
 
     /**
@@ -50,7 +50,7 @@ public class HammerOfKingbdogzItem extends SwordItem implements ProjectileItem {
         }
         level.playLocalSound(player.getX(), player.getY(), player.getZ(), AetherSoundEvents.ITEM_HAMMER_OF_KINGBDOGZ_SHOOT.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (player.getRandom().nextFloat() * 0.4F + 0.8F), false);
         player.awardStat(Stats.ITEM_USED.get(this));
-        return InteractionResult.success(heldStack);
+        return InteractionResult.SUCCESS;
     }
 
     @Override

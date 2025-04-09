@@ -70,7 +70,7 @@ public class SkyrootBoatItem extends Item {
                         }
                     }
                     player.awardStat(Stats.ITEM_USED.get(this));
-                    return InteractionResult.sidedSuccess(heldStack, level.isClientSide());
+                    return InteractionResult.SUCCESS;
                 }
             } else {
                 return InteractionResult.PASS;

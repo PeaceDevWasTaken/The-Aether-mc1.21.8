@@ -45,10 +45,9 @@ public class AmbrosiumShardItem extends Item implements ItemUseConversion<Ambros
     @Override
     public InteractionResult use(Level level, Player player, InteractionHand hand) {
         if (AetherConfig.SERVER.edible_ambrosium.get()) {
-            ItemStack itemStack = player.getItemInHand(hand);
             if (player.getHealth() < player.getMaxHealth() || player.isCreative()) {
                 player.startUsingItem(hand);
-                return InteractionResult.CONSUME.heldItemTransformedTo(itemStack);
+                return InteractionResult.CONSUME;
             } else {
                 return InteractionResult.FAIL;
             }

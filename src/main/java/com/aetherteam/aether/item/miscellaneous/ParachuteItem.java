@@ -55,7 +55,7 @@ public class ParachuteItem extends Item {
                 }
                 parachute.spawnExplosionParticle();
                 player.awardStat(Stats.ITEM_USED.get(this));
-                return InteractionResult.sidedSuccess(heldStack, level.isClientSide());
+                return InteractionResult.SUCCESS;
             }
         }
         return InteractionResult.PASS;

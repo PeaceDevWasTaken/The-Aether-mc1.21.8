@@ -388,7 +388,7 @@ public class Moa extends MountableAnimal implements WingedBird {
             }
             this.setHungry(false);
             PacketDistributor.sendToAllPlayers(new MoaInteractPacket(player.getId(), hand == InteractionHand.MAIN_HAND)); // Packet necessary to play animation because this code segment is server-side only, so no animations.
-            return InteractionResult.CONSUME.heldItemTransformedTo;
+            return InteractionResult.CONSUME;
         } else if (this.isPlayerGrown() && !this.isBaby() && this.getHealth() < this.getMaxHealth() && itemStack.is(AetherTags.Items.MOA_FOOD_ITEMS)) { // Heals a tamed Moa.
             if (!player.getAbilities().instabuild) {
                 itemStack.shrink(1);

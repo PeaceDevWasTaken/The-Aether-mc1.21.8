@@ -10,7 +10,7 @@ import net.neoforged.neoforge.event.entity.player.PlayerEvent;
  * Zanite mining speed boost behavior is called by {@link com.aetherteam.aether.event.listeners.abilities.ToolAbilityListener#modifyBreakSpeed(PlayerEvent.BreakSpeed)}.
  */
 public class ZaniteAxeItem extends AxeItem implements ZaniteTool {
-    public ZaniteAxeItem() {
-        super(AetherItemTiers.ZANITE, new Item.Properties().attributes(AxeItem.createAttributes(AetherItemTiers.ZANITE, 6.0F, -3.1F)));
+    public ZaniteAxeItem(Properties properties) {
+        super(AetherItemTiers.ZANITE, 6.0F, -3.1F, properties);
     }
 }

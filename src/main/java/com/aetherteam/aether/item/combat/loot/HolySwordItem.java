@@ -16,8 +16,8 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.event.entity.living.LivingDamageEvent;
 
 public class HolySwordItem extends SwordItem {
-    public HolySwordItem() {
-        super(AetherItemTiers.HOLY, new Item.Properties().rarity(AetherItems.AETHER_LOOT).attributes(SwordItem.createAttributes(AetherItemTiers.HOLY, 3, -2.4F)));
+    public HolySwordItem(Properties properties) {
+        super(AetherItemTiers.HOLY, 3, -2.4F, properties);
     }
 
     /**
@@ -39,7 +39,7 @@ public class HolySwordItem extends SwordItem {
     }
 
     /**
-     * @see Aether#eventSetup(IEventBus) 
+     * @see Aether#eventSetup(IEventBus)
      * Deals a base 15 damage to undead mobs or mobs that treat healing and harming effects as inverted, with an extra 2.5 damage for every level of Smite the item has, in addition to the weapon's default damage. This occurs if the attacker attacked with full strength as determined by {@link EquipmentUtil#isFullStrength(LivingEntity)}.
      */
     public static void onLivingDamage(LivingDamageEvent.Pre event) {

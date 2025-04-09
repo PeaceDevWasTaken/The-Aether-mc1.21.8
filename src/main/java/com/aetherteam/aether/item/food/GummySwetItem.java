@@ -35,14 +35,14 @@ public class GummySwetItem extends Item implements ConsumableItem {
             FoodProperties foodProperties = this.getFoodProperties(heldStack, player);
             if (foodProperties != null && player.canEat(foodProperties.canAlwaysEat())) {
                 player.startUsingItem(hand);
-                return InteractionResult.CONSUME.heldItemTransformedTo(heldStack);
+                return InteractionResult.CONSUME;
             } else {
                 return InteractionResult.FAIL;
             }
         } else { // If AetherConfig.SERVER.healing_gummy_swets.get() is true.
             if (player.getHealth() < player.getMaxHealth() && !player.isCreative()) {
                 player.startUsingItem(hand);
-                return InteractionResult.CONSUME.heldItemTransformedTo(heldStack);
+                return InteractionResult.CONSUME;
             } else {
                 return InteractionResult.FAIL;
             }

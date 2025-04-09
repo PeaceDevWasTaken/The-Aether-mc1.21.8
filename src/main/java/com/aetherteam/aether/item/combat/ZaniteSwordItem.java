@@ -10,8 +10,8 @@ import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.event.ItemAttributeModifierEvent;
 
 public class ZaniteSwordItem extends SwordItem implements ZaniteWeapon {
-    public ZaniteSwordItem() {
-        super(AetherItemTiers.ZANITE, new Item.Properties().attributes(SwordItem.createAttributes(AetherItemTiers.ZANITE, 3.0F, -2.4F)));
+    public ZaniteSwordItem(Properties properties) {
+        super(AetherItemTiers.ZANITE, 3.0F, -2.4F, properties);
     }
 
     /**

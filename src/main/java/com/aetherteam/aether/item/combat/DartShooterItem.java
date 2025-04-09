@@ -52,7 +52,7 @@ public class DartShooterItem extends ProjectileWeaponItem { //implements Vanisha
         if (result == null) {
             if (player.getAbilities().instabuild || hasAmmo) {
                 player.startUsingItem(hand);
-                return InteractionResult.CONSUME.heldItemTransformedTo(heldStack);
+                return InteractionResult.CONSUME;
             } else {
                 return InteractionResult.FAIL;
             }

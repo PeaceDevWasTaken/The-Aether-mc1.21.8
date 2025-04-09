@@ -18,6 +18,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.HoeItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -27,10 +28,12 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class ValkyrieHoeItem extends HoeItem implements ValkyrieTool {
-    public ValkyrieHoeItem() {
-        super(AetherItemTiers.VALKYRIE, new Item.Properties().rarity(AetherItems.AETHER_LOOT).attributes(HoeItem.createAttributes(AetherItemTiers.VALKYRIE, -3, -0.3F)
-            .withModifierAdded(Attributes.BLOCK_INTERACTION_RANGE, new AttributeModifier(BLOCK_INTERACTION_RANGE_MODIFIER_UUID, RANGE_MODIFER, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)
-            .withModifierAdded(Attributes.ENTITY_INTERACTION_RANGE, new AttributeModifier(ENTITY_INTERACTION_RANGE_MODIFIER_UUID, RANGE_MODIFER, AttributeModifier.Operation.ADD_VALUE), EquipmentSlotGroup.MAINHAND)));
+    public ValkyrieHoeItem(Properties properties) {
+        this(AetherItemTiers.VALKYRIE, -3.0F, -0.3F, properties);
+    }
+
+    public ValkyrieHoeItem(ToolMaterial material, float attackDamage, float attackSpeed, Properties properties) {
+        super(material, attackDamage, attackSpeed, properties.attributes(ValkyrieTool.createAttributes(material, attackDamage, attackSpeed)));
     }
 
     /**
@@ -62,7 +65,7 @@ public class ValkyrieHoeItem extends HoeItem implements ValkyrieTool {
                     }
                 }
 
-                return InteractionResult.sidedSuccess(level.isClientSide);
+                return InteractionResult.SUCCESS;
             } else {
                 return InteractionResult.PASS;
             }

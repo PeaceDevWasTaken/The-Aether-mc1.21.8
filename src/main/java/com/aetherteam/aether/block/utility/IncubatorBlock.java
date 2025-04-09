@@ -66,7 +66,7 @@ public class IncubatorBlock extends BaseEntityBlock {
             return InteractionResult.SUCCESS;
         } else {
             this.openContainer(level, pos, player);
-            return InteractionResult.CONSUME.heldItemTransformedTo;
+            return InteractionResult.CONSUME;
         }
     }
 

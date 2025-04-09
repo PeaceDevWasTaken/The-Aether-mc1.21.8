@@ -10,8 +10,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 
 public class CandyCaneSwordItem extends SwordItem {
-    public CandyCaneSwordItem() {
-        super(AetherItemTiers.CANDY_CANE, new Item.Properties().attributes(SwordItem.createAttributes(AetherItemTiers.CANDY_CANE, 3.0F, -2.4F)));
+    public CandyCaneSwordItem(Properties properties) {
+        super(AetherItemTiers.CANDY_CANE, 3.0F, -2.4F, properties);
     }
 
     /**

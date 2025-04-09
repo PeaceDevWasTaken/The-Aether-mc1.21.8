@@ -121,7 +121,7 @@ public class TreasureChestBlock extends AbstractChestBlock<TreasureChestBlockEnt
                         PiglinAi.angerNearbyPiglins(player, true);
                     }
 
-                    return InteractionResult.CONSUME.heldItemTransformedTo;
+                    return InteractionResult.CONSUME;
                 }
             }
         }

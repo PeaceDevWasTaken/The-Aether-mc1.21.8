@@ -79,7 +79,7 @@ public class MoaEggItem extends Item {
                         blockEntity.setChanged();
                         level.sendBlockUpdated(blockPos, blockState, blockState, 3);
                         itemStack.shrink(1);
-                        return InteractionResult.CONSUME.heldItemTransformedTo;
+                        return InteractionResult.CONSUME;
                     }
                 }
 
@@ -93,7 +93,7 @@ public class MoaEggItem extends Item {
                 if (AetherEntityTypes.MOA.get().spawn(serverLevel, this.getStackWithTags(serverLevel, itemStack, player, false, this.getMoaType(), false, true), relativePos, EntitySpawnReason.SPAWN_EGG, true, !Objects.equals(blockPos, relativePos) && direction == Direction.UP) != null) {
                     level.gameEvent(player, GameEvent.ENTITY_PLACE, blockPos);
                 }
-                return InteractionResult.CONSUME.heldItemTransformedTo;
+                return InteractionResult.CONSUME;
             }
         } else {
             return InteractionResult.FAIL;
@@ -127,7 +127,7 @@ public class MoaEggItem extends Item {
                     } else {
                         player.awardStat(Stats.ITEM_USED.get(this));
                         level.gameEvent(player, GameEvent.ENTITY_PLACE, blockpos);
-                        return InteractionResult.CONSUME.heldItemTransformedTo(heldStack);
+                        return InteractionResult.CONSUME;
                     }
                 } else {
                     return InteractionResult.FAIL;

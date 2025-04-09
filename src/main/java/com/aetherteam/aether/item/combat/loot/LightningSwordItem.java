@@ -13,8 +13,8 @@ import net.minecraft.world.item.SwordItem;
 import net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent;
 
 public class LightningSwordItem extends SwordItem {
-    public LightningSwordItem() {
-        super(AetherItemTiers.LIGHTNING, new Item.Properties().rarity(AetherItems.AETHER_LOOT).attributes(SwordItem.createAttributes(AetherItemTiers.LIGHTNING, 3.0F, -2.4F)));
+    public LightningSwordItem(Properties properties) {
+        super(AetherItemTiers.LIGHTNING, 3.0F, -2.4F, properties);
     }
 
     /**

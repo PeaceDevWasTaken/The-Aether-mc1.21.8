@@ -9,7 +9,7 @@ import net.minecraft.world.item.ShovelItem;
  * Double drops behavior is called by {@link com.aetherteam.aether.loot.functions.DoubleDrops}.
  */
 public class SkyrootShovelItem extends ShovelItem implements SkyrootTool {
-    public SkyrootShovelItem() {
-        super(AetherItemTiers.SKYROOT, new Item.Properties().attributes(ShovelItem.createAttributes(AetherItemTiers.SKYROOT, 1.5F, -3.0F)));
+    public SkyrootShovelItem(Properties properties) {
+        super(AetherItemTiers.SKYROOT, 1.5F, -3.0F, properties);
     }
 }
