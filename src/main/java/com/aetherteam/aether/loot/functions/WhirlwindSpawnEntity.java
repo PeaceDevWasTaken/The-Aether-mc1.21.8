@@ -43,7 +43,7 @@ public class WhirlwindSpawnEntity extends LootItemConditionalFunction {
     @Override
     protected ItemStack run(ItemStack stack, LootContext context) {
         ServerLevel serverLevel = context.getLevel();
-        Vec3 originVec = context.getParamOrNull(LootContextParams.ORIGIN);
+        Vec3 originVec = context.getOptionalParameter(LootContextParams.ORIGIN);
         if (originVec != null) {
             for (int i = 0; i < this.count.sample(serverLevel.getRandom()); i++) {
                 HolderSet<EntityType<?>> holderSet = this.entityType.types();

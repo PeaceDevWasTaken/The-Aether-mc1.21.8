@@ -43,7 +43,7 @@ public class EntityMixin {
         if (level instanceof ServerLevel serverLevel) {
             if (!AetherConfig.SERVER.disable_falling_to_overworld.get()) {
                 if (serverLevel.dimension() == LevelUtil.destinationDimension()) {
-                    if (entity.getY() <= serverLevel.getMinBuildHeight() && !entity.isPassenger()) {
+                    if (entity.getY() <= serverLevel.getMinY() && !entity.isPassenger()) {
                         if (entity instanceof Player || entity.isVehicle() || (entity instanceof Saddleable) && ((Saddleable) entity).isSaddled()) { // Checks if an entity is a player or a vehicle of a player.
                             entityFell(entity);
                         } else if (entity instanceof Projectile projectile && projectile.getOwner() instanceof Player) {
@@ -81,7 +81,7 @@ public class EntityMixin {
                 if (entity.getVehicle() != null) {
                     vehicleOffset = entity.getVehicle().getBbHeight();
                 }
-                DimensionTransition transition = new DimensionTransition(destination, new Vec3(entity.getX(), destination.getMaxBuildHeight() - entity.getBbHeight() - vehicleOffset, entity.getZ()), entity.getDeltaMovement(), entity.getYRot(), entity.getXRot(), false, DimensionTransition.DO_NOTHING);
+                DimensionTransition transition = new DimensionTransition(destination, new Vec3(entity.getX(), destination.getMaxY() - entity.getBbHeight() - vehicleOffset, entity.getZ()), entity.getDeltaMovement(), entity.getYRot(), entity.getXRot(), false, DimensionTransition.DO_NOTHING);
                 Entity target = entity.changeDimension(transition);
                 serverLevel.getProfiler().pop();
                 // Check for passengers.

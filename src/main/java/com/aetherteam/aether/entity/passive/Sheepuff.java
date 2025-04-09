@@ -147,7 +147,7 @@ public class Sheepuff extends AetherAnimal implements Shearable, IShearable {
     }
 
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason reason, @Nullable SpawnGroupData spawnData) {
         this.setColor(getRandomSheepuffColor(level.getRandom()));
         return super.finalizeSpawn(level, difficulty, reason, spawnData);
     }

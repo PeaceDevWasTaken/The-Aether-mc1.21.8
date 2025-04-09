@@ -56,11 +56,11 @@ public class BronzeDungeonStructure extends Structure {
         StructureTemplateManager templateManager = context.structureTemplateManager();
         int height = findStartingHeight(chunkGenerator, heightAccessor, chunkPos, randomState, templateManager, this.aboveBottom, this.belowTop);
         // To make structure placement more reliable, we check the surrounding 8 chunks for suitable locations.
-        if (height <= heightAccessor.getMinBuildHeight()) {
+        if (height <= heightAccessor.getMinY()) {
             MutableInt y = new MutableInt(height);
             chunkPos = searchNearbyChunks(chunkPos, y, chunkGenerator, heightAccessor, randomState, templateManager, this.aboveBottom, this.belowTop);
             height = y.getValue();
-            if (height <= heightAccessor.getMinBuildHeight()) {
+            if (height <= heightAccessor.getMinY()) {
                 return Optional.empty();
             }
         }
@@ -91,7 +91,7 @@ public class BronzeDungeonStructure extends Structure {
                 if (x != 0 || z != 0) {
                     ChunkPos offset = new ChunkPos(chunkPos.x + x, chunkPos.z + z);
                     y = BronzeDungeonStructure.findStartingHeight(generator, heightAccessor, offset, randomState, templateManager, aboveBottom, belowTop);
-                    if (y > heightAccessor.getMinBuildHeight()) {
+                    if (y > heightAccessor.getMinY()) {
                         height.setValue(y);
                         return offset;
                     }
@@ -124,8 +124,8 @@ public class BronzeDungeonStructure extends Structure {
                 generator.getBaseColumn(maxX, maxZ, heightAccessor, random)
         };
         int roomHeight = checkRoomHeight(templateManager, ResourceLocation.fromNamespaceAndPath(Aether.MODID, "bronze_dungeon/boss_room"));
-        int height = heightAccessor.getMinBuildHeight();
-        int maxHeight = heightAccessor.getMaxBuildHeight() - belowTop;
+        int height = heightAccessor.getMinY();
+        int maxHeight = heightAccessor.getMaxY() - belowTop;
         int thickness = roomHeight + 2;
         int currentThickness = 0;
         for (int y = height + aboveBottom; y <= maxHeight; y++) {

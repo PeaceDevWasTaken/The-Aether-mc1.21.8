@@ -10,7 +10,7 @@ import net.minecraft.core.Position;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -31,10 +31,10 @@ public class HammerOfKingbdogzItem extends SwordItem implements ProjectileItem {
      * @param level  The {@link Level} of the user.
      * @param player The {@link Player} using this item.
      * @param hand   The {@link InteractionHand} in which the item is being used.
-     * @return Success (the item is swung). This is an {@link InteractionResultHolder InteractionResultHolder&lt;ItemStack&gt;}.
+     * @return Success (the item is swung). This is an {@link InteractionResult InteractionResult&lt;ItemStack&gt;}.
      */
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack heldStack = player.getItemInHand(hand);
         if (!level.isClientSide()) {
             if (!player.getAbilities().instabuild) {
@@ -50,7 +50,7 @@ public class HammerOfKingbdogzItem extends SwordItem implements ProjectileItem {
         }
         level.playLocalSound(player.getX(), player.getY(), player.getZ(), AetherSoundEvents.ITEM_HAMMER_OF_KINGBDOGZ_SHOOT.get(), SoundSource.PLAYERS, 1.0F, 1.0F / (player.getRandom().nextFloat() * 0.4F + 0.8F), false);
         player.awardStat(Stats.ITEM_USED.get(this));
-        return InteractionResultHolder.success(heldStack);
+        return InteractionResult.success(heldStack);
     }
 
     @Override

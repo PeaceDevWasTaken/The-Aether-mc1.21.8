@@ -38,7 +38,7 @@ public interface ItemUseConversion<R extends MatchEventRecipe & BlockStateRecipe
                         if (player != null && !player.getAbilities().instabuild) { // Consumes the item being used for conversion if possible.
                             heldItem.shrink(1);
                         }
-                        return InteractionResult.CONSUME;
+                        return InteractionResult.CONSUME.heldItemTransformedTo;
                     } else if (level.isClientSide()) {
                         return InteractionResult.SUCCESS;
                     }

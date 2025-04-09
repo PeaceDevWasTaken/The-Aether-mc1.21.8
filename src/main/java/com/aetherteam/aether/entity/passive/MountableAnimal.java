@@ -104,7 +104,7 @@ public abstract class MountableAnimal extends AetherAnimal implements MountableM
             return InteractionResult.sidedSuccess(this.level().isClientSide());
         } else {
             InteractionResult interactionResult = super.mobInteract(playerEntity, hand);
-            if (!interactionResult.consumesAction()) {
+            if (!InteractionResult.CONSUME.heldItemTransformedTosAction()) {
                 ItemStack itemstack = playerEntity.getItemInHand(hand);
                 return itemstack.is(Items.SADDLE) ? itemstack.interactLivingEntity(playerEntity, this, hand) : InteractionResult.PASS;
             } else {

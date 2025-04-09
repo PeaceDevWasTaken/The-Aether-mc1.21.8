@@ -76,7 +76,7 @@ configurations {
 dependencies {
     implementation "com.aetherteam.nitrogen:nitrogen_internals:${project.nitrogen_version}"
     implementation "com.aetherteam.cumulus:cumulus_menus:${project.cumulus_version}"
-    implementation "io.wispforest:accessories-neoforge:${project.accessories_version}+${project.minecraft_version}"
+    implementation "io.wispforest:accessories-neoforge:${project.accessories_version}+1.21.2"
 
     jarJar("com.aetherteam.nitrogen:nitrogen_internals:${project.nitrogen_version}") {
         version {
@@ -92,27 +92,27 @@ dependencies {
         }
     }
 
-    jarJar("io.wispforest:accessories-neoforge:${project.accessories_version}+${project.minecraft_version}") {
+    jarJar("io.wispforest:accessories-neoforge:${project.accessories_version}+1.21.2") {
         version {
-            strictly "[${project.accessories_version}+${project.minecraft_version},)"
-            prefer "${project.accessories_version}+${project.minecraft_version}"
+            strictly "[${project.accessories_version}+1.21.2,)"
+            prefer "${project.accessories_version}+1.21.2"
         }
     }
 
-    runtimeOnly "io.github.flemmli97:debugutils:1.21-${project.debugutils_version}-neoforge"
-
-    compileOnly "mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}"
-    compileOnly "mezz.jei:jei-${project.minecraft_version}-neoforge:${project.jei_version}"
-
-    compileOnly "curse.maven:jade-324717:${project.jade_version}"
-    compileOnly "curse.maven:lootr-361276:${project.lootr_version}"
+//    runtimeOnly "io.github.flemmli97:debugutils:1.21-${project.debugutils_version}-neoforge" //todo
+//
+//    compileOnly "mezz.jei:jei-${project.minecraft_version}-common-api:${project.jei_version}"
+//    compileOnly "mezz.jei:jei-${project.minecraft_version}-neoforge:${project.jei_version}"
+//
+//    compileOnly "curse.maven:jade-324717:${project.jade_version}"
+//    compileOnly "curse.maven:lootr-361276:${project.lootr_version}"
 
 //    implementation fileTree(dir: 'libs', include: '*.jar')
 
-    compileOnly "me.shedaniel:RoughlyEnoughItems-neoforge:${project.rei_version}"
-    compileOnly "me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}"
-    compileOnly "dev.architectury:architectury-neoforge:${architectury_version}"
-
+//    compileOnly "me.shedaniel:RoughlyEnoughItems-neoforge:${project.rei_version}"
+//    compileOnly "me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}"
+//    compileOnly "dev.architectury:architectury-neoforge:${architectury_version}"
+//
     implementation("org.sinytra.forgified-fabric-api:fabric-api-base:0.4.42+d1308dedd1"){ exclude group: "fabric-api" }
 }
 

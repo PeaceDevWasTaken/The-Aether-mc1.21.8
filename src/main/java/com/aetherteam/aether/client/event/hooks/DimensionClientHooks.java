@@ -80,7 +80,7 @@ public class DimensionClientHooks {
         if (camera.getEntity().level() instanceof ClientLevel clientLevel) {
             if (clientLevel.effects() instanceof AetherSkyRenderEffects) {
                 ClientLevel.ClientLevelData worldInfo = clientLevel.getLevelData();
-                double d0 = (camera.getPosition().y() - (double) clientLevel.getMinBuildHeight()) * worldInfo.getClearColorScale();
+                double d0 = (camera.getPosition().y() - (double) clientLevel.getMinY()) * worldInfo.getClearColorScale();
                 FogType fluidState = camera.getFluidInCamera();
                 if (d0 < 1.0 && fluidState != FogType.LAVA) {
                     if (d0 < 0.0) {

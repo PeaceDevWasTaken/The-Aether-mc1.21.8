@@ -137,7 +137,7 @@ public abstract class AbstractValkyrie extends Monster implements NotGrounded {
         double z = target.getZ() + targetVec.y * 3;
         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos(x, y, z);
         int i = 0;
-        while (mutableBlockPos.getY() > this.level().getMinBuildHeight() && !this.level().getBlockState(mutableBlockPos).blocksMotion() && i <= 4) {
+        while (mutableBlockPos.getY() > this.level().getMinY() && !this.level().getBlockState(mutableBlockPos).blocksMotion() && i <= 4) {
             mutableBlockPos.move(Direction.DOWN);
             i++;
         }

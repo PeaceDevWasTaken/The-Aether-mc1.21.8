@@ -65,22 +65,22 @@ public class Aerwhale extends FlyingMob {
     }
 
     /**
-     * Aerwhales can spawn if {@link Mob#checkMobSpawnRules(EntityType, LevelAccessor, MobSpawnType, BlockPos, RandomSource)} is true, if they aren't spawning in fluid,
+     * Aerwhales can spawn if {@link Mob#checkMobSpawnRules(EntityType, LevelAccessor, EntitySpawnReason, BlockPos, RandomSource)} is true, if they aren't spawning in fluid,
      * if they are spawning at a light level above 8, if they are spawning in view of the sky, and they spawn with a random chance of 1/40.
      *
      * @param aerwhale The {@link Aerwhale} {@link EntityType}.
      * @param level    The {@link LevelAccessor}.
-     * @param reason   The {@link MobSpawnType} reason.
+     * @param reason   The {@link EntitySpawnReason} reason.
      * @param pos      The spawn {@link BlockPos}.
      * @param random   The {@link RandomSource}.
      * @return Whether this entity can spawn, as a {@link Boolean}.
      */
-    public static boolean checkAerwhaleSpawnRules(EntityType<? extends Aerwhale> aerwhale, LevelAccessor level, MobSpawnType reason, BlockPos pos, RandomSource random) {
+    public static boolean checkAerwhaleSpawnRules(EntityType<? extends Aerwhale> aerwhale, LevelAccessor level, EntitySpawnReason reason, BlockPos pos, RandomSource random) {
         return Mob.checkMobSpawnRules(aerwhale, level, reason, pos, random)
                 && level.getFluidState(pos).is(Fluids.EMPTY)
                 && level.getRawBrightness(pos, 0) > 8
                 && EntityUtil.wholeHitboxCanSeeSky(level, pos, 1)
-                && (reason != MobSpawnType.NATURAL || random.nextInt(40) == 0);
+                && (reason != EntitySpawnReason.NATURAL || random.nextInt(40) == 0);
     }
 
     /**
@@ -329,7 +329,7 @@ public class Aerwhale extends FlyingMob {
             z += this.mob.getZ();
 
             // Make sure the mob doesn't fly out of the world.
-            y = Mth.clamp(y, this.mob.level().getMinBuildHeight(), this.mob.level().getMaxBuildHeight());
+            y = Mth.clamp(y, this.mob.level().getMinY(), this.mob.level().getMaxY());
 
             this.mob.getMoveControl().setWantedPosition(x, y, z, 1.0);
         }

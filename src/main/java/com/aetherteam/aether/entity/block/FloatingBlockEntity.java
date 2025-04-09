@@ -131,7 +131,7 @@ public class FloatingBlockEntity extends Entity {
                 }
 
                 if ((!this.verticalCollision || this.onGround()) && !canConvert) {
-                    if (!this.level().isClientSide() && (this.time > 100 && (blockPos1.getY() <= this.level().getMinBuildHeight() || blockPos1.getY() > this.level().getMaxBuildHeight()) || this.time > 600)) { // Checks max y-level.
+                    if (!this.level().isClientSide() && (this.time > 100 && (blockPos1.getY() <= this.level().getMinY() || blockPos1.getY() > this.level().getMaxY()) || this.time > 600)) { // Checks max y-level.
                         if ((!this.natural || !this.getBlockState().requiresCorrectToolForDrops()) && this.dropItem && this.level().getGameRules().getBoolean(GameRules.RULE_DOENTITYDROPS)) {
                             this.dropBlock(this.getBlockState());
                         }

@@ -17,7 +17,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
@@ -76,17 +76,17 @@ public abstract class AbstractWhirlwind extends Mob {
     }
 
     /**
-     * Whirlwinds can spawn if {@link Mob#checkMobSpawnRules(EntityType, LevelAccessor, MobSpawnType, BlockPos, RandomSource)} is true,
+     * Whirlwinds can spawn if {@link Mob#checkMobSpawnRules(EntityType, LevelAccessor, EntitySpawnReason, BlockPos, RandomSource)} is true,
      * if they are spawning at a light level above 12, and if the difficulty isn't peaceful.
      *
      * @param whirlwind The {@link AbstractWhirlwind} {@link EntityType}.
      * @param level     The {@link LevelAccessor}.
-     * @param reason    The {@link MobSpawnType} reason.
+     * @param reason    The {@link EntitySpawnReason} reason.
      * @param pos       The spawn {@link BlockPos}.
      * @param random    The {@link RandomSource}.
      * @return Whether this entity can spawn, as a {@link Boolean}.
      */
-    public static boolean checkWhirlwindSpawnRules(EntityType<? extends AbstractWhirlwind> whirlwind, LevelAccessor level, MobSpawnType reason, BlockPos pos, RandomSource random) {
+    public static boolean checkWhirlwindSpawnRules(EntityType<? extends AbstractWhirlwind> whirlwind, LevelAccessor level, EntitySpawnReason reason, BlockPos pos, RandomSource random) {
         return Mob.checkMobSpawnRules(whirlwind, level, reason, pos, random)
                 && level.getRawBrightness(pos, 0) > 12
                 && level.getDifficulty() != Difficulty.PEACEFUL;

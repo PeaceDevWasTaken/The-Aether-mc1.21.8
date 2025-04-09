@@ -5,7 +5,7 @@ import com.aetherteam.nitrogen.attachment.INBTSynchable;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -25,7 +25,7 @@ public class LifeShardItem extends Item implements ConsumableItem {
      * @return A success on client and consume on server (based on {@link InteractionResult#sidedSuccess(boolean)}) if the Life Shard can be consumed, otherwise pass is returned.
      */
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack heldStack = player.getItemInHand(hand);
         if (!player.isCreative()) {
             var aetherPlayer = player.getData(AetherDataAttachments.AETHER_PLAYER);
@@ -34,15 +34,15 @@ public class LifeShardItem extends Item implements ConsumableItem {
                 if (!level.isClientSide()) {
                     this.consume(this, heldStack, player);
                     aetherPlayer.setSynched(player.getId(), INBTSynchable.Direction.CLIENT, "setLifeShardCount", aetherPlayer.getLifeShardCount() + 1);
-                    return InteractionResultHolder.consume(heldStack);
+                    return InteractionResult.CONSUME.heldItemTransformedTo(heldStack);
                 } else {
-                    return InteractionResultHolder.success(heldStack);
+                    return InteractionResult.success(heldStack);
                 }
             } else if (aetherPlayer.getLifeShardCount() >= aetherPlayer.getLifeShardLimit()) {
                 player.displayClientMessage(Component.translatable("aether.life_shard_limit", aetherPlayer.getLifeShardLimit()), true);
             }
         }
 
-        return InteractionResultHolder.pass(heldStack);
+        return InteractionResult.PASS;
     }
 }

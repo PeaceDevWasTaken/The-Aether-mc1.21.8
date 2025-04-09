@@ -8,7 +8,7 @@ import com.aetherteam.aether.entity.miscellaneous.CloudMinion;
 import com.aetherteam.aether.item.AetherItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
@@ -31,10 +31,10 @@ public class CloudStaffItem extends Item {
      * @param level  The {@link Level} of the user.
      * @param player The {@link Player} using this item.
      * @param hand   The {@link InteractionHand} in which the item is being used.
-     * @return Pass (do nothing) (we handle swing behavior manually in the lambda earlier on). This is an {@link InteractionResultHolder InteractionResultHolder&lt;ItemStack&gt;}.
+     * @return Pass (do nothing) (we handle swing behavior manually in the lambda earlier on). This is an {@link InteractionResult InteractionResult&lt;ItemStack&gt;}.
      */
     @Override
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
         ItemStack heldItem = player.getItemInHand(hand);
         var data = player.getData(AetherDataAttachments.AETHER_PLAYER);
         if (data.getCloudMinions().isEmpty()) {
@@ -56,7 +56,7 @@ public class CloudStaffItem extends Item {
                 cloudMinion.setLifeSpan(0);
             }
         }
-        return InteractionResultHolder.pass(heldItem);
+        return InteractionResult.PASS;
     }
 
     /**

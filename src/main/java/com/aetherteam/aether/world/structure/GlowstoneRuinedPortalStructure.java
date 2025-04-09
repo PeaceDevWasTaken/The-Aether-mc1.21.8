@@ -131,7 +131,7 @@ public class GlowstoneRuinedPortalStructure extends Structure {
      * [CODE COPY] - {@link net.minecraft.world.level.levelgen.structure.structures.RuinedPortalStructure#findSuitableY(RandomSource, ChunkGenerator, RuinedPortalPiece.VerticalPlacement, boolean, int, int, BoundingBox, LevelHeightAccessor, RandomState)}.
      */
     private static int findSuitableY(RandomSource random, ChunkGenerator chunkGenerator, GlowstoneRuinedPortalPiece.VerticalPlacement verticalPlacement, int height, int blockCountY, BoundingBox box, LevelHeightAccessor heightAccessor, RandomState randomState) {
-        int j = heightAccessor.getMinBuildHeight() + 15;
+        int j = heightAccessor.getMinY() + 15;
         int i;
         if (verticalPlacement == GlowstoneRuinedPortalPiece.VerticalPlacement.PARTLY_BURIED) {
             i = height - blockCountY + Mth.randomBetweenInclusive(random, 2, 8);

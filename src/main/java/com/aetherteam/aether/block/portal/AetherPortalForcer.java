@@ -61,7 +61,7 @@ public class AetherPortalForcer {
         double d1 = -1.0;
         BlockPos blockPos1 = null;
         WorldBorder worldBorder = this.level.getWorldBorder();
-        int i = Math.min(this.level.getMaxBuildHeight(), this.level.getMinBuildHeight() + this.level.getLogicalHeight()) - 1;
+        int i = Math.min(this.level.getMaxY(), this.level.getMinY() + this.level.getLogicalHeight()) - 1;
         BlockPos.MutableBlockPos mutablePos = pos.mutable();
 
         for (BlockPos.MutableBlockPos mutablePos1 : BlockPos.spiralAround(pos, 64, Direction.EAST, Direction.SOUTH)) {
@@ -69,11 +69,11 @@ public class AetherPortalForcer {
             if (worldBorder.isWithinBounds(mutablePos1) && worldBorder.isWithinBounds(mutablePos1.move(direction, 1))) {
                 mutablePos1.move(direction.getOpposite(), 1);
 
-                for (int l = j; l >= this.level.getMinBuildHeight(); --l) {
+                for (int l = j; l >= this.level.getMinY(); --l) {
                     mutablePos1.setY(l);
                     if (this.level.isEmptyBlock(mutablePos1)) {
                         int i1;
-                        for (i1 = l; l > this.level.getMinBuildHeight() && this.level.isEmptyBlock(mutablePos1.move(Direction.DOWN)); --l) {
+                        for (i1 = l; l > this.level.getMinY() && this.level.isEmptyBlock(mutablePos1.move(Direction.DOWN)); --l) {
                         }
 
                         if (l + 4 <= i) {
@@ -104,7 +104,7 @@ public class AetherPortalForcer {
         }
 
         if (d0 == -1.0) {
-            int k1 = Math.max(this.level.getMinBuildHeight() + 1, 70);
+            int k1 = Math.max(this.level.getMinY() + 1, 70);
             int i2 = i - 9;
             if (i2 < k1) {
                 return Optional.empty();

@@ -109,16 +109,16 @@ public class Swet extends Slime implements MountableMob {
      *
      * @param swet   The {@link Swet} {@link EntityType}.
      * @param level  The {@link LevelAccessor}.
-     * @param reason The {@link MobSpawnType} reason.
+     * @param reason The {@link EntitySpawnReason} reason.
      * @param pos    The spawn {@link BlockPos}.
      * @param random The {@link RandomSource}.
      * @return Whether this entity can spawn, as a {@link Boolean}.
      */
-    public static boolean checkSwetSpawnRules(EntityType<? extends Swet> swet, LevelAccessor level, MobSpawnType reason, BlockPos pos, RandomSource random) {
+    public static boolean checkSwetSpawnRules(EntityType<? extends Swet> swet, LevelAccessor level, EntitySpawnReason reason, BlockPos pos, RandomSource random) {
         return level.getBlockState(pos.below()).is(AetherTags.Blocks.SWET_SPAWNABLE_ON)
                 && level.getRawBrightness(pos, 0) > 8
                 && level.getDifficulty() != Difficulty.PEACEFUL
-                && (reason != MobSpawnType.NATURAL || (!inRadiusOfBanner(level, pos, 40) && !inRadiusOfSwetCape(level, pos, 40)));
+                && (reason != EntitySpawnReason.NATURAL || (!inRadiusOfBanner(level, pos, 40) && !inRadiusOfSwetCape(level, pos, 40)));
     }
 
     /**

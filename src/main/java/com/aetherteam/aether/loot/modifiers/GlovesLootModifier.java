@@ -58,8 +58,8 @@ public class GlovesLootModifier extends LootModifier {
     protected ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> lootStacks, LootContext context) {
         Level level = context.getLevel();
         RandomSource randomSource = context.getRandom();
-        Vec3 vec3 = context.getParamOrNull(LootContextParams.ORIGIN);
-        Entity entity = context.getParamOrNull(LootContextParams.THIS_ENTITY);
+        Vec3 vec3 = context.getOptionalParameter(LootContextParams.ORIGIN);
+        Entity entity = context.getOptionalParameter(LootContextParams.THIS_ENTITY);
         if (vec3 != null && entity != null) {
             BlockPos pos = BlockPos.containing(vec3);
             BlockEntity blockEntity = context.getLevel().getBlockEntity(pos);

@@ -147,12 +147,12 @@ public class Moa extends MountableAnimal implements WingedBird {
      *
      * @param level      The {@link ServerLevelAccessor} where the entity is spawned.
      * @param difficulty The {@link DifficultyInstance} of the game.
-     * @param reason     The {@link MobSpawnType} reason.
+     * @param reason     The {@link EntitySpawnReason} reason.
      * @param spawnData  The {@link SpawnGroupData}.
      * @return The {@link SpawnGroupData} to return.
      */
     @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason reason, @Nullable SpawnGroupData spawnData) {
         this.generateMoaUUID();
         if (spawnData == null) { // Disallow baby Moas from spawning in spawn groups.
             spawnData = new AgeableMob.AgeableMobGroupData(false);
@@ -388,7 +388,7 @@ public class Moa extends MountableAnimal implements WingedBird {
             }
             this.setHungry(false);
             PacketDistributor.sendToAllPlayers(new MoaInteractPacket(player.getId(), hand == InteractionHand.MAIN_HAND)); // Packet necessary to play animation because this code segment is server-side only, so no animations.
-            return InteractionResult.CONSUME;
+            return InteractionResult.CONSUME.heldItemTransformedTo;
         } else if (this.isPlayerGrown() && !this.isBaby() && this.getHealth() < this.getMaxHealth() && itemStack.is(AetherTags.Items.MOA_FOOD_ITEMS)) { // Heals a tamed Moa.
             if (!player.getAbilities().instabuild) {
                 itemStack.shrink(1);

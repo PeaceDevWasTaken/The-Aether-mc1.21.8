@@ -93,14 +93,14 @@ public class AechorPlant extends PathfinderMob implements RangedAttackMob {
      *
      * @param level      The {@link ServerLevelAccessor} where the entity is spawned.
      * @param difficulty The {@link DifficultyInstance} of the game.
-     * @param reason     The {@link MobSpawnType} reason.
+     * @param reason     The {@link EntitySpawnReason} reason.
      * @param spawnData  The {@link SpawnGroupData}.
      * @return The {@link SpawnGroupData} to return.
      */
     @Nullable
     @Override
     @SuppressWarnings("deprecation")
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, MobSpawnType reason, @Nullable SpawnGroupData spawnData) {
+    public SpawnGroupData finalizeSpawn(ServerLevelAccessor level, DifficultyInstance difficulty, EntitySpawnReason reason, @Nullable SpawnGroupData spawnData) {
         this.setSize(this.getRandom().nextInt(4) + 1);
         this.setPos(Vec3.atBottomCenterOf(this.blockPosition()));
         return spawnData;
@@ -112,16 +112,16 @@ public class AechorPlant extends PathfinderMob implements RangedAttackMob {
      *
      * @param aechorPlant The {@link AechorPlant} {@link EntityType}.
      * @param level       The {@link LevelAccessor}.
-     * @param reason      The {@link MobSpawnType} reason.
+     * @param reason      The {@link EntitySpawnReason} reason.
      * @param pos         The spawn {@link BlockPos}.
      * @param random      The {@link RandomSource}.
      * @return Whether this entity can spawn, as a {@link Boolean}.
      */
-    public static boolean checkAechorPlantSpawnRules(EntityType<? extends AechorPlant> aechorPlant, LevelAccessor level, MobSpawnType reason, BlockPos pos, RandomSource random) {
+    public static boolean checkAechorPlantSpawnRules(EntityType<? extends AechorPlant> aechorPlant, LevelAccessor level, EntitySpawnReason reason, BlockPos pos, RandomSource random) {
         return level.getBlockState(pos.below()).is(AetherTags.Blocks.AECHOR_PLANT_SPAWNABLE_ON)
             && level.getRawBrightness(pos, 0) > 8
             && level.getDifficulty() != Difficulty.PEACEFUL
-            && (reason != MobSpawnType.NATURAL || (random.nextInt(10) == 0 && !inRadiusOfFlowers(level, pos, 10) && !inRadiusOfEnchantedFlowers(level, pos, 40)));
+            && (reason != EntitySpawnReason.NATURAL || (random.nextInt(10) == 0 && !inRadiusOfFlowers(level, pos, 10) && !inRadiusOfEnchantedFlowers(level, pos, 40)));
     }
 
     /**

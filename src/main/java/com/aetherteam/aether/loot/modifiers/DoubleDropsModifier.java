@@ -31,8 +31,8 @@ public class DoubleDropsModifier extends LootModifier {
      */
     @Override
     public ObjectArrayList<ItemStack> doApply(ObjectArrayList<ItemStack> lootStacks, LootContext context) {
-        Entity entity = context.getParamOrNull(LootContextParams.DIRECT_ATTACKING_ENTITY);
-        Entity target = context.getParamOrNull(LootContextParams.THIS_ENTITY);
+        Entity entity = context.getOptionalParameter(LootContextParams.DIRECT_ATTACKING_ENTITY);
+        Entity target = context.getOptionalParameter(LootContextParams.THIS_ENTITY);
         ObjectArrayList<ItemStack> newStacks = new ObjectArrayList<>(lootStacks);
         if (entity instanceof LivingEntity livingEntity && target != null) {
             if (EquipmentUtil.isFullStrength(livingEntity) && livingEntity.getMainHandItem().getItem() instanceof SkyrootWeapon && !target.getType().is(AetherTags.Entities.NO_SKYROOT_DOUBLE_DROPS)) {

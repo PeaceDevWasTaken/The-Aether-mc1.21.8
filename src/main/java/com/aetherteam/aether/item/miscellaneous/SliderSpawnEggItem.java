@@ -6,7 +6,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
 import net.minecraft.world.level.Level;
@@ -52,7 +52,7 @@ public class SliderSpawnEggItem extends DeferredSpawnEggItem {
                     level.sendBlockUpdated(blockPos, blockState, blockState, 3);
                     level.gameEvent(context.getPlayer(), GameEvent.BLOCK_CHANGE, blockPos);
                     itemStack.shrink(1);
-                    return InteractionResult.CONSUME;
+                    return InteractionResult.CONSUME.heldItemTransformedTo;
                 }
             }
 
@@ -66,12 +66,12 @@ public class SliderSpawnEggItem extends DeferredSpawnEggItem {
             BlockPos roundedPos = new BlockPos((int) Math.round(clickLoc.x()), relativePos.getY(), (int) Math.round(clickLoc.z()));
 
             EntityType<?> entityType = this.getType(itemStack);
-            if (entityType.spawn((ServerLevel) level, itemStack, context.getPlayer(), roundedPos, MobSpawnType.SPAWN_EGG, false, !Objects.equals(blockPos, relativePos) && direction == Direction.UP) != null) {
+            if (entityType.spawn((ServerLevel) level, itemStack, context.getPlayer(), roundedPos, EntitySpawnReason.SPAWN_EGG, false, !Objects.equals(blockPos, relativePos) && direction == Direction.UP) != null) {
                 itemStack.shrink(1);
                 level.gameEvent(context.getPlayer(), GameEvent.ENTITY_PLACE, blockPos);
             }
 
-            return InteractionResult.CONSUME;
+            return InteractionResult.CONSUME.heldItemTransformedTo;
         }
     }
 }
