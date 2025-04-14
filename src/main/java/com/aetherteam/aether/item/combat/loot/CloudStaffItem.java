@@ -71,7 +71,7 @@ public class CloudStaffItem extends Item {
     public boolean onEntitySwing(ItemStack stack, LivingEntity entity, InteractionHand hand) {
         if (entity instanceof Player player) {
             var data = player.getData(AetherDataAttachments.AETHER_PLAYER);
-            if (!player.getCooldowns().isOnCooldown(this) && data.isHitting()) {
+            if (!player.getCooldowns().isOnCooldown(stack) && data.isHitting()) {
                 boolean hasMinions = false;
                 for (int i = 0; i < data.getCloudMinions().size(); i++) {
                     CloudMinion cloudMinion = data.getCloudMinions().get(i);
@@ -81,7 +81,7 @@ public class CloudStaffItem extends Item {
                     }
                 }
                 if (hasMinions && !player.getAbilities().instabuild) {
-                    player.getCooldowns().addCooldown(this, AetherConfig.SERVER.cloud_staff_cooldown.get());
+                    player.getCooldowns().addCooldown(stack, AetherConfig.SERVER.cloud_staff_cooldown.get());
                 }
             }
         }

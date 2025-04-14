@@ -23,7 +23,7 @@ public interface BiomeTooltip {
                 tooltip.add(Component.literal("#" + biomeTag.get().location()).withStyle(ChatFormatting.DARK_GRAY));
 
                 tooltip.add(Component.translatable("gui.aether.jei.biome.tooltip.biomes").withStyle(ChatFormatting.DARK_GRAY));
-                Minecraft.getInstance().level.registryAccess().registryOrThrow(Registries.BIOME).getTagOrEmpty(biomeTag.get()).forEach((biomeHolder) -> biomeHolder.unwrapKey().ifPresent((key) -> tooltip.add(Component.literal(key.location().toString()).withStyle(ChatFormatting.DARK_GRAY))));
+                Minecraft.getInstance().level.registryAccess().lookupOrThrow(Registries.BIOME).getTagOrEmpty(biomeTag.get()).forEach((biomeHolder) -> biomeHolder.unwrapKey().ifPresent((key) -> tooltip.add(Component.literal(key.location().toString()).withStyle(ChatFormatting.DARK_GRAY))));
             }
         }
     }

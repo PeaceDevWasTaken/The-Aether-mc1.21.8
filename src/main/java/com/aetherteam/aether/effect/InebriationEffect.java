@@ -20,11 +20,12 @@ public class InebriationEffect extends MobEffect {
     /**
      * Damages the affected entity with Inebriation damage every 50 ticks, and performs distraction behavior in {@link InebriationEffect#distractEntity(LivingEntity)} every tick.
      *
+     * @param serverLevel The entity's {@link ServerLevel}.
      * @param livingEntity The affected {@link LivingEntity}.
      * @param amplifier    The {@link Integer} amplifier for the effect.
      */
     @Override
-    public boolean applyEffectTick(LivingEntity livingEntity, int amplifier) {
+    public boolean applyEffectTick(ServerLevel serverLevel, LivingEntity livingEntity, int amplifier) {
         if (this.effectDuration % 50 == 0) {
             livingEntity.hurt(AetherDamageTypes.damageSource(livingEntity.level(), AetherDamageTypes.INEBRIATION), 1.0F);
         }

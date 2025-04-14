@@ -40,7 +40,7 @@ public class MoaSkins {
         }
         if (level != null) {
             RegistryAccess registryAccess = level.registryAccess();
-            Registry<MoaType> registry = registryAccess.registryOrThrow(AetherMoaTypes.MOA_TYPE_REGISTRY_KEY);
+            Registry<MoaType> registry = registryAccess.lookupOrThrow(AetherMoaTypes.MOA_TYPE_REGISTRY_KEY);
             List<ResourceKey<MoaType>> moaTypes = registry.registryKeySet().stream().sorted((current, next) -> {
                 MoaType currentType = AetherMoaTypes.getMoaType(registryAccess, current.location());
                 MoaType nextType = AetherMoaTypes.getMoaType(registryAccess, next.location());

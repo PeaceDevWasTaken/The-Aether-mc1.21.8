@@ -90,7 +90,7 @@ public class MoaEggItem extends Item {
                     relativePos = blockPos.relative(direction);
                 }
 
-                if (AetherEntityTypes.MOA.get().spawn(serverLevel, this.getStackWithTags(serverLevel, itemStack, player, false, this.getMoaType(), false, true), relativePos, EntitySpawnReason.SPAWN_EGG, true, !Objects.equals(blockPos, relativePos) && direction == Direction.UP) != null) {
+                if (AetherEntityTypes.MOA.get().spawn(serverLevel, this.getStackWithTags(serverLevel, itemStack, player, false, this.getMoaType(), false, true), relativePos, EntitySpawnReason.SPAWN_ITEM_USE, true, !Objects.equals(blockPos, relativePos) && direction == Direction.UP) != null) {
                     level.gameEvent(player, GameEvent.ENTITY_PLACE, blockPos);
                 }
                 return InteractionResult.CONSUME;
@@ -122,7 +122,7 @@ public class MoaEggItem extends Item {
                 if (!(level.getBlockState(blockpos).getBlock() instanceof LiquidBlock)) {
                     return InteractionResult.PASS;
                 } else if (level.mayInteract(player, blockpos) && player.mayUseItemAt(blockpos, hitResult.getDirection(), heldStack)) {
-                    if (AetherEntityTypes.MOA.get().spawn(serverLevel, this.getStackWithTags(serverLevel, heldStack, player, false, this.getMoaType(), false, true), blockpos, EntitySpawnReason.SPAWN_EGG, false, false) == null) {
+                    if (AetherEntityTypes.MOA.get().spawn(serverLevel, this.getStackWithTags(serverLevel, heldStack, player, false, this.getMoaType(), false, true), blockpos, EntitySpawnReason.SPAWN_ITEM_USE, false, false) == null) {
                         return InteractionResult.PASS;
                     } else {
                         player.awardStat(Stats.ITEM_USED.get(this));

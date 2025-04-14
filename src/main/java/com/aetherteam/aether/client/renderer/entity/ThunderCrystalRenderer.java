@@ -5,6 +5,7 @@ import com.aetherteam.aether.client.renderer.AetherModelLayers;
 import com.aetherteam.aether.client.renderer.entity.model.CrystalModel;
 import com.aetherteam.aether.entity.projectile.crystal.ThunderCrystal;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.resources.ResourceLocation;
 
 public class ThunderCrystalRenderer extends AbstractCrystalRenderer<ThunderCrystal> {
@@ -15,7 +16,12 @@ public class ThunderCrystalRenderer extends AbstractCrystalRenderer<ThunderCryst
     }
 
     @Override
-    public ResourceLocation getTextureLocation(ThunderCrystal crystal) {
+    public EntityRenderState createRenderState() {
+        return new EntityRenderState();
+    }
+
+    @Override
+    public ResourceLocation getTextureLocation(EntityRenderState crystal) {
         return THUNDER_CRYSTAL_TEXTURE;
     }
 }

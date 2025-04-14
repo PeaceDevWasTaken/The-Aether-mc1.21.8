@@ -5,6 +5,7 @@ import com.aetherteam.aether.client.renderer.AetherModelLayers;
 import com.aetherteam.aether.client.renderer.entity.model.CrystalModel;
 import com.aetherteam.aether.entity.projectile.crystal.FireCrystal;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
 import net.minecraft.resources.ResourceLocation;
 
 public class FireCrystalRenderer extends AbstractCrystalRenderer<FireCrystal> {
@@ -15,7 +16,12 @@ public class FireCrystalRenderer extends AbstractCrystalRenderer<FireCrystal> {
     }
 
     @Override
-    public ResourceLocation getTextureLocation(FireCrystal crystal) {
+    public EntityRenderState createRenderState() {
+        return new EntityRenderState();
+    }
+
+    @Override
+    public ResourceLocation getTextureLocation(EntityRenderState crystal) {
         return FIRE_CRYSTAL_TEXTURE;
     }
 }

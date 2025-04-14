@@ -38,7 +38,7 @@ public class HammerOfKingbdogzItem extends SwordItem implements ProjectileItem {
         ItemStack heldStack = player.getItemInHand(hand);
         if (!level.isClientSide()) {
             if (!player.getAbilities().instabuild) {
-                player.getCooldowns().addCooldown(this, AetherConfig.SERVER.hammer_of_kingbdogz_cooldown.get());
+                player.getCooldowns().addCooldown(heldStack, AetherConfig.SERVER.hammer_of_kingbdogz_cooldown.get());
                 heldStack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
             }
             HammerProjectile hammerProjectile = new HammerProjectile(player, level);

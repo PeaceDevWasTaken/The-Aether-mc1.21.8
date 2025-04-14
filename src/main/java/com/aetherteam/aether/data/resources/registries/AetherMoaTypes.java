@@ -41,7 +41,7 @@ public class AetherMoaTypes {
     public static ResourceKey<MoaType> getResourceKey(RegistryAccess registryAccess, ResourceLocation location) {
         MoaType moaType = getMoaType(registryAccess, location);
         if (moaType != null) {
-            return registryAccess.registryOrThrow(AetherMoaTypes.MOA_TYPE_REGISTRY_KEY).getResourceKey(moaType).orElse(null);
+            return registryAccess.lookupOrThrow(AetherMoaTypes.MOA_TYPE_REGISTRY_KEY).getResourceKey(moaType).orElse(null);
         } else {
             return null;
         }
@@ -49,7 +49,7 @@ public class AetherMoaTypes {
 
     @Nullable
     public static ResourceKey<MoaType> getResourceKey(RegistryAccess registryAccess, MoaType moaType) {
-        return registryAccess.registryOrThrow(AetherMoaTypes.MOA_TYPE_REGISTRY_KEY).getResourceKey(moaType).orElse(null);
+        return registryAccess.lookupOrThrow(AetherMoaTypes.MOA_TYPE_REGISTRY_KEY).getResourceKey(moaType).orElse(null);
     }
 
     @Nullable
@@ -59,7 +59,7 @@ public class AetherMoaTypes {
 
     @Nullable
     public static MoaType getMoaType(RegistryAccess registryAccess, ResourceLocation location) {
-        return registryAccess.registryOrThrow(AetherMoaTypes.MOA_TYPE_REGISTRY_KEY).get(location);
+        return registryAccess.lookupOrThrow(AetherMoaTypes.MOA_TYPE_REGISTRY_KEY).get(location);
     }
 
     /**
@@ -71,7 +71,7 @@ public class AetherMoaTypes {
      * @return The {@link MoaType}.
      */
     public static MoaType getWeightedChance(RegistryAccess registryAccess, RandomSource random) {
-        Registry<MoaType> moaTypeRegistry = registryAccess.registryOrThrow(AetherMoaTypes.MOA_TYPE_REGISTRY_KEY);
+        Registry<MoaType> moaTypeRegistry = registryAccess.lookupOrThrow(AetherMoaTypes.MOA_TYPE_REGISTRY_KEY);
         SimpleWeightedRandomList.Builder<MoaType> weightedListBuilder = SimpleWeightedRandomList.builder();
         moaTypeRegistry.holders().forEach((moaType) -> weightedListBuilder.add(moaType.value(), moaType.value().spawnChance()));
         SimpleWeightedRandomList<MoaType> weightedList = weightedListBuilder.build();
