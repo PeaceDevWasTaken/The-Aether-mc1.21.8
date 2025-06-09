@@ -2,7 +2,7 @@ package com.aetherteam.aether.client.event.listeners.capability;
 
 import com.aetherteam.aether.client.AetherClient;
 import com.aetherteam.aether.client.event.hooks.CapabilityClientHooks;
-import net.minecraft.client.player.Input;
+import net.minecraft.client.player.ClientInput;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.client.event.InputEvent;
@@ -19,11 +19,11 @@ public class AetherPlayerClientListener {
     }
 
     /**
-     * @see CapabilityClientHooks.AetherPlayerHooks#movementInput(Player, Input)
+     * @see CapabilityClientHooks.AetherPlayerHooks#movementInput(Player, ClientInput)
      */
     public static void onMove(MovementInputUpdateEvent event) {
         Player player = event.getEntity();
-        Input input = event.getInput();
+        ClientInput input = event.getInput();
         CapabilityClientHooks.AetherPlayerHooks.movementInput(player, input);
     }
 

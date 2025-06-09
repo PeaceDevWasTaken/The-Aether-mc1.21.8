@@ -19,14 +19,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.level.levelgen.Heightmap;
-import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.level.portal.TeleportTransition;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.Comparator;
 import java.util.Optional;
 
 public class AetherPortalForcer {
-    public static final DimensionTransition.PostDimensionTransition PLAY_PORTAL_SOUND = AetherPortalForcer::playPortalSound;
+    public static final TeleportTransition.PostTeleportTransition PLAY_PORTAL_SOUND = AetherPortalForcer::playPortalSound;
 
     private final ServerLevel level;
 

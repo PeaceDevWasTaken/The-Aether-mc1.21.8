@@ -21,7 +21,6 @@ import com.aetherteam.aether.network.packet.clientbound.ToolDebuffPacket;
 import com.aetherteam.nitrogen.attachment.INBTSynchable;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.AtomicDouble;
-import io.wispforest.accessories.api.AccessoriesAPI;
 import io.wispforest.accessories.api.slot.SlotEntryReference;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
@@ -74,7 +73,7 @@ public class AbilityHooks {
             SlotEntryReference slotResult = EquipmentUtil.getGloves(player);
             if (slotResult != null) {
                 if (player.level() instanceof ServerLevel serverLevel) {
-                    slotResult.stack().hurtAndBreak(1, serverLevel, player, (item) -> AccessoriesAPI.breakStack(slotResult.reference()));
+                    slotResult.stack().hurtAndBreak(1, serverLevel, player, (item) -> slotResult.reference().breakStack());
                 }
             }
         }
@@ -90,7 +89,7 @@ public class AbilityHooks {
                 if (slotResult != null) {
                     if (state.getDestroySpeed(level, pos) > 0 && entity.getRandom().nextInt(6) == 0) {
                         if (entity.level() instanceof ServerLevel serverLevel) {
-                            slotResult.stack().hurtAndBreak(1, serverLevel, entity, (item) -> AccessoriesAPI.breakStack(slotResult.reference()));
+                            slotResult.stack().hurtAndBreak(1, serverLevel, entity, (item) -> slotResult.reference().breakStack());
                         }
                     }
                 }
@@ -107,7 +106,7 @@ public class AbilityHooks {
             if (slotResult != null) {
                 if (state.getDestroySpeed(level, pos) > 0 && entity.getRandom().nextInt(6) == 0) {
                     if (entity.level() instanceof ServerLevel serverLevel) {
-                        slotResult.stack().hurtAndBreak(1, serverLevel, entity, (item) -> AccessoriesAPI.breakStack(slotResult.reference()));
+                        slotResult.stack().hurtAndBreak(1, serverLevel, entity, (item) -> slotResult.reference().breakStack());
                     }
                 }
             }
@@ -497,7 +496,7 @@ public class AbilityHooks {
                     for (ItemStack stack : target.getArmorSlots()) {
                         if (stack.getItem() instanceof ArmorItem armorItem && !stack.getItem().getDescriptionId().startsWith("item.aether.") && !stack.is(AetherTags.Items.TREATED_AS_AETHER_ITEM)) { // Checks if the armor is non-Aether.
                             AtomicDouble value = new AtomicDouble();
-                            stack.forEachModifier(armorItem.getEquipmentSlot(), (attribute, modifier) -> { // Checks if the armor has an armor modifier attribute.
+                            stack.forEachModifier(armorItem.getEquipmentSlot(stack), (attribute, modifier) -> { // Checks if the armor has an armor modifier attribute.
                                 if (attribute.is(Attributes.ARMOR)) {
                                     value.set(value.get() + (modifier.amount() / 15));
                                 }

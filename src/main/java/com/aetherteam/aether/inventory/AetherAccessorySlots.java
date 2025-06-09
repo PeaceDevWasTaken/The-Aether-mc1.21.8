@@ -3,8 +3,8 @@ package com.aetherteam.aether.inventory;
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.AetherConfig;
 import com.aetherteam.aether.AetherTags;
-import io.wispforest.accessories.api.AccessoriesAPI;
 import io.wispforest.accessories.api.slot.SlotBasedPredicate;
+import io.wispforest.accessories.api.slot.SlotPredicateRegistry;
 import io.wispforest.accessories.api.slot.SlotTypeReference;
 import io.wispforest.accessories.api.slot.UniqueSlotHandling;
 import net.minecraft.resources.ResourceLocation;
@@ -38,12 +38,12 @@ public class AetherAccessorySlots implements UniqueSlotHandling.RegistrationCall
     private static SlotTypeReference ACCESSORY_SLOT;
 
     private AetherAccessorySlots() {
-        AccessoriesAPI.registerPredicate(GLOVES_PREDICATE, SlotBasedPredicate.ofItem(item -> new ItemStack(item).is(AetherTags.Items.ACCESSORIES_GLOVES)));
-        AccessoriesAPI.registerPredicate(RING_PREDICATE, SlotBasedPredicate.ofItem(item -> new ItemStack(item).is(AetherTags.Items.ACCESSORIES_RINGS)));
-        AccessoriesAPI.registerPredicate(PENDANT_PREDICATE, SlotBasedPredicate.ofItem(item -> new ItemStack(item).is(AetherTags.Items.ACCESSORIES_PENDANTS)));
-        AccessoriesAPI.registerPredicate(CAPE_PREDICATE, SlotBasedPredicate.ofItem(item -> new ItemStack(item).is(AetherTags.Items.ACCESSORIES_CAPES)));
-        AccessoriesAPI.registerPredicate(SHIELD_PREDICATE, SlotBasedPredicate.ofItem(item -> new ItemStack(item).is(AetherTags.Items.ACCESSORIES_SHIELDS)));
-        AccessoriesAPI.registerPredicate(ACCESSORY_PREDICATE, SlotBasedPredicate.ofItem(item -> new ItemStack(item).is(AetherTags.Items.ACCESSORIES_MISCELLANEOUS)));
+        SlotPredicateRegistry.register(GLOVES_PREDICATE, SlotBasedPredicate.ofItem(item -> new ItemStack(item).is(AetherTags.Items.ACCESSORIES_GLOVES)));
+        SlotPredicateRegistry.register(RING_PREDICATE, SlotBasedPredicate.ofItem(item -> new ItemStack(item).is(AetherTags.Items.ACCESSORIES_RINGS)));
+        SlotPredicateRegistry.register(PENDANT_PREDICATE, SlotBasedPredicate.ofItem(item -> new ItemStack(item).is(AetherTags.Items.ACCESSORIES_PENDANTS)));
+        SlotPredicateRegistry.register(CAPE_PREDICATE, SlotBasedPredicate.ofItem(item -> new ItemStack(item).is(AetherTags.Items.ACCESSORIES_CAPES)));
+        SlotPredicateRegistry.register(SHIELD_PREDICATE, SlotBasedPredicate.ofItem(item -> new ItemStack(item).is(AetherTags.Items.ACCESSORIES_SHIELDS)));
+        SlotPredicateRegistry.register(ACCESSORY_PREDICATE, SlotBasedPredicate.ofItem(item -> new ItemStack(item).is(AetherTags.Items.ACCESSORIES_MISCELLANEOUS)));
     }
 
     @Override

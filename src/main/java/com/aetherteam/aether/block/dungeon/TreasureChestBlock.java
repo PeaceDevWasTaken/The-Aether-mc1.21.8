@@ -129,7 +129,7 @@ public class TreasureChestBlock extends AbstractChestBlock<TreasureChestBlockEnt
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
+    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof TreasureChestBlockEntity treasureChestBlockEntity) {
             ResourceLocation kind = treasureChestBlockEntity.getKind();
@@ -143,13 +143,13 @@ public class TreasureChestBlock extends AbstractChestBlock<TreasureChestBlockEnt
                         if (!player.getAbilities().instabuild) {
                             stack.shrink(1);
                         }
-                        return ItemInteractionResult.sidedSuccess(level.isClientSide());
+                        return InteractionResult.sidedSuccess(level.isClientSide());
                     }
                 }
                 player.displayClientMessage(Component.translatable(kind.getNamespace() + "." + kind.getPath() + "_treasure_chest_locked"), true);
             }
         }
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
     }
 
     @Override

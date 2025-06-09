@@ -45,7 +45,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
@@ -334,7 +334,7 @@ public class FloatingBlockEntity extends Entity {
 
     @Nullable
     @Override
-    public Entity changeDimension(DimensionTransition transition) {
+    public Entity changeDimension(TeleportTransition transition) {
         ResourceKey<Level> newDimension = transition.newLevel().dimension();
         ResourceKey<Level> currentDimension = this.level().dimension();
         boolean flag = (currentDimension == Level.END || newDimension == Level.END) && currentDimension != newDimension;

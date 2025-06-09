@@ -7,6 +7,7 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.valueproviders.IntProvider;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
@@ -48,7 +49,7 @@ public class WhirlwindSpawnEntity extends LootItemConditionalFunction {
             for (int i = 0; i < this.count.sample(serverLevel.getRandom()); i++) {
                 HolderSet<EntityType<?>> holderSet = this.entityType.types();
                 if (holderSet.size() > 0) {
-                    Entity entity = this.entityType.types().get(serverLevel.getRandom().nextInt(holderSet.size())).value().create(serverLevel);
+                    Entity entity = this.entityType.types().get(serverLevel.getRandom().nextInt(holderSet.size())).value().create(serverLevel, EntitySpawnReason.TRIGGERED);
                     if (entity != null) {
                         entity.moveTo(originVec.x(), originVec.y() + 0.5, originVec.z(), ((float) Math.random()) * 360.0F, 0.0F);
                         entity.setDeltaMovement((Math.random() - Math.random()) * 0.125, entity.getDeltaMovement().y(), (Math.random() - Math.random()) * 0.125);

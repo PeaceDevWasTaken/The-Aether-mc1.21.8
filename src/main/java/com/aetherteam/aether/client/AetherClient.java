@@ -18,6 +18,7 @@ import com.aetherteam.aether.inventory.menu.AetherMenuTypes;
 import com.aetherteam.aether.inventory.menu.LoreBookMenu;
 import com.aetherteam.aether.item.AetherItems;
 import com.aetherteam.aether.perk.CustomizationsOptions;
+import com.aetherteam.aether.recipe.book.AetherRecipeBookCategories;
 import com.aetherteam.nitrogen.event.listeners.TooltipListeners;
 import com.google.common.reflect.Reflection;
 import net.minecraft.client.Minecraft;
@@ -38,7 +39,7 @@ public class AetherClient {
     public static void clientInit(IEventBus bus) {
         bus.addListener(AetherClient::clientSetup);
         bus.addListener(AetherClient::registerSpectatorShaders);
-        bus.addListener(AetherClient::registerDimensionTransitionScreens);
+        bus.addListener(AetherClient::registerTeleportTransitionScreens);
 
         AetherClient.eventSetup(bus);
     }
@@ -117,7 +118,7 @@ public class AetherClient {
         neoBus.addListener(AetherColorResolvers::registerBlockColor);
         neoBus.addListener(AetherColorResolvers::registerItemColor);
         neoBus.addListener(AetherKeys::registerKeyMappings);
-        neoBus.addListener(AetherRecipeCategories::registerRecipeCategories);
+        neoBus.addListener(AetherRecipeBookCategories::registerRecipeCategories);
         neoBus.addListener(AetherParticleTypes::registerParticleFactories);
         neoBus.addListener(AetherOverlays::registerOverlays);
         neoBus.addListener(AetherRenderers::registerEntityRenderers);
@@ -134,7 +135,7 @@ public class AetherClient {
         event.register(AetherEntityTypes.SUN_SPIRIT.get(), ResourceLocation.fromNamespaceAndPath(Aether.MODID, "shaders/post/sun_spirit.json"));
     }
 
-    public static void registerDimensionTransitionScreens(RegisterDimensionTransitionScreenEvent event) {
+    public static void registerTeleportTransitionScreens(RegisterDimensionTransitionScreenEvent event) {
         event.registerIncomingEffect(AetherDimensions.AETHER_LEVEL, AetherReceivingLevelScreen::new);
         event.registerOutgoingEffect(AetherDimensions.AETHER_LEVEL, AetherReceivingLevelScreen::new);
     }

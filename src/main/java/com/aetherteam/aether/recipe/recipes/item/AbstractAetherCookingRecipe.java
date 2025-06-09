@@ -1,25 +1,28 @@
 package com.aetherteam.aether.recipe.recipes.item;
 
-import com.aetherteam.aether.recipe.AetherBookCategory;
+import com.aetherteam.aether.recipe.book.AetherBookCategory;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.AbstractCookingRecipe;
-import net.minecraft.world.item.crafting.CookingBookCategory;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.*;
 
 public abstract class AbstractAetherCookingRecipe extends AbstractCookingRecipe {
     private final AetherBookCategory category;
 
-    public AbstractAetherCookingRecipe(RecipeType<?> recipeType, String group, AetherBookCategory category, Ingredient ingredient, ItemStack result, float experience, int cookingTime) {
-        super(recipeType, group, CookingBookCategory.MISC, ingredient, result, experience, cookingTime);
+    public AbstractAetherCookingRecipe(String group, AetherBookCategory category, Ingredient ingredient, ItemStack result, float experience, int cookingTime) {
+        super(group, CookingBookCategory.MISC, ingredient, result, experience, cookingTime);
         this.category = category;
     }
 
-    public ItemStack getResult() {
-        return this.result;
+    @Override
+    public ItemStack result() {
+        return super.result();
     }
 
     public AetherBookCategory aetherCategory() {
         return this.category;
+    }
+
+    @Override
+    public RecipeBookCategory recipeBookCategory() { //todo ??
+        return null;
     }
 }

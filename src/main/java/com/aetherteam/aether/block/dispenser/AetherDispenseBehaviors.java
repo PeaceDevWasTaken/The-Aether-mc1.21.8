@@ -6,10 +6,10 @@ import com.aetherteam.aether.item.AetherItems;
 import com.aetherteam.aether.item.accessories.gloves.GlovesItem;
 import com.aetherteam.aether.item.combat.loot.HammerOfKingbdogzItem;
 import com.aetherteam.aether.item.miscellaneous.bucket.SkyrootBucketItem;
-import io.wispforest.accessories.api.AccessoriesAPI;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.Accessory;
-import io.wispforest.accessories.api.EquipAction;
+import io.wispforest.accessories.api.AccessoryRegistry;
+import io.wispforest.accessories.api.equip.EquipAction;
 import io.wispforest.accessories.api.slot.SlotReference;
 import io.wispforest.accessories.api.slot.SlotTypeReference;
 import it.unimi.dsi.fastutil.Pair;
@@ -53,7 +53,7 @@ public class AetherDispenseBehaviors {
     };
 
     /**
-     * Based on {@link net.minecraft.world.item.ArmorItem#dispenseArmor(BlockSource, ItemStack)} and {@link io.wispforest.accessories.impl.AccessoriesEventHandler#attemptEquipFromUse(Player, InteractionHand)}.<br><br>
+     * Based on {@link net.minecraft.core.dispenser.EquipmentDispenseItemBehavior#dispenseEquipment} and {@link io.wispforest.accessories.impl.AccessoriesEventHandler#attemptEquipFromUse(Player, InteractionHand)}.<br><br>
      * Handles checking if an accessory shot from a dispenser can be equipped, and handles that equipping behavior if it can.
      *
      * @param blockSource The {@link BlockSource} for the dispenser.
@@ -62,7 +62,7 @@ public class AetherDispenseBehaviors {
      */
     public static boolean dispenseAccessory(BlockSource blockSource, ItemStack stack) {
         BlockPos pos = blockSource.pos().relative(blockSource.state().getValue(DispenserBlock.FACING));
-        List<LivingEntity> list = blockSource.level().getEntitiesOfClass(LivingEntity.class, new AABB(pos), EntitySelector.NO_SPECTATORS.and(new EntitySelector.MobCanWearArmorEntitySelector(stack)));
+        List<LivingEntity> list = blockSource.level().getEntitiesOfClass(LivingEntity.class, new AABB(pos), (p_371713_) -> p_371713_.canEquipWithDispenser(stack));
         if (list.isEmpty()) {
             return false;
         } else {
@@ -70,7 +70,7 @@ public class AetherDispenseBehaviors {
             ItemStack itemStack = stack.split(1);
             AccessoriesCapability capability = AccessoriesCapability.get(livingEntity);
             if (capability != null) {
-                Accessory accessory = AccessoriesAPI.getOrDefaultAccessory(itemStack);
+                Accessory accessory = AccessoryRegistry.getAccessoryOrDefault(itemStack);
                 Pair<SlotReference, EquipAction> equipReference = capability.canEquipAccessory(itemStack, true);
                 if (equipReference != null) {
                     SlotTypeReference slotTypeReference = new SlotTypeReference(equipReference.first().slotName());

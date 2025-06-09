@@ -33,7 +33,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.Heightmap;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
-import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforge.event.entity.EntityTravelToDimensionEvent;
@@ -69,7 +69,7 @@ public class DimensionHooks {
                     if (server != null) {
                         ServerLevel aetherLevel = server.getLevel(AetherDimensions.AETHER_LEVEL);
                         if (aetherLevel != null && serverPlayer.level().dimension() == Level.OVERWORLD) {
-                            DimensionTransition transition = new DimensionTransition(aetherLevel, checkPositionsForInitialSpawn(aetherLevel, serverPlayer.blockPosition()).getCenter(), Vec3.ZERO, serverPlayer.getYRot(), serverPlayer.getXRot(), false, DimensionTransition.DO_NOTHING);
+                            TeleportTransition transition = new TeleportTransition(aetherLevel, checkPositionsForInitialSpawn(aetherLevel, serverPlayer.blockPosition()).getCenter(), Vec3.ZERO, serverPlayer.getYRot(), serverPlayer.getXRot(), false, TeleportTransition.DO_NOTHING);
                             if (serverPlayer.changeDimension(transition) != null) {
                                 serverPlayer.setRespawnPosition(AetherDimensions.AETHER_LEVEL, serverPlayer.blockPosition(), serverPlayer.getYRot(), true, false);
                                 aetherPlayer.setCanSpawnInAether(false); // Sets that the player has already spawned in the Aether.

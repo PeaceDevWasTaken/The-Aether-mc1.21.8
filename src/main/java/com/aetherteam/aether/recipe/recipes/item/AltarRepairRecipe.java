@@ -1,7 +1,7 @@
 package com.aetherteam.aether.recipe.recipes.item;
 
 import com.aetherteam.aether.block.AetherBlocks;
-import com.aetherteam.aether.recipe.AetherBookCategory;
+import com.aetherteam.aether.recipe.book.AetherBookCategory;
 import com.aetherteam.aether.recipe.AetherRecipeSerializers;
 import com.aetherteam.aether.recipe.AetherRecipeTypes;
 import com.mojang.serialization.Codec;

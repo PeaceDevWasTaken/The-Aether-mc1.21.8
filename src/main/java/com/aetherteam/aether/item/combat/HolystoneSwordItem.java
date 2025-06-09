@@ -1,6 +1,7 @@
 package com.aetherteam.aether.item.combat;
 
 import com.aetherteam.aether.item.combat.abilities.weapon.HolystoneWeapon;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -13,7 +14,9 @@ public class HolystoneSwordItem extends SwordItem implements HolystoneWeapon {
 
     @Override
     public boolean hurtEnemy(ItemStack stack, LivingEntity target, LivingEntity attacker) {
-        this.dropAmbrosium(target, attacker);
+        if (attacker.level() instanceof ServerLevel serverLevel) {
+            this.dropAmbrosium(serverLevel, target, attacker);
+        }
         return super.hurtEnemy(stack, target, attacker);
     }
 }

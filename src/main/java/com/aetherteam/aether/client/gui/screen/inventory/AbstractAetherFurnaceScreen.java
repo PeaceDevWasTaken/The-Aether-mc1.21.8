@@ -2,7 +2,7 @@ package com.aetherteam.aether.client.gui.screen.inventory;
 
 import com.aetherteam.aether.inventory.menu.AbstractAetherFurnaceMenu;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.screens.recipebook.AbstractFurnaceRecipeBookComponent;
+import net.minecraft.client.gui.screens.recipebook.FurnaceRecipeBookComponent;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -10,12 +10,12 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 
-public abstract class AbstractAetherFurnaceScreen<T extends AbstractAetherFurnaceMenu> extends AbstractRecipeBookScreen<SingleRecipeInput, AbstractCookingRecipe, T, AbstractFurnaceRecipeBookComponent> {
+public abstract class AbstractAetherFurnaceScreen<T extends AbstractAetherFurnaceMenu> extends AbstractRecipeBookScreen<SingleRecipeInput, AbstractCookingRecipe, T, FurnaceRecipeBookComponent> {
     private final ResourceLocation texture;
     private final ResourceLocation litProgressSprite;
     private final ResourceLocation burnProgressSprite;
 
-    public AbstractAetherFurnaceScreen(T menu, AbstractFurnaceRecipeBookComponent recipeBook, Inventory playerInventory, Component title, ResourceLocation texture, ResourceLocation litProgressSprite, ResourceLocation burnProgressSprite) {
+    public AbstractAetherFurnaceScreen(T menu, FurnaceRecipeBookComponent recipeBook, Inventory playerInventory, Component title, ResourceLocation texture, ResourceLocation litProgressSprite, ResourceLocation burnProgressSprite) {
         super(menu, recipeBook, playerInventory, title);
         this.texture = texture;
         this.litProgressSprite = litProgressSprite;

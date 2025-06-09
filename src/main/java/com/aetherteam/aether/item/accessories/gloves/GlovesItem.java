@@ -13,20 +13,20 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.item.ArmorMaterial;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.equipment.ArmorMaterial;
 
 public class GlovesItem extends AccessoryItem implements SlotIdentifierHolder {
     public static final ResourceLocation BASE_PUNCH_DAMAGE_ID = ResourceLocation.fromNamespaceAndPath(Aether.MODID, "base_punch_damage");
-    protected final Holder<ArmorMaterial> material;
+    protected final ArmorMaterial material;
     protected final double damage;
     protected ResourceLocation GLOVES_TEXTURE;
 
-    public GlovesItem(Holder<ArmorMaterial> material, double punchDamage, String glovesName, Holder<SoundEvent> glovesSound, Properties properties) {
-        this(material, punchDamage, ResourceLocation.fromNamespaceAndPath(Aether.MODID, glovesName), glovesSound, properties);
+    public GlovesItem(ArmorMaterial material, double punchDamage, String glovesName, Holder<SoundEvent> glovesSound, Properties properties) {
+        this(material, punchDamage, ResourceLocation.fromNamespaceAndPath(Aether.MODID, glovesName), glovesSound, properties.enchantable(material.enchantmentValue()).repairable(material.repairIngredient()));
     }
 
-    public GlovesItem(Holder<ArmorMaterial> material, double punchDamage, ResourceLocation glovesName, Holder<SoundEvent> glovesSound, Properties properties) {
+    public GlovesItem(ArmorMaterial material, double punchDamage, ResourceLocation glovesName, Holder<SoundEvent> glovesSound, Properties properties) {
         super(glovesSound, properties);
         this.material = material;
         this.damage = punchDamage;
@@ -38,21 +38,7 @@ public class GlovesItem extends AccessoryItem implements SlotIdentifierHolder {
         builder.addStackable(Attributes.ATTACK_DAMAGE, new AttributeModifier(BASE_PUNCH_DAMAGE_ID, this.damage, AttributeModifier.Operation.ADD_VALUE));
     }
 
-    /**
-     * Warning for "deprecation" is suppressed because the method is fine to override.
-     */
-    @SuppressWarnings("deprecation")
-    @Override
-    public int getEnchantmentValue() {
-        return this.material.value().enchantmentValue();
-    }
-
-    @Override
-    public boolean isValidRepairItem(ItemStack item, ItemStack material) {
-        return this.material.value().repairIngredient().get().test(material) || super.isValidRepairItem(item, material);
-    }
-
-    public Holder<ArmorMaterial> getMaterial() {
+    public ArmorMaterial getMaterial() {
         return this.material;
     }
 

@@ -8,12 +8,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class IceRingItem extends RingItem implements FreezingAccessory {
     public IceRingItem(Properties properties) {
-        super(AetherSoundEvents.ITEM_ACCESSORY_EQUIP_ICE_RING, properties);
-    }
-
-    @Override
-    public boolean isValidRepairItem(ItemStack repairItem, ItemStack repairMaterial) {
-        return repairMaterial.is(AetherTags.Items.ICE_REPAIRING);
+        super(AetherSoundEvents.ITEM_ACCESSORY_EQUIP_ICE_RING, properties.repairable(AetherTags.Items.ICE_REPAIRING));
     }
 
     @Override

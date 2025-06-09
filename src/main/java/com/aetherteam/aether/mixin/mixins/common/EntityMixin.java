@@ -9,6 +9,8 @@ import com.aetherteam.aether.world.LevelUtil;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.profiling.Profiler;
+import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Saddleable;
@@ -16,7 +18,7 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.portal.DimensionTransition;
+import net.minecraft.world.level.portal.TeleportTransition;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.network.PacketDistributor;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,6 +29,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Set;
 
 @Mixin(Entity.class)
 public class EntityMixin {
@@ -75,15 +78,12 @@ public class EntityMixin {
             ServerLevel destination = minecraftserver.getLevel(LevelUtil.returnDimension());
             if (destination != null && LevelUtil.returnDimension() != LevelUtil.destinationDimension()) {
                 List<Entity> passengers = entity.getPassengers();
-                serverLevel.getProfiler().push("aether_fall");
+                ProfilerFiller profiler = Profiler.get();
+                profiler.push("aether_fall");
                 entity.setPortalCooldown();
-                double vehicleOffset = 0.0;
-                if (entity.getVehicle() != null) {
-                    vehicleOffset = entity.getVehicle().getBbHeight();
-                }
-                DimensionTransition transition = new DimensionTransition(destination, new Vec3(entity.getX(), destination.getMaxY() - entity.getBbHeight() - vehicleOffset, entity.getZ()), entity.getDeltaMovement(), entity.getYRot(), entity.getXRot(), false, DimensionTransition.DO_NOTHING);
-                Entity target = entity.changeDimension(transition);
-                serverLevel.getProfiler().pop();
+                TeleportTransition transition = new TeleportTransition(destination, new Vec3(entity.getX(), destination.getMaxY(), entity.getZ()), entity.getDeltaMovement(), entity.getYRot(), entity.getXRot(), Set.of(), TeleportTransition.DO_NOTHING);
+                Entity target = entity.teleport(transition);
+                profiler.pop();
                 // Check for passengers.
                 if (target != null) {
                     for (Entity passenger : passengers) {

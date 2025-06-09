@@ -16,13 +16,17 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
+import net.minecraft.world.item.crafting.display.FurnaceRecipeDisplay;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
+import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.Optional;
 
-public class IncubationRecipe implements Recipe<SingleRecipeInput> {
-    protected final RecipeType<?> type;
+public class IncubationRecipe implements SingleItemRecipe {
+    protected final RecipeType<IncubationRecipe> type;
     protected final String group;
     protected final Ingredient ingredient;
     protected final EntityType<?> entity;
@@ -49,19 +53,6 @@ public class IncubationRecipe implements Recipe<SingleRecipeInput> {
     @Override
     public ItemStack assemble(SingleRecipeInput menu, HolderLookup.Provider provider) {
         return ItemStack.EMPTY;
-    }
-
-    /**
-     * @return The original {@link ItemStack} ingredient for Recipe Book display.
-     */
-    @Override
-    public ItemStack getResultItem(HolderLookup.Provider provider) {
-        return this.ingredient.getItems()[0];
-    }
-
-    @Override
-    public boolean canCraftInDimensions(int width, int height) {
-        return true;
     }
 
     public int getIncubationTime() {
@@ -93,13 +84,27 @@ public class IncubationRecipe implements Recipe<SingleRecipeInput> {
         return new ItemStack(AetherBlocks.INCUBATOR.get());
     }
 
+//    @Override
+//    public List<RecipeDisplay> display() {
+//        return List.of(
+//            new FurnaceRecipeDisplay(
+//                this.input().display(),
+//                SlotDisplay.AnyFuel.INSTANCE,
+//                new SlotDisplay.ItemStackSlotDisplay(this.result()),
+//                new SlotDisplay.ItemSlotDisplay(this.furnaceIcon()),
+//                this.cookingTime,
+//                this.experience
+//            )
+//        );
+//    }
+
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<IncubationRecipe> getSerializer() {
         return AetherRecipeSerializers.INCUBATION.get();
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<IncubationRecipe> getType() {
         return this.type;
     }
 
@@ -108,7 +113,7 @@ public class IncubationRecipe implements Recipe<SingleRecipeInput> {
         public MapCodec<IncubationRecipe> codec() {
             return RecordCodecBuilder.mapCodec((instance) -> instance.group(
                 Codec.STRING.optionalFieldOf("group", "").forGetter(p_300832_ -> p_300832_.group),
-                Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter((recipe) -> recipe.ingredient),
+                Ingredient.CODEC.fieldOf("ingredient").forGetter((recipe) -> recipe.ingredient),
                 BuiltInRegistries.ENTITY_TYPE.byNameCodec().fieldOf("entity").forGetter((recipe) -> recipe.entity),
                 CompoundTag.CODEC.optionalFieldOf("tag").forGetter((recipe) -> recipe.tag),
                 Codec.INT.fieldOf("incubationtime").orElse(500).forGetter((recipe) -> recipe.incubationTime)

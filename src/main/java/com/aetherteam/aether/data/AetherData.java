@@ -36,7 +36,8 @@ public class AetherData {
         generator.addProvider(event.includeClient(), new AetherSoundData(packOutput, fileHelper));
 
         // Server Data
-        generator.addProvider(event.includeServer(), new AetherRecipeData(packOutput, lookupProvider));
+        generator.addProvider(event.includeServer(), new AetherEquipmentModelData(packOutput));
+        generator.addProvider(event.includeServer(), new AetherRecipeData.Runner(packOutput, lookupProvider));
         generator.addProvider(event.includeServer(), AetherLootTableData.create(packOutput, lookupProvider));
         generator.addProvider(event.includeServer(), new AetherLootModifierData(packOutput, lookupProvider));
         generator.addProvider(event.includeServer(), new AetherAdvancementData(packOutput, lookupProvider, fileHelper));
