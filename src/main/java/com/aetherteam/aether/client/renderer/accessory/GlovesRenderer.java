@@ -18,6 +18,7 @@ import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -68,14 +69,16 @@ public class GlovesRenderer implements AccessoryRenderer {
      * @param netHeadYaw        The {@link Float} for the head yaw rotation.
      * @param headPitch         The {@link Float} for the head pitch rotation.
      */
+
+
     @Override
-    public <M extends LivingEntity> void render(ItemStack stack, SlotReference reference, PoseStack poseStack, EntityModel<M> entityModel, MultiBufferSource buffer, int packedLight, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+    public <M extends LivingEntityRenderState> void render(ItemStack stack, SlotReference reference, PoseStack matrices, EntityModel<M> entityModel, M renderState, MultiBufferSource multiBufferSource, int packedLight, float partialTicks) {
         GlovesItem glovesItem = (GlovesItem) stack.getItem();
         GlovesModel model = this.glovesModel;
         GlovesModel trimModel = this.glovesTrimModel;
         ResourceLocation texture = glovesItem.getGlovesTexture();
 
-        if (entityModel instanceof PlayerModel<?> playerModel) {
+        if (entityModel instanceof PlayerModel playerModel) {
             PlayerModelAccessor playerModelAccessor = (PlayerModelAccessor) playerModel;
             model = playerModelAccessor.aether$getSlim() ? this.glovesModelSlim : this.glovesModel;
             trimModel = playerModelAccessor.aether$getSlim() ? this.glovesTrimModelSlim : this.glovesTrimModel;

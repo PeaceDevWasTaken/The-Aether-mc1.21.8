@@ -3,6 +3,7 @@ package com.aetherteam.aether.entity.ai.goal;
 import com.aetherteam.aether.block.AetherBlocks;
 import com.aetherteam.aether.item.AetherItems;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.goal.MoveToBlockGoal;
@@ -59,10 +60,12 @@ public class FoxEatBerryBushGoal extends MoveToBlockGoal {
     }
 
     protected void onReachedTarget() {
-        if (EventHooks.canEntityGrief(this.fox.level(), this.fox)) {
-            BlockState blockState = this.mob.level().getBlockState(this.blockPos);
-            if (blockState.is(AetherBlocks.BERRY_BUSH.get())) {
-                this.pickBlueBerries();
+        if (this.fox.level() instanceof ServerLevel serverLevel) {
+            if (EventHooks.canEntityGrief(serverLevel, this.fox)) {
+                BlockState blockState = this.mob.level().getBlockState(this.blockPos);
+                if (blockState.is(AetherBlocks.BERRY_BUSH.get())) {
+                    this.pickBlueBerries();
+                }
             }
         }
     }

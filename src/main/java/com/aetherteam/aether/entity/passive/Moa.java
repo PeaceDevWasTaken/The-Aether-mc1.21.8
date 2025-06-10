@@ -109,8 +109,8 @@ public class Moa extends MountableAnimal implements WingedBird {
         this.goalSelector.addGoal(4, new FallingRandomStrollGoal(this, 0.35));
         this.goalSelector.addGoal(5, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(6, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Swet.class, false, (livingEntity) -> this.getFollowing() == null && this.isPlayerGrown() && !this.isBaby() && livingEntity instanceof Swet swet && !swet.isFriendly()));
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, AechorPlant.class, false, (livingEntity) -> this.getFollowing() == null && this.isPlayerGrown() && !this.isBaby()));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Swet.class, false, (livingEntity, serverLevel) -> this.getFollowing() == null && this.isPlayerGrown() && !this.isBaby() && livingEntity instanceof Swet swet && !swet.isFriendly()));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, AechorPlant.class, false, (livingEntity, serverLevel) -> this.getFollowing() == null && this.isPlayerGrown() && !this.isBaby()));
     }
 
     @Override
@@ -371,7 +371,7 @@ public class Moa extends MountableAnimal implements WingedBird {
                 this.setSitting(!this.isSitting());
                 this.spawnExplosionParticle();
             }
-            return InteractionResult.sidedSuccess(this.level().isClientSide());
+            return InteractionResult.SUCCESS;
         } else if (!this.level().isClientSide() && this.isPlayerGrown() && this.isBaby() && this.isHungry() && this.getAmountFed() < 3 && itemStack.is(AetherTags.Items.MOA_FOOD_ITEMS)) { // Feeds a hungry baby Moa.
             if (!player.getAbilities().instabuild) {
                 itemStack.shrink(1);
@@ -394,7 +394,7 @@ public class Moa extends MountableAnimal implements WingedBird {
                 itemStack.shrink(1);
             }
             this.heal(5.0F);
-            return InteractionResult.sidedSuccess(this.level().isClientSide());
+            return InteractionResult.SUCCESS;
         } else {
             return super.mobInteract(player, hand);
         }
@@ -859,14 +859,6 @@ public class Moa extends MountableAnimal implements WingedBird {
     @Override
     public Vec3 getPassengerRidingPosition(Entity entity) {
         return this.isSitting() ? super.getPassengerRidingPosition(entity).add(0, -0.575, 0) : super.getPassengerRidingPosition(entity).add(0, -0.65, 0);
-    }
-
-    /**
-     * @return The float for the Moa's hitbox scaling. Set to a flat value, as Moa hitbox scaling is handled by {@link Moa#getDimensions(Pose)}.
-     */
-    @Override
-    public float getScale() {
-        return 1.0F;
     }
 
     /**

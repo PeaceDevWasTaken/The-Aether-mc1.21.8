@@ -11,9 +11,10 @@ import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.world.entity.Entity;
 
-public class ValkyrieWingsModel<T extends ValkyrieRenderState> extends EntityModel<T> {
+public class ValkyrieWingsModel<T extends HumanoidRenderState> extends EntityModel<T> {
     public final ModelPart rightWing;
     public final ModelPart leftWing;
 

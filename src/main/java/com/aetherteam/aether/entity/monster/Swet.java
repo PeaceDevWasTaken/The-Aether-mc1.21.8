@@ -70,7 +70,7 @@ public class Swet extends Slime implements MountableMob {
         this.goalSelector.addGoal(1, new HuntGoal(this));
         this.goalSelector.addGoal(2, new SwetRandomDirectionGoal(this));
         this.goalSelector.addGoal(4, new SwetKeepOnJumpingGoal(this));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true, (target) -> !this.isFriendlyTowardEntity(target) && !(target.getRootVehicle() instanceof Swet)));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true, (target, serverlevel) -> !this.isFriendlyTowardEntity(target) && !(target.getRootVehicle() instanceof Swet)));
     }
 
     public static AttributeSupplier.Builder createMobAttributes() {
@@ -566,8 +566,7 @@ public class Swet extends Slime implements MountableMob {
     /**
      * @return The float for the Swet's hitbox scaling. Calculated from the scale subtracted from itself multiplied by the water damage scale.
      */
-    @Override
-    public float getScale() {
+    public float getSwetScale() {
         return super.getScale() - super.getScale() * this.getWaterDamageScale();
     }
 
@@ -579,7 +578,7 @@ public class Swet extends Slime implements MountableMob {
      */
     @Override
     public EntityDimensions getDefaultDimensions(Pose pose) {
-        return super.getDefaultDimensions(pose).scale(this.getScale());
+        return super.getDefaultDimensions(pose).scale(this.getSwetScale());
     }
 
     @Override

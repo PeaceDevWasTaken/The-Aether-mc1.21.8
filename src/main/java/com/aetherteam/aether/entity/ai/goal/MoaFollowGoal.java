@@ -4,7 +4,7 @@ import com.aetherteam.aether.entity.passive.Moa;
 import net.minecraft.world.entity.ai.goal.TemptGoal;
 import net.minecraft.world.entity.ai.targeting.TargetingConditions;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.ItemStack;
 
 import javax.annotation.Nullable;
 
@@ -23,10 +23,10 @@ public class MoaFollowGoal extends TemptGoal {
     private boolean isRunning;
 
     public MoaFollowGoal(Moa moa, double speedModifier) {
-        super(moa, speedModifier, Ingredient.EMPTY, false);
+        super(moa, speedModifier, ItemStack::isEmpty, false);
         this.moa = moa;
         this.speedModifier = speedModifier;
-        this.targetingConditions = TEMP_TARGETING.copy().selector((livingEntity) -> livingEntity.getUUID().equals(this.moa.getFollowing()));
+        this.targetingConditions = TEMP_TARGETING.copy().selector((livingEntity, serverLevel) -> livingEntity.getUUID().equals(this.moa.getFollowing()));
     }
 
     @Override

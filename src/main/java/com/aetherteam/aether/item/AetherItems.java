@@ -263,8 +263,8 @@ public class AetherItems {
     public static final DeferredItem<Item> SKYROOT_AXOLOTL_BUCKET = ITEMS.register("skyroot_axolotl_bucket", () -> new SkyrootMobBucketItem(EntityType.AXOLOTL, Fluids.WATER, SoundEvents.BUCKET_EMPTY_AXOLOTL, new Item.Properties().craftRemainder(SKYROOT_BUCKET.get()).stacksTo(1).component(DataComponents.BUCKET_ENTITY_DATA, CustomData.EMPTY)));
     public static final DeferredItem<Item> SKYROOT_TADPOLE_BUCKET = ITEMS.register("skyroot_tadpole_bucket", () -> new SkyrootMobBucketItem(EntityType.TADPOLE, Fluids.WATER, SoundEvents.BUCKET_EMPTY_TADPOLE, new Item.Properties().craftRemainder(SKYROOT_BUCKET.get()).stacksTo(1).component(DataComponents.BUCKET_ENTITY_DATA, CustomData.EMPTY)));
 
-    public static final DeferredItem<Item> SKYROOT_BOAT = ITEMS.register("skyroot_boat", () -> new SkyrootBoatItem(false, new Item.Properties().stacksTo(1)));
-    public static final DeferredItem<Item> SKYROOT_CHEST_BOAT = ITEMS.register("skyroot_chest_boat", () -> new SkyrootBoatItem(true, new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> SKYROOT_BOAT = ITEMS.register("skyroot_boat", () -> new BoatItem(AetherEntityTypes.SKYROOT_BOAT.get(), new Item.Properties().stacksTo(1)));
+    public static final DeferredItem<Item> SKYROOT_CHEST_BOAT = ITEMS.register("skyroot_chest_boat", () -> new BoatItem(AetherEntityTypes.SKYROOT_CHEST_BOAT.get(), new Item.Properties().stacksTo(1)));
 
     public static final DeferredItem<Item> COLD_PARACHUTE = ITEMS.register("cold_parachute", () -> new ParachuteItem(AetherEntityTypes.COLD_PARACHUTE, new Item.Properties().durability(1)));
     public static final DeferredItem<Item> GOLDEN_PARACHUTE = ITEMS.register("golden_parachute", () -> new ParachuteItem(AetherEntityTypes.GOLDEN_PARACHUTE, new Item.Properties().durability(20)));

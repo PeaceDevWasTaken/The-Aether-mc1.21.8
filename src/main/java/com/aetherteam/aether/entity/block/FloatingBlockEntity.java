@@ -277,6 +277,13 @@ public class FloatingBlockEntity extends Entity {
         }
     }
 
+    public final boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount) {
+        if (!this.isInvulnerableToBase(damageSource)) {
+            this.markHurt();
+        }
+        return false;
+    }
+
     public void setStartPos(BlockPos pOrigin) {
         this.getEntityData().set(DATA_START_POS, pOrigin);
     }

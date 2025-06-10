@@ -145,11 +145,11 @@ public class DimensionHooks {
                             if (!player.isCreative()) {
                                 if (stack.getCount() > 1) {
                                     stack.shrink(1);
-                                    player.addItem(stack.hasCraftingRemainingItem() ? stack.getCraftingRemainingItem() : ItemStack.EMPTY);
+                                    player.addItem(stack.getCraftingRemainder());
                                 } else if (stack.isDamageableItem()) {
                                     stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
                                 } else {
-                                    player.setItemInHand(hand, stack.hasCraftingRemainingItem() ? stack.getCraftingRemainingItem() : ItemStack.EMPTY);
+                                    player.setItemInHand(hand, stack.getCraftingRemainder());
                                 }
                             }
                             return true;

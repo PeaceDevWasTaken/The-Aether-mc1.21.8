@@ -22,6 +22,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
@@ -49,8 +50,8 @@ public class ShieldOfRepulsionRenderer implements AccessoryRenderer {
         }
     );
 
-    private final HumanoidModel<LivingEntity> shieldModel;
-    public final HumanoidModel<LivingEntity> shieldModelArm;
+    private final HumanoidModel<HumanoidRenderState> shieldModel;
+    public final HumanoidModel<HumanoidRenderState> shieldModelArm;
 
     public ShieldOfRepulsionRenderer() {
         this.shieldModel = new HumanoidModel<>(Minecraft.getInstance().getEntityModels().bakeLayer(AetherModelLayers.SHIELD_OF_REPULSION));
@@ -148,7 +149,7 @@ public class ShieldOfRepulsionRenderer implements AccessoryRenderer {
      * @param arm         The {@link HumanoidArm} to render on.
      * @param isSlim      Whether the arm model is slim, as a {@link Boolean}.
      */
-    private void setupShieldOnHand(ItemStack stack, HumanoidModel<LivingEntity> model, PoseStack poseStack, MultiBufferSource buffer, int packedLight, AbstractClientPlayer player, HumanoidArm arm, boolean isSlim) {
+    private void setupShieldOnHand(ItemStack stack, HumanoidModel<HumanoidRenderState> model, PoseStack poseStack, MultiBufferSource buffer, int packedLight, AbstractClientPlayer player, HumanoidArm arm, boolean isSlim) {
         this.setupModel(model, player);
 
         ResourceLocation texture;
@@ -182,7 +183,7 @@ public class ShieldOfRepulsionRenderer implements AccessoryRenderer {
      * @param model  The player's {@link PlayerModel}.
      * @param player The {@link AbstractClientPlayer} to render for.
      */
-    private void setupModel(HumanoidModel<LivingEntity> model, AbstractClientPlayer player) {
+    private void setupModel(HumanoidModel<HumanoidRenderState> model, AbstractClientPlayer player) {
         model.setAllVisible(false);
         model.attackTime = 0.0F;
         model.crouching = false;

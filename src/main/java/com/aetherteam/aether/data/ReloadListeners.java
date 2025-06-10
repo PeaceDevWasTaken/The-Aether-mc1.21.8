@@ -8,6 +8,7 @@ import com.google.gson.JsonElement;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.event.AddReloadListenerEvent;
@@ -23,11 +24,9 @@ public class ReloadListeners {
         event.addListener(new RecipeReloadListener());
     }
 
-    public static class RecipeReloadListener extends SimpleJsonResourceReloadListener {
-        public static final Gson GSON_INSTANCE = new GsonBuilder().create();
-
+    public static class RecipeReloadListener extends SimpleJsonResourceReloadListener<JsonElement> {
         public RecipeReloadListener() {
-            super(GSON_INSTANCE, "recipes");
+            super(ExtraCodecs.JSON, "recipes");
         }
 
         /**

@@ -4,6 +4,7 @@ import com.aetherteam.aether.loot.AetherLoot;
 import com.aetherteam.aether.loot.functions.WhirlwindSpawnEntity;
 import net.minecraft.advancements.critereon.EntityTypePredicate;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.loot.LootTableSubProvider;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.util.valueproviders.ConstantInt;
@@ -24,7 +25,7 @@ public record AetherSelectorLoot(HolderLookup.Provider registries) implements Lo
                 .withPool(whirlwindLoot())
         );
         builder.accept(AetherLoot.EVIL_WHIRLWIND_JUNK, LootTable.lootTable()
-                .withPool(whirlwindLoot().add(LootItem.lootTableItem(Items.AIR).apply(WhirlwindSpawnEntity.builder(EntityTypePredicate.of(EntityType.CREEPER), ConstantInt.of(1))).setWeight(60)))
+                .withPool(whirlwindLoot().add(LootItem.lootTableItem(Items.AIR).apply(WhirlwindSpawnEntity.builder(EntityTypePredicate.of(BuiltInRegistries.ENTITY_TYPE, EntityType.CREEPER), ConstantInt.of(1))).setWeight(60)))
         );
     }
 

@@ -9,6 +9,7 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -159,9 +160,9 @@ public class Aerwhale extends FlyingMob {
             player.startRiding(this);
             if (!this.level().isClientSide()) {
                 MutableComponent msg = Component.literal("Serenity is the queen of W(h)ales!!");
-                player.level().players().forEach(p -> p.sendSystemMessage(msg));
+                player.level().players().forEach(p -> ((ServerPlayer) p).sendSystemMessage(msg));
             }
-            return InteractionResult.sidedSuccess(this.level().isClientSide());
+            return InteractionResult.SUCCESS;
         }
         return super.mobInteract(player, hand);
     }

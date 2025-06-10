@@ -8,7 +8,6 @@ import com.aetherteam.aether.block.AetherBlocks;
 import com.aetherteam.aether.block.AetherCauldronInteractions;
 import com.aetherteam.aether.block.dispenser.AetherDispenseBehaviors;
 import com.aetherteam.aether.block.dispenser.DispenseUsableItemBehavior;
-import com.aetherteam.aether.block.dispenser.SkyrootBoatDispenseBehavior;
 import com.aetherteam.aether.blockentity.AetherBlockEntityTypes;
 import com.aetherteam.aether.blockentity.TreasureChestBlockEntity;
 import com.aetherteam.aether.client.AetherClient;
@@ -71,6 +70,7 @@ import io.wispforest.accessories.api.slot.UniqueSlotHandling;
 import net.minecraft.ChatFormatting;
 import net.minecraft.SharedConstants;
 import net.minecraft.core.cauldron.CauldronInteraction;
+import net.minecraft.core.dispenser.BoatDispenseItemBehavior;
 import net.minecraft.core.dispenser.ProjectileDispenseBehavior;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
@@ -586,8 +586,8 @@ public class Aether {
         DispenserBlock.registerBehavior(AetherItems.SKYROOT_BUCKET.get(), AetherDispenseBehaviors.SKYROOT_BUCKET_PICKUP_BEHAVIOR);
         DispenserBlock.registerBehavior(AetherItems.AMBROSIUM_SHARD.get(), new DispenseUsableItemBehavior<>(AetherRecipeTypes.AMBROSIUM_ENCHANTING.get()));
         DispenserBlock.registerBehavior(AetherItems.SWET_BALL.get(), new DispenseUsableItemBehavior<>(AetherRecipeTypes.SWET_BALL_CONVERSION.get()));
-        DispenserBlock.registerBehavior(AetherItems.SKYROOT_BOAT.get(), new SkyrootBoatDispenseBehavior());
-        DispenserBlock.registerBehavior(AetherItems.SKYROOT_CHEST_BOAT.get(), new SkyrootBoatDispenseBehavior(true));
+        DispenserBlock.registerBehavior(AetherItems.SKYROOT_BOAT.get(), new BoatDispenseItemBehavior(AetherEntityTypes.SKYROOT_BOAT.get()));
+        DispenserBlock.registerBehavior(AetherItems.SKYROOT_CHEST_BOAT.get(), new BoatDispenseItemBehavior(AetherEntityTypes.SKYROOT_CHEST_BOAT.get()));
     }
 
     private void registerCauldronInteractions() {
@@ -601,7 +601,7 @@ public class Aether {
         CauldronInteraction.POWDER_SNOW.map().put(AetherItems.SKYROOT_POWDER_SNOW_BUCKET.get(), AetherCauldronInteractions.FILL_POWDER_SNOW);
         CauldronInteraction.WATER.map().put(AetherItems.SKYROOT_BUCKET.get(), AetherCauldronInteractions.EMPTY_WATER);
         CauldronInteraction.POWDER_SNOW.map().put(AetherItems.SKYROOT_BUCKET.get(), AetherCauldronInteractions.EMPTY_POWDER_SNOW);
-        CauldronInteraction.WATER.map().put(AetherItems.LEATHER_GLOVES.get(), CauldronInteraction.DYED_ITEM);
+        CauldronInteraction.WATER.map().put(AetherItems.LEATHER_GLOVES.get(), AetherCauldronInteractions::dyedItemIteration);
         CauldronInteraction.WATER.map().put(AetherItems.RED_CAPE.get(), AetherCauldronInteractions.CAPE);
         CauldronInteraction.WATER.map().put(AetherItems.BLUE_CAPE.get(), AetherCauldronInteractions.CAPE);
         CauldronInteraction.WATER.map().put(AetherItems.YELLOW_CAPE.get(), AetherCauldronInteractions.CAPE);

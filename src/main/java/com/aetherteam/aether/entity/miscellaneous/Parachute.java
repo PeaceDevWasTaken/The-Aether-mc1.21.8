@@ -5,7 +5,9 @@ import com.aetherteam.aether.mixin.mixins.common.accessor.ServerGamePacketListen
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -104,13 +106,18 @@ public class Parachute extends Entity {
         return this.getDeltaMovement();
     }
 
+    @Override
+    public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount) {
+        return false;
+    }
+
     /**
      * Kills the parachute along with spawning particles.
      */
     public void die() {
         this.spawnExplosionParticle();
-        if (!this.level().isClientSide()) {
-            this.kill();
+        if (this.level() instanceof ServerLevel serverLevel) {
+            this.kill(serverLevel);
         }
     }
 

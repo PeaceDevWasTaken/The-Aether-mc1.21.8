@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.entity.state.ArmorStandRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EquipmentSlot;
@@ -27,18 +28,18 @@ import net.minecraft.world.item.Items;
  * [CODE COPY] - {@link net.minecraft.client.renderer.entity.layers.CapeLayer}.<br><br>
  * Modified to check for capes in the Armor Stand's slots, as well as remove rotational fields and instead keep rotations constant.
  */
-public class ArmorStandCapeLayer extends RenderLayer<ArmorStand, ArmorStandModel> {
+public class ArmorStandCapeLayer extends RenderLayer<ArmorStandRenderState, ArmorStandModel> {
     private static final ResourceLocation SWUFF_CAPE_LOCATION = ResourceLocation.fromNamespaceAndPath(Aether.MODID, "textures/models/accessory/capes/swuff_accessory.png");
 
     private final CapeModel cape;
 
-    public ArmorStandCapeLayer(RenderLayerParent<ArmorStand, ArmorStandModel> renderer) {
+    public ArmorStandCapeLayer(RenderLayerParent<ArmorStandRenderState, ArmorStandModel> renderer) {
         super(renderer);
         this.cape = new CapeModel(Minecraft.getInstance().getEntityModels().bakeLayer(AetherModelLayers.CAPE));
     }
 
     @Override
-    public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, ArmorStand livingEntity, float limbSwing, float limbSwingAmount, float partialTick, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, ArmorStandRenderState armorStandRenderState, float netHeadYaw, float headPitch) {
         SlotTypeReference identifier = CapeItem.getStaticIdentifier();
         AccessoriesCapability accessories = AccessoriesCapability.get(livingEntity);
         if (accessories != null) {
@@ -51,8 +52,8 @@ public class ArmorStandCapeLayer extends RenderLayer<ArmorStand, ArmorStandModel
                         if (itemStack.getHoverName().getString().equalsIgnoreCase("swuff_'s cape")) { // Easter Egg cape texture.
                             texture = SWUFF_CAPE_LOCATION;
                         }
-                        if (!livingEntity.isInvisible() && texture != null) {
-                            ItemStack itemstack = livingEntity.getItemBySlot(EquipmentSlot.CHEST);
+                        if (!armorStandRenderState.isInvisible && texture != null) {
+                            ItemStack itemstack = armorStandRenderState.chestItem;
                             if (!itemstack.is(Items.ELYTRA)) {
                                 poseStack.pushPose();
                                 poseStack.translate(0.0F, 0.0F, 0.0925F);

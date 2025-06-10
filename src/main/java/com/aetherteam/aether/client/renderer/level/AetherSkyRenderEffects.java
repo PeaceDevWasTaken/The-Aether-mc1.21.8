@@ -40,7 +40,7 @@ public class AetherSkyRenderEffects extends DimensionSpecialEffects {
     private Vec3 prevCloudColor = Vec3.ZERO;
 
     public AetherSkyRenderEffects() {
-        super(9.5F, true, DimensionSpecialEffects.SkyType.NORMAL, false, false);
+        super(9.5F, true, SkyType.OVERWORLD, false, false);
     }
 
     /**

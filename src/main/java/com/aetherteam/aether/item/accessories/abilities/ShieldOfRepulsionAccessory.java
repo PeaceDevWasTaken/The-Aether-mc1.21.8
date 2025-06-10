@@ -6,9 +6,7 @@ import com.aetherteam.aether.attachment.AetherPlayerAttachment;
 import com.aetherteam.aether.item.AetherItems;
 import com.aetherteam.aether.item.EquipmentUtil;
 import com.aetherteam.nitrogen.ConstantsUtil;
-import io.wispforest.accessories.api.AccessoriesAPI;
 import io.wispforest.accessories.api.slot.SlotEntryReference;
-import net.minecraft.client.player.Input;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -71,7 +69,7 @@ public interface ShieldOfRepulsionAccessory {
             projectile.deflect(ProjectileDeflection.REVERSE, impactedLiving, projectile.getOwner(), false);
             projectile.setDeltaMovement(projectile.getDeltaMovement().scale(0.25));
             if (impactedLiving.level() instanceof ServerLevel serverLevel) {
-                slotResult.stack().hurtAndBreak(1, serverLevel, impactedLiving, (item) -> AccessoriesAPI.breakStack(slotResult.reference()));
+                slotResult.stack().hurtAndBreak(1, serverLevel, impactedLiving, (item) -> slotResult.reference().breakStack());
             }
         }
     }

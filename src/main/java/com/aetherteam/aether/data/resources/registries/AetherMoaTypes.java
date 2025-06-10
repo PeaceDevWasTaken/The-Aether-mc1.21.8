@@ -59,7 +59,7 @@ public class AetherMoaTypes {
 
     @Nullable
     public static MoaType getMoaType(RegistryAccess registryAccess, ResourceLocation location) {
-        return registryAccess.lookupOrThrow(AetherMoaTypes.MOA_TYPE_REGISTRY_KEY).get(location);
+        return registryAccess.lookupOrThrow(AetherMoaTypes.MOA_TYPE_REGISTRY_KEY).getValue(location);
     }
 
     /**
@@ -73,9 +73,9 @@ public class AetherMoaTypes {
     public static MoaType getWeightedChance(RegistryAccess registryAccess, RandomSource random) {
         Registry<MoaType> moaTypeRegistry = registryAccess.lookupOrThrow(AetherMoaTypes.MOA_TYPE_REGISTRY_KEY);
         SimpleWeightedRandomList.Builder<MoaType> weightedListBuilder = SimpleWeightedRandomList.builder();
-        moaTypeRegistry.holders().forEach((moaType) -> weightedListBuilder.add(moaType.value(), moaType.value().spawnChance()));
+        moaTypeRegistry.forEach((moaType) -> weightedListBuilder.add(moaType, moaType.spawnChance()));
         SimpleWeightedRandomList<MoaType> weightedList = weightedListBuilder.build();
         Optional<MoaType> moaType = weightedList.getRandomValue(random);
-        return moaType.orElse(moaTypeRegistry.get(AetherMoaTypes.BLUE));
+        return moaType.orElse(moaTypeRegistry.getValue(AetherMoaTypes.BLUE));
     }
 }

@@ -37,7 +37,7 @@ public class Sentry extends Slime {
         this.goalSelector.addGoal(2, new SentryAttackGoal(this));
         this.goalSelector.addGoal(3, new SentryRandomDirectionGoal(this));
         this.goalSelector.addGoal(5, new SentryKeepOnJumpingGoal(this));
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, (entity) -> Math.abs(entity.getY() - this.getY()) <= 4.0));
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, (entity, serverLevel) -> Math.abs(entity.getY() - this.getY()) <= 4.0));
     }
 
     public static AttributeSupplier.Builder createMobAttributes() {

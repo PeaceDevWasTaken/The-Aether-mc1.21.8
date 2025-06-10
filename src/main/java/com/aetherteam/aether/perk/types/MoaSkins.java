@@ -51,7 +51,7 @@ public class MoaSkins {
                 }
             }).toList();
             for (ResourceKey<MoaType> moaTypeKey : moaTypes) {
-                MoaType moaType = registry.get(moaTypeKey);
+                MoaType moaType = registry.getValue(moaTypeKey);
                 if (moaType != null) {
                     String name = (moaTypeKey.location().getNamespace().equals(Aether.MODID) ? moaTypeKey.location().getPath() : moaTypeKey.location().toString().replace(":", ".")) + "_moa";
                     register(name, new MoaSkin(name, new MoaSkin.Properties()

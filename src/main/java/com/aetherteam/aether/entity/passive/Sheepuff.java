@@ -19,7 +19,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.util.FastColor;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.DifficultyInstance;
@@ -98,13 +98,7 @@ public class Sheepuff extends AetherAnimal implements Shearable, IShearable {
             return -1644826;
         } else {
             int i = dyeColor.getTextureDiffuseColor();
-            float f = 0.75F;
-            return FastColor.ARGB32.color(
-                255,
-                Mth.floor((float) FastColor.ARGB32.red(i) * f),
-                Mth.floor((float) FastColor.ARGB32.green(i) * f),
-                Mth.floor((float) FastColor.ARGB32.blue(i) * f)
-            );
+            return ARGB.color(255, Mth.floor((float) ARGB.red(i) * 0.75F), Mth.floor((float) ARGB.green(i) * 0.75F), Mth.floor((float) ARGB.blue(i) * 0.75F));
         }
     }
 
@@ -125,7 +119,7 @@ public class Sheepuff extends AetherAnimal implements Shearable, IShearable {
         this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new PanicGoal(this, 1.25));
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0));
-        this.goalSelector.addGoal(3, new TemptGoal(this, 1.1, Ingredient.of(AetherTags.Items.SHEEPUFF_TEMPTATION_ITEMS), false));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 1.1, (stack) -> stack.is(AetherTags.Items.SHEEPUFF_TEMPTATION_ITEMS), false));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.1));
         this.goalSelector.addGoal(5, this.eatBlockGoal);
         this.goalSelector.addGoal(6, new FallingRandomStrollGoal(this, 1.0));
@@ -153,9 +147,9 @@ public class Sheepuff extends AetherAnimal implements Shearable, IShearable {
     }
 
     @Override
-    protected void customServerAiStep() {
+    protected void customServerAiStep(ServerLevel serverLevel) {
         this.eatAnimationTick = this.eatBlockGoal.getEatAnimationTick();
-        super.customServerAiStep();
+        super.customServerAiStep(serverLevel);
     }
 
     @Override
@@ -250,7 +244,7 @@ public class Sheepuff extends AetherAnimal implements Shearable, IShearable {
      * Vanilla shearing method (needed for dispenser behavior).
      */
     @Override
-    public void shear(SoundSource source) {
+    public void shear(ServerLevel serverLevel, SoundSource source, ItemStack stack) { //todo update
         this.level().playSound(null, this, AetherSoundEvents.ENTITY_SHEEPUFF_SHEAR.get(), source, 1.0F, 1.0F);
         int i;
         this.amountEaten = 0;
@@ -264,7 +258,7 @@ public class Sheepuff extends AetherAnimal implements Shearable, IShearable {
         i += this.getRandom().nextInt(3);
 
         for (int j = 0; j < i; ++j) {
-            ItemEntity itementity = this.spawnAtLocation(ITEM_BY_DYE.get(this.getColor()), 1);
+            ItemEntity itementity = this.spawnAtLocation(serverLevel, ITEM_BY_DYE.get(this.getColor()), 1);
             if (itementity != null) {
                 itementity.setDeltaMovement(itementity.getDeltaMovement().add((this.getRandom().nextFloat() - this.getRandom().nextFloat()) * 0.1F, this.getRandom().nextFloat() * 0.05F, (this.getRandom().nextFloat() - this.getRandom().nextFloat()) * 0.1F));
             }
@@ -358,32 +352,6 @@ public class Sheepuff extends AetherAnimal implements Shearable, IShearable {
     }
 
     @Override
-    public ResourceKey<LootTable> getDefaultLootTable() {
-        if (this.isSheared()) {
-            return this.getType().getDefaultLootTable();
-        } else {
-            return switch (this.getColor()) {
-                case WHITE -> AetherLoot.ENTITIES_SHEEPUFF_WHITE;
-                case ORANGE -> AetherLoot.ENTITIES_SHEEPUFF_ORANGE;
-                case MAGENTA -> AetherLoot.ENTITIES_SHEEPUFF_MAGENTA;
-                case LIGHT_BLUE -> AetherLoot.ENTITIES_SHEEPUFF_LIGHT_BLUE;
-                case YELLOW -> AetherLoot.ENTITIES_SHEEPUFF_YELLOW;
-                case LIME -> AetherLoot.ENTITIES_SHEEPUFF_LIME;
-                case PINK -> AetherLoot.ENTITIES_SHEEPUFF_PINK;
-                case GRAY -> AetherLoot.ENTITIES_SHEEPUFF_GRAY;
-                case LIGHT_GRAY -> AetherLoot.ENTITIES_SHEEPUFF_LIGHT_GRAY;
-                case CYAN -> AetherLoot.ENTITIES_SHEEPUFF_CYAN;
-                case PURPLE -> AetherLoot.ENTITIES_SHEEPUFF_PURPLE;
-                case BLUE -> AetherLoot.ENTITIES_SHEEPUFF_BLUE;
-                case BROWN -> AetherLoot.ENTITIES_SHEEPUFF_BROWN;
-                case GREEN -> AetherLoot.ENTITIES_SHEEPUFF_GREEN;
-                case RED -> AetherLoot.ENTITIES_SHEEPUFF_RED;
-                case BLACK -> AetherLoot.ENTITIES_SHEEPUFF_BLACK;
-            };
-        }
-    }
-
-    @Override
     protected int calculateFallDamage(float distance, float damageMultiplier) {
         return this.getPuffed() ? 0 : super.calculateFallDamage(distance, damageMultiplier);
     }
@@ -397,19 +365,19 @@ public class Sheepuff extends AetherAnimal implements Shearable, IShearable {
     @Override
     public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob entity) {
         Sheepuff parent = (Sheepuff) entity;
-        Sheepuff baby = AetherEntityTypes.SHEEPUFF.get().create(level);
+        Sheepuff baby = AetherEntityTypes.SHEEPUFF.get().create(level, EntitySpawnReason.BREEDING);
         if (baby != null) {
-            baby.setColor(this.getOffspringColor(this, parent));
+            baby.setColor(this.getOffspringColor(level, this, parent));
         }
         return baby;
     }
 
-    private DyeColor getOffspringColor(Animal parent1, Animal parent2) {
+    private DyeColor getOffspringColor(ServerLevel level, Animal parent1, Animal parent2) {
         DyeColor dyeColor1 = ((Sheepuff) parent1).getColor();
         DyeColor dyeColor2 = ((Sheepuff) parent2).getColor();
         CraftingInput craftingInput = makeCraftInput(dyeColor1, dyeColor2);
-        return this.level()
-                .getRecipeManager()
+        return level
+                .recipeAccess()
                 .getRecipeFor(RecipeType.CRAFTING, craftingInput, this.level())
                 .map(recipeHolder -> recipeHolder.value().assemble(craftingInput, this.level().registryAccess()))
                 .map(ItemStack::getItem)

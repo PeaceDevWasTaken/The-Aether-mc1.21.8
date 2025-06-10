@@ -62,12 +62,8 @@ public class AetherPortalBlock extends Block implements Portal {
     }
 
     @Override
-    public int getPortalTransitionTime(ServerLevel pLevel, Entity pEntity) {
-        return this.getLevelPortalTransitionTime(pLevel, pEntity);
-    }
-
-    private int getLevelPortalTransitionTime(Level level, Entity entity) {
-        return entity instanceof Player player ? Math.max(1, level.getGameRules().getInt(player.getAbilities().invulnerable ? GameRules.RULE_PLAYERS_NETHER_PORTAL_CREATIVE_DELAY : GameRules.RULE_PLAYERS_NETHER_PORTAL_DEFAULT_DELAY)) : 0;
+    public int getPortalTransitionTime(ServerLevel serverLevel, Entity entity) {
+        return entity instanceof Player player ? Math.max(1, serverLevel.getGameRules().getInt(player.getAbilities().invulnerable ? GameRules.RULE_PLAYERS_NETHER_PORTAL_CREATIVE_DELAY : GameRules.RULE_PLAYERS_NETHER_PORTAL_DEFAULT_DELAY)) : 0;
     }
 
     @Nullable
@@ -204,11 +200,11 @@ public class AetherPortalBlock extends Block implements Portal {
     }
 
     @Override
-    public BlockState updateShape(BlockState state, Direction direction, BlockState facingState, LevelAccessor level, BlockPos currentPos, BlockPos facingPos) {
+    protected BlockState updateShape(BlockState state, LevelReader level, ScheduledTickAccess scheduledTickAccess, BlockPos pos, Direction direction, BlockPos neighborPos, BlockState neighborState, RandomSource random) {
         Direction.Axis directionAxis = direction.getAxis();
         Direction.Axis blockAxis = state.getValue(AXIS);
         boolean flag = blockAxis != directionAxis && directionAxis.isHorizontal();
-        return !flag && !facingState.is(this) && !(new AetherPortalShape(level, currentPos, blockAxis).isComplete()) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, direction, facingState, level, currentPos, facingPos);
+        return !flag && !neighborState.is(this) && !(AetherPortalShape.findAnyShape(level, neighborPos, blockAxis).isComplete()) ? Blocks.AIR.defaultBlockState() : super.updateShape(state, level, scheduledTickAccess, pos, direction, neighborPos, neighborState, random);
     }
 
     /**

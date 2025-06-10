@@ -3,10 +3,12 @@ package com.aetherteam.aether.block;
 import com.aetherteam.aether.item.AetherItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.cauldron.CauldronInteraction;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -60,5 +62,21 @@ public class AetherCauldronInteractions {
             level.gameEvent(null, GameEvent.FLUID_PLACE, pos);
         }
         return InteractionResult.SUCCESS;
+    }
+
+
+    public static InteractionResult dyedItemIteration(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, ItemStack stack) {
+        if (!stack.is(ItemTags.DYEABLE)) {
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
+        } else if (!stack.has(DataComponents.DYED_COLOR)) {
+            return InteractionResult.TRY_WITH_EMPTY_HAND;
+        } else {
+            if (!level.isClientSide()) {
+                stack.remove(DataComponents.DYED_COLOR);
+                player.awardStat(Stats.CLEAN_ARMOR);
+                LayeredCauldronBlock.lowerFillLevel(state, level, pos);
+            }
+            return InteractionResult.SUCCESS;
+        }
     }
 }

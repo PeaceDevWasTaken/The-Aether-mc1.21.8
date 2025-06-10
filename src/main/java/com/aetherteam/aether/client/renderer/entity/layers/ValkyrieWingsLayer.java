@@ -3,7 +3,6 @@ package com.aetherteam.aether.client.renderer.entity.layers;
 import com.aetherteam.aether.client.renderer.entity.model.ValkyrieModel;
 import com.aetherteam.aether.client.renderer.entity.model.ValkyrieWingsModel;
 import com.aetherteam.aether.client.renderer.entity.state.ValkyrieRenderState;
-import com.aetherteam.aether.entity.monster.dungeon.Valkyrie;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -16,9 +15,9 @@ import net.minecraft.util.Mth;
 
 public class ValkyrieWingsLayer<T extends ValkyrieRenderState> extends RenderLayer<T, ValkyrieModel<T>> {
     private final ResourceLocation wingsLocation;
-    private final ValkyrieWingsModel<Valkyrie> wings;
+    private final ValkyrieWingsModel<ValkyrieRenderState> wings;
 
-    public ValkyrieWingsLayer(RenderLayerParent<T, ValkyrieModel<T>> entityRenderer, ResourceLocation wingsLocation, ValkyrieWingsModel<Valkyrie> wingsModel) {
+    public ValkyrieWingsLayer(RenderLayerParent<T, ValkyrieModel<T>> entityRenderer, ResourceLocation wingsLocation, ValkyrieWingsModel<ValkyrieRenderState> wingsModel) {
         super(entityRenderer);
         this.wingsLocation = wingsLocation;
         this.wings = wingsModel;

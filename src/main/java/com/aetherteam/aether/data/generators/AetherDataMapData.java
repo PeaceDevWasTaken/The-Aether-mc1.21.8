@@ -21,7 +21,7 @@ public class AetherDataMapData extends DataMapProvider {
     }
 
     @Override
-    protected void gather() {
+    protected void gather(HolderLookup.Provider provider) {
         var compostables = this.builder(NeoForgeDataMaps.COMPOSTABLES);
         this.addCompost(compostables, AetherBlocks.SKYROOT_LEAVES, 0.3F);
         this.addCompost(compostables, AetherBlocks.SKYROOT_SAPLING, 0.3F);

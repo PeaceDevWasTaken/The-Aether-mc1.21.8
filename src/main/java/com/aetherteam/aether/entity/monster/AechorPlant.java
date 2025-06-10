@@ -11,6 +11,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
@@ -176,8 +177,8 @@ public class AechorPlant extends PathfinderMob implements RangedAttackMob {
     @Override
     public void tick() {
         super.tick();
-        if (!this.level().getBlockState(this.blockPosition().below()).is(AetherTags.Blocks.AECHOR_PLANT_SPAWNABLE_ON) && !this.isPassenger()) {
-            this.kill();
+        if (!this.level().getBlockState(this.blockPosition().below()).is(AetherTags.Blocks.AECHOR_PLANT_SPAWNABLE_ON) && !this.isPassenger() && this.level() instanceof ServerLevel serverLevel) {
+            this.kill(serverLevel);
         }
         if (!this.level().isClientSide()) {
             if (this.getTarget() != null) {
@@ -223,7 +224,7 @@ public class AechorPlant extends PathfinderMob implements RangedAttackMob {
             this.setPoisonRemaining(this.getPoisonRemaining() - 1);
             ItemStack itemStack1 = ItemUtils.createFilledResult(itemStack, player, AetherItems.SKYROOT_POISON_BUCKET.get().getDefaultInstance());
             player.setItemInHand(hand, itemStack1);
-            return InteractionResult.sidedSuccess(this.level().isClientSide());
+            return InteractionResult.SUCCESS;
         } else {
             return super.mobInteract(player, hand);
         }
@@ -263,7 +264,7 @@ public class AechorPlant extends PathfinderMob implements RangedAttackMob {
      * @return Whether the entity was hurt, as a {@link Boolean}.
      */
     @Override
-    public boolean hurt(DamageSource source, float amount) {
+    public boolean hurtServer(ServerLevel serverLevel, DamageSource source, float amount) {
         if (this.hurtTime == 0) {
             for (int i = 0; i < 8; ++i) {
                 double d1 = this.getX() + (double) (this.getRandom().nextFloat() - this.getRandom().nextFloat()) * 0.5;
@@ -274,7 +275,7 @@ public class AechorPlant extends PathfinderMob implements RangedAttackMob {
                 this.level().addParticle(ParticleTypes.PORTAL, d1, d2, d3, d4, 0.25, d5);
             }
         }
-        return super.hurt(source, amount);
+        return super.hurtServer(serverLevel, source, amount);
     }
 
     /**

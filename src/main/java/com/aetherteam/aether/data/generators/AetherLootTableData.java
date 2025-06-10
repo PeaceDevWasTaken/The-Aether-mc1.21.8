@@ -19,6 +19,7 @@ public class AetherLootTableData {
                 new LootTableProvider.SubProviderEntry(AetherBlockLoot::new, LootContextParamSets.BLOCK),
                 new LootTableProvider.SubProviderEntry(AetherAdvancementLoot::new, LootContextParamSets.ADVANCEMENT_REWARD),
                 new LootTableProvider.SubProviderEntry(AetherSelectorLoot::new, LootContextParamSets.SELECTOR),
+                new LootTableProvider.SubProviderEntry(AetherShearingLoot::new, LootContextParamSets.SHEARING),
                 new LootTableProvider.SubProviderEntry(AetherStrippingLoot::new, AetherLootContexts.STRIPPING)
         ), registries);
     }

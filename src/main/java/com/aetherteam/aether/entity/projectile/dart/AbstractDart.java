@@ -133,9 +133,9 @@ public abstract class AbstractDart extends AbstractArrow {
             entity.setRemainingFireTicks(k);
             this.deflect(ProjectileDeflection.REVERSE, entity, this.getOwner(), false);
             this.setDeltaMovement(this.getDeltaMovement().scale(0.2));
-            if (!this.level().isClientSide() && this.getDeltaMovement().lengthSqr() < 1.0E-7) {
+            if (this.level() instanceof ServerLevel serverLevel && this.getDeltaMovement().lengthSqr() < 1.0E-7) {
                 if (this.pickup == AbstractArrow.Pickup.ALLOWED) {
-                    this.spawnAtLocation(this.getPickupItem(), 0.1F);
+                    this.spawnAtLocation(serverLevel, this.getPickupItem(), 0.1F);
                 }
                 this.discard();
             }

@@ -7,7 +7,9 @@ import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.EntityPredicate;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.SimpleCriterionTrigger;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 
@@ -36,8 +38,8 @@ public class LoreTrigger extends SimpleCriterionTrigger<LoreTrigger.Instance> {
             return AetherAdvancementTriggers.LORE_ENTRY.get().createCriterion(new LoreTrigger.Instance(Optional.empty(), Optional.of(item)));
         }
 
-        public static Criterion<Instance> forItem(ItemLike item) {
-            return forItem(ItemPredicate.Builder.item().of(item).build());
+        public static Criterion<Instance> forItem(HolderGetter<Item> getter, ItemLike item) {
+            return forItem(ItemPredicate.Builder.item().of(getter, item).build());
         }
 
         public static Criterion<Instance> forAny() {

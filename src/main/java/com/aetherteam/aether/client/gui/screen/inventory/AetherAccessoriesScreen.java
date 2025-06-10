@@ -48,7 +48,7 @@ import java.util.Map;
  * [CODE COPY] - {@link InventoryScreen}.<br><br>
  * Modified to register slots for Aether accessories.
  */
-public class AetherAccessoriesScreen extends EffectRenderingInventoryScreen<AetherAccessoriesMenu> implements RecipeUpdateListener, RecipeBookBehavior<AetherAccessoriesMenu, AetherAccessoriesScreen> {
+public class AetherAccessoriesScreen extends AbstractRecipeBookScreen<AetherAccessoriesMenu> implements RecipeUpdateListener, RecipeBookBehavior<AetherAccessoriesMenu, AetherAccessoriesScreen> {
     public static final WidgetSprites ACCESSORIES_BUTTON = new WidgetSprites(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "inventory/accessories_button"), ResourceLocation.fromNamespaceAndPath(Aether.MODID, "inventory/accessories_button_highlighted"));
     public static final WidgetSprites SKINS_BUTTON = new WidgetSprites(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "skins/skins_button"), ResourceLocation.fromNamespaceAndPath(Aether.MODID, "skins/skins_button_highlighted"));
     public static final WidgetSprites CUSTOMIZATION_BUTTON = new WidgetSprites(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "customization/customization_button"), ResourceLocation.fromNamespaceAndPath(Aether.MODID, "customization/customization_button_highlighted"));

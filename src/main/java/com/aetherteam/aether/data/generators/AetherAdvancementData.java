@@ -15,6 +15,7 @@ import com.aetherteam.aether.mixin.mixins.common.accessor.HoeItemAccessor;
 import net.minecraft.advancements.*;
 import net.minecraft.advancements.critereon.*;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentPredicate;
 import net.minecraft.core.registries.Registries;
@@ -23,6 +24,8 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.DamageTypeTags;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -47,6 +50,10 @@ public class AetherAdvancementData extends AdvancementProvider {
         @SuppressWarnings("unused")
         @Override
         public void generate(HolderLookup.Provider provider, Consumer<AdvancementHolder> consumer, ExistingFileHelper existingFileHelper) {
+            HolderGetter<Item> itemGetter = provider.lookupOrThrow(Registries.ITEM);
+            HolderGetter<Block> blockGetter = provider.lookupOrThrow(Registries.BLOCK);
+            HolderGetter<EntityType<?>> entityGetter = provider.lookupOrThrow(Registries.ENTITY_TYPE);
+
             AdvancementHolder theAether = Advancement.Builder.advancement()
                     .display(AetherItems.AETHER_PORTAL_FRAME.get(),
                             Component.translatable("advancement.aether.the_aether"),
@@ -84,7 +91,7 @@ public class AetherAdvancementData extends AdvancementProvider {
                             Component.translatable("advancement.aether.loreception.desc"),
                             null,
                             AdvancementType.GOAL, true, true, true)
-                    .addCriterion("lore_book_entry", LoreTrigger.Instance.forItem(AetherItems.BOOK_OF_LORE.get()))
+                    .addCriterion("lore_book_entry", LoreTrigger.Instance.forItem(itemGetter, AetherItems.BOOK_OF_LORE.get()))
                     .save(consumer, ResourceLocation.fromNamespaceAndPath(Aether.MODID, "loreception"), existingFileHelper);
 
             AdvancementHolder zanite = Advancement.Builder.advancement()
@@ -147,7 +154,7 @@ public class AetherAdvancementData extends AdvancementProvider {
                             null,
                             AdvancementType.TASK, true, true, false)
                     .requirements(AdvancementRequirements.Strategy.OR)
-                    .addCriterion("moa_egg", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(AetherTags.Items.MOA_EGGS).build()))
+                    .addCriterion("moa_egg", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(itemGetter, AetherTags.Items.MOA_EGGS).build()))
                     .save(consumer, ResourceLocation.fromNamespaceAndPath(Aether.MODID, "obtain_egg"), existingFileHelper);
 
             AdvancementHolder obtainPetal = Advancement.Builder.advancement()
@@ -168,8 +175,8 @@ public class AetherAdvancementData extends AdvancementProvider {
                     null,
                     AdvancementType.TASK, true, true, false)
                 .requirements(AdvancementRequirements.Strategy.OR)
-                .addCriterion("place_flower", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().of(AetherTags.Blocks.ENCHANTED_GRASS)), ItemPredicate.Builder.item().of(AetherTags.Items.AECHOR_PLANT_SPAWNABLE_DETERRENT)))
-                .addCriterion("enchant_grass", itemUsedOnBlockCheckAbove(LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().of(AetherTags.Blocks.ENCHANTED_GRASS)), LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().of(AetherTags.Blocks.AECHOR_PLANT_SPAWNABLE_DETERRENT)), ItemPredicate.Builder.item().of(AetherItems.AMBROSIUM_SHARD)))
+                .addCriterion("place_flower", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().of(blockGetter, AetherTags.Blocks.ENCHANTED_GRASS)), ItemPredicate.Builder.item().of(itemGetter, AetherTags.Items.AECHOR_PLANT_SPAWNABLE_DETERRENT)))
+                .addCriterion("enchant_grass", itemUsedOnBlockCheckAbove(LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().of(blockGetter, AetherTags.Blocks.ENCHANTED_GRASS)), LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().of(blockGetter, AetherTags.Blocks.AECHOR_PLANT_SPAWNABLE_DETERRENT)), ItemPredicate.Builder.item().of(itemGetter, AetherItems.AMBROSIUM_SHARD)))
                 .save(consumer, ResourceLocation.fromNamespaceAndPath(Aether.MODID, "prevent_aechor_petal_spawning"), existingFileHelper);
 
             AdvancementHolder preventSwetSpawning = Advancement.Builder.advancement()
@@ -179,7 +186,7 @@ public class AetherAdvancementData extends AdvancementProvider {
                     Component.translatable("advancement.aether.prevent_swet_spawning.desc"),
                     null,
                     AdvancementType.TASK, true, true, false)
-                .addCriterion("place_banner", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(LocationPredicate.Builder.location(), ItemPredicate.Builder.item().of(Items.BLACK_BANNER).hasComponents(DataComponentPredicate.allOf(AetherItems.createSwetBannerItemStack(provider.lookupOrThrow(Registries.BANNER_PATTERN)).getComponents()))))
+                .addCriterion("place_banner", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(LocationPredicate.Builder.location(), ItemPredicate.Builder.item().of(itemGetter, Items.BLACK_BANNER).hasComponents(DataComponentPredicate.allOf(AetherItems.createSwetBannerItemStack(provider.lookupOrThrow(Registries.BANNER_PATTERN)).getComponents()))))
                 .save(consumer, ResourceLocation.fromNamespaceAndPath(Aether.MODID, "prevent_swet_spawning"), existingFileHelper);
 
             AdvancementHolder incubateMoa = Advancement.Builder.advancement()
@@ -189,7 +196,7 @@ public class AetherAdvancementData extends AdvancementProvider {
                             Component.translatable("advancement.aether.incubate_moa.desc"),
                             null,
                             AdvancementType.TASK, true, true, false)
-                    .addCriterion("incubate_moa", IncubationTrigger.Instance.forItem(ItemPredicate.Builder.item().of(AetherTags.Items.MOA_EGGS).build()))
+                    .addCriterion("incubate_moa", IncubationTrigger.Instance.forItem(ItemPredicate.Builder.item().of(itemGetter, AetherTags.Items.MOA_EGGS).build()))
                     .save(consumer, ResourceLocation.fromNamespaceAndPath(Aether.MODID, "incubate_moa"), existingFileHelper);
 
             CompoundTag moaTag = new CompoundTag();
@@ -202,7 +209,7 @@ public class AetherAdvancementData extends AdvancementProvider {
                             Component.translatable("advancement.aether.black_moa.desc"),
                             null,
                             AdvancementType.GOAL, true, true, false)
-                    .addCriterion("black_moa", StartRidingTrigger.TriggerInstance.playerStartsRiding(EntityPredicate.Builder.entity().vehicle(EntityPredicate.Builder.entity().of(AetherEntityTypes.MOA.get()).nbt(new NbtPredicate(moaTag)))))
+                    .addCriterion("black_moa", StartRidingTrigger.TriggerInstance.playerStartsRiding(EntityPredicate.Builder.entity().vehicle(EntityPredicate.Builder.entity().of(entityGetter, AetherEntityTypes.MOA.get()).nbt(new NbtPredicate(moaTag)))))
                     .save(consumer, ResourceLocation.fromNamespaceAndPath(Aether.MODID, "black_moa"), existingFileHelper);
 
             AdvancementHolder mountPhyg = Advancement.Builder.advancement()
@@ -212,7 +219,7 @@ public class AetherAdvancementData extends AdvancementProvider {
                             Component.translatable("advancement.aether.mount_phyg.desc"),
                             null,
                             AdvancementType.TASK, true, true, false)
-                    .addCriterion("mount_phyg", StartRidingTrigger.TriggerInstance.playerStartsRiding(EntityPredicate.Builder.entity().vehicle(EntityPredicate.Builder.entity().of(AetherEntityTypes.PHYG.get()))))
+                    .addCriterion("mount_phyg", StartRidingTrigger.TriggerInstance.playerStartsRiding(EntityPredicate.Builder.entity().vehicle(EntityPredicate.Builder.entity().of(entityGetter, AetherEntityTypes.PHYG.get()))))
                     .save(consumer, ResourceLocation.fromNamespaceAndPath(Aether.MODID, "mount_phyg"), existingFileHelper);
 
             AdvancementHolder enchantedGravitite = Advancement.Builder.advancement()
@@ -246,7 +253,7 @@ public class AetherAdvancementData extends AdvancementProvider {
                             Component.translatable("advancement.aether.bronze_dungeon.desc"),
                             null,
                             AdvancementType.GOAL, true, true, false)
-                    .addCriterion("kill_slider", KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(AetherEntityTypes.SLIDER.get())))
+                    .addCriterion("kill_slider", KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(entityGetter, AetherEntityTypes.SLIDER.get())))
                     .save(consumer, ResourceLocation.fromNamespaceAndPath(Aether.MODID, "bronze_dungeon"), existingFileHelper);
 
             AdvancementHolder hammerLoot = Advancement.Builder.advancement()
@@ -266,7 +273,7 @@ public class AetherAdvancementData extends AdvancementProvider {
                             Component.translatable("advancement.aether.zephyr_hammer.desc"),
                             null,
                             AdvancementType.CHALLENGE, true, true, true)
-                    .addCriterion("zephyr_hammer", KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(AetherEntityTypes.ZEPHYR.get()), DamageSourcePredicate.Builder.damageType().tag(TagPredicate.is(DamageTypeTags.IS_PROJECTILE)).direct(EntityPredicate.Builder.entity().of(AetherEntityTypes.HAMMER_PROJECTILE.get()))))
+                    .addCriterion("zephyr_hammer", KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(entityGetter, AetherEntityTypes.ZEPHYR.get()), DamageSourcePredicate.Builder.damageType().tag(TagPredicate.is(DamageTypeTags.IS_PROJECTILE)).direct(EntityPredicate.Builder.entity().of(entityGetter, AetherEntityTypes.HAMMER_PROJECTILE.get()))))
                     .save(consumer, ResourceLocation.fromNamespaceAndPath(Aether.MODID, "zephyr_hammer"), existingFileHelper);
 
             AdvancementHolder lanceLoot = Advancement.Builder.advancement()
@@ -286,7 +293,7 @@ public class AetherAdvancementData extends AdvancementProvider {
                             Component.translatable("advancement.aether.silver_dungeon.desc"),
                             null,
                             AdvancementType.GOAL, true, true, false)
-                    .addCriterion("kill_valkyrie_queen", KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(AetherEntityTypes.VALKYRIE_QUEEN.get())))
+                    .addCriterion("kill_valkyrie_queen", KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(entityGetter, AetherEntityTypes.VALKYRIE_QUEEN.get())))
                     .save(consumer, ResourceLocation.fromNamespaceAndPath(Aether.MODID, "silver_dungeon"), existingFileHelper);
 
             AdvancementHolder valkyrieLoot = Advancement.Builder.advancement()
@@ -315,7 +322,7 @@ public class AetherAdvancementData extends AdvancementProvider {
                             Component.translatable("advancement.aether.valkyrie_hoe.desc"),
                             null,
                             AdvancementType.CHALLENGE, true, true, true)
-                    .addCriterion("valkyrie_hoe", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().of(Stream.concat(AbilityHooks.ToolHooks.TILLABLES.keySet().stream(), HoeItemAccessor.aether$getTillables().keySet().stream().sorted(Comparator.comparing(Block::getDescriptionId))).toList())), ItemPredicate.Builder.item().of(AetherItems.VALKYRIE_HOE.get())))
+                    .addCriterion("valkyrie_hoe", ItemUsedOnLocationTrigger.TriggerInstance.itemUsedOnBlock(LocationPredicate.Builder.location().setBlock(BlockPredicate.Builder.block().of(blockGetter, Stream.concat(AbilityHooks.ToolHooks.TILLABLES.keySet().stream(), HoeItemAccessor.aether$getTillables().keySet().stream().sorted(Comparator.comparing(Block::getDescriptionId))).toList())), ItemPredicate.Builder.item().of(itemGetter, AetherItems.VALKYRIE_HOE.get())))
                     .save(consumer, ResourceLocation.fromNamespaceAndPath(Aether.MODID, "valkyrie_hoe"), existingFileHelper);
 
             AdvancementHolder regenStone = Advancement.Builder.advancement()
@@ -335,7 +342,7 @@ public class AetherAdvancementData extends AdvancementProvider {
                             Component.translatable("advancement.aether.gold_dungeon.desc"),
                             null,
                             AdvancementType.GOAL, true, true, false)
-                    .addCriterion("kill_sun_spirit", KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(AetherEntityTypes.SUN_SPIRIT.get())))
+                    .addCriterion("kill_sun_spirit", KilledTrigger.TriggerInstance.playerKilledEntity(EntityPredicate.Builder.entity().of(entityGetter, AetherEntityTypes.SUN_SPIRIT.get())))
                     .save(consumer, ResourceLocation.fromNamespaceAndPath(Aether.MODID, "gold_dungeon"), existingFileHelper);
 
             AdvancementHolder phoenixArmor = Advancement.Builder.advancement()

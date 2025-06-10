@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.entity.MobRenderer;
 import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.resources.ResourceLocation;
 import net.neoforged.fml.ModList;
+import noobanidus.mods.lootr.neoforge.config.ConfigManager;
 
 import java.util.Calendar;
 

@@ -30,7 +30,8 @@ public class HammerProjectile extends ThrowableProjectile {
     }
 
     public HammerProjectile(LivingEntity owner, Level level) {
-        super(AetherEntityTypes.HAMMER_PROJECTILE.get(), owner, level);
+        super(AetherEntityTypes.HAMMER_PROJECTILE.get(), level);
+        this.setOwner(owner);
     }
 
     public HammerProjectile(Level level) {

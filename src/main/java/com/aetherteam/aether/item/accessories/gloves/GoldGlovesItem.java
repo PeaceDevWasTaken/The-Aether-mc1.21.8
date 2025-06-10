@@ -4,8 +4,8 @@ import io.wispforest.accessories.api.events.extra.PiglinNeutralInducer;
 import io.wispforest.accessories.api.slot.SlotReference;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.sounds.SoundEvents;
-import net.minecraft.world.item.ArmorMaterials;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.equipment.ArmorMaterials;
 
 public class GoldGlovesItem extends GlovesItem implements PiglinNeutralInducer {
     public GoldGlovesItem(double punchDamage, Properties properties) {

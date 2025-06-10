@@ -44,18 +44,30 @@ import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
+import net.neoforged.neoforge.client.renderstate.RegisterRenderStateModifiersEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class AetherRenderers {
+    public static ContextKey<UUID> UUID_KEY = new ContextKey<>(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "uuid"));
+
+    public static void registerRenderStateModifier(RegisterRenderStateModifiersEvent event) {
+        event.registerEntityModifier(PlayerRenderer.class, (abstractClientPlayer, playerRenderState) -> {
+            playerRenderState.setRenderData(UUID_KEY, abstractClientPlayer.getUUID());
+        });
+    }
+
     /**
      * @see AetherClient#eventSetup(IEventBus)
      */

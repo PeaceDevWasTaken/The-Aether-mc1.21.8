@@ -29,6 +29,7 @@ import net.minecraft.client.gui.screens.*;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
 import net.minecraft.util.Tuple;
@@ -319,10 +320,10 @@ public class GuiHooks {
     public static void drawBar(GuiGraphics guiGraphics, int x, int y, BossEvent bossEvent, AetherBossMob<?> aetherBossMob) {
         if (aetherBossMob.getBossBarBackgroundTexture() != null && aetherBossMob.getBossBarTexture() != null) {
             x -= 37; // The default boss health bar is offset by -91. We need -128.
-            guiGraphics.blitSprite(aetherBossMob.getBossBarBackgroundTexture(), 256, 16, 0, 0, x, y, 256, 16);
+            guiGraphics.blitSprite(RenderType::guiTextured, aetherBossMob.getBossBarBackgroundTexture(), 256, 16, 0, 0, x, y, 256, 16);
             int health = (int) (bossEvent.getProgress() * 256.0F);
             if (health > 0) {
-                guiGraphics.blitSprite(aetherBossMob.getBossBarTexture(), 256, 16, 0, 0, x, y, health, 16);
+                guiGraphics.blitSprite(RenderType::guiTextured, aetherBossMob.getBossBarTexture(), 256, 16, 0, 0, x, y, health, 16);
             }
         }
     }

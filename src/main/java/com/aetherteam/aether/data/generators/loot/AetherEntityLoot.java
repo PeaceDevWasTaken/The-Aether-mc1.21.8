@@ -6,11 +6,14 @@ import com.aetherteam.aether.item.AetherItems;
 import com.aetherteam.aether.loot.AetherLoot;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.loot.EntityLootSubProvider;
+import net.minecraft.data.loot.packs.LootData;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -71,22 +74,7 @@ public class AetherEntityLoot extends EntityLootSubProvider {
                         )
                 )
         );
-        this.add(AetherEntityTypes.SHEEPUFF.get(), AetherLoot.ENTITIES_SHEEPUFF_BLACK, createSheepuffTable(Blocks.BLACK_WOOL));
-        this.add(AetherEntityTypes.SHEEPUFF.get(), AetherLoot.ENTITIES_SHEEPUFF_BLUE, createSheepuffTable(Blocks.BLUE_WOOL));
-        this.add(AetherEntityTypes.SHEEPUFF.get(), AetherLoot.ENTITIES_SHEEPUFF_BROWN, createSheepuffTable(Blocks.BROWN_WOOL));
-        this.add(AetherEntityTypes.SHEEPUFF.get(), AetherLoot.ENTITIES_SHEEPUFF_CYAN, createSheepuffTable(Blocks.CYAN_WOOL));
-        this.add(AetherEntityTypes.SHEEPUFF.get(), AetherLoot.ENTITIES_SHEEPUFF_GRAY, createSheepuffTable(Blocks.GRAY_WOOL));
-        this.add(AetherEntityTypes.SHEEPUFF.get(), AetherLoot.ENTITIES_SHEEPUFF_GREEN, createSheepuffTable(Blocks.GREEN_WOOL));
-        this.add(AetherEntityTypes.SHEEPUFF.get(), AetherLoot.ENTITIES_SHEEPUFF_LIGHT_BLUE, createSheepuffTable(Blocks.LIGHT_BLUE_WOOL));
-        this.add(AetherEntityTypes.SHEEPUFF.get(), AetherLoot.ENTITIES_SHEEPUFF_LIGHT_GRAY, createSheepuffTable(Blocks.LIGHT_GRAY_WOOL));
-        this.add(AetherEntityTypes.SHEEPUFF.get(), AetherLoot.ENTITIES_SHEEPUFF_LIME, createSheepuffTable(Blocks.LIME_WOOL));
-        this.add(AetherEntityTypes.SHEEPUFF.get(), AetherLoot.ENTITIES_SHEEPUFF_MAGENTA, createSheepuffTable(Blocks.MAGENTA_WOOL));
-        this.add(AetherEntityTypes.SHEEPUFF.get(), AetherLoot.ENTITIES_SHEEPUFF_ORANGE, createSheepuffTable(Blocks.ORANGE_WOOL));
-        this.add(AetherEntityTypes.SHEEPUFF.get(), AetherLoot.ENTITIES_SHEEPUFF_PINK, createSheepuffTable(Blocks.PINK_WOOL));
-        this.add(AetherEntityTypes.SHEEPUFF.get(), AetherLoot.ENTITIES_SHEEPUFF_PURPLE, createSheepuffTable(Blocks.PURPLE_WOOL));
-        this.add(AetherEntityTypes.SHEEPUFF.get(), AetherLoot.ENTITIES_SHEEPUFF_RED, createSheepuffTable(Blocks.RED_WOOL));
-        this.add(AetherEntityTypes.SHEEPUFF.get(), AetherLoot.ENTITIES_SHEEPUFF_WHITE, createSheepuffTable(Blocks.WHITE_WOOL));
-        this.add(AetherEntityTypes.SHEEPUFF.get(), AetherLoot.ENTITIES_SHEEPUFF_YELLOW, createSheepuffTable(Blocks.YELLOW_WOOL));
+        LootData.WOOL_ITEM_BY_DYE.forEach((dyeColor, item) -> this.add(AetherEntityTypes.SHEEPUFF.get(), AetherLoot.SHEEPUFF_BY_DYE.get(dyeColor), LootTable.lootTable().withPool(LootPool.lootPool().add(LootItem.lootTableItem(item)))));
 
         this.add(AetherEntityTypes.MOA.get(), LootTable.lootTable()
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
@@ -250,7 +238,7 @@ public class AetherEntityLoot extends EntityLootSubProvider {
     private static LootTable.Builder createSheepuffTable(ItemLike wool) {
         return LootTable.lootTable()
                 .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(wool)))
-                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(NestedLootTable.lootTableReference(AetherEntityTypes.SHEEPUFF.get().getDefaultLootTable())));
+                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(NestedLootTable.lootTableReference(AetherEntityTypes.SHEEPUFF.get().getDefaultLootTable().get())));
     }
 
     @Override

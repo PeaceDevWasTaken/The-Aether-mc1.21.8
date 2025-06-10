@@ -24,8 +24,8 @@ import com.aetherteam.aether.item.miscellaneous.bucket.SkyrootBucketItem;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.api.slot.SlotEntryReference;
-import io.wispforest.accessories.api.slot.SlotReferenceImpl;
 import io.wispforest.accessories.api.slot.SlotTypeReference;
+import io.wispforest.accessories.impl.slot.SlotReferenceImpl;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Holder;
@@ -50,6 +50,8 @@ import net.minecraft.world.entity.projectile.FishingHook;
 import net.minecraft.world.item.*;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.item.equipment.ArmorMaterial;
+import net.minecraft.world.item.equipment.ArmorMaterials;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -149,7 +151,7 @@ public class EntityHooks {
      * @param armorMaterials The {@link ArmorMaterials} to get an item from.
      * @see EntityHooks#spawnWithAccessories(Entity, DifficultyInstance)
      */
-    private static void equipAccessory(Mob mob, SlotTypeReference identifier, Holder<ArmorMaterial> armorMaterials) {
+    private static void equipAccessory(Mob mob, SlotTypeReference identifier, ArmorMaterial armorMaterials) {
         AccessoriesCapability accessories = AccessoriesCapability.get(mob);
         if (accessories != null) {
             AccessoriesContainer accessoriesContainer = accessories.getContainer(identifier);
@@ -180,23 +182,23 @@ public class EntityHooks {
      * @see EntityHooks#equipAccessory(Mob, SlotTypeReference, Holder)
      */
     @Nullable
-    private static Item getEquipmentForSlot(SlotTypeReference identifier, Holder<ArmorMaterial> armorMaterial) {
+    private static Item getEquipmentForSlot(SlotTypeReference identifier, ArmorMaterial armorMaterial) {
         if (identifier.equals(GlovesItem.getStaticIdentifier())) {
-            if (armorMaterial.is(ArmorMaterials.LEATHER)) {
+            if (armorMaterial == ArmorMaterials.LEATHER) {
                 return AetherItems.LEATHER_GLOVES.get();
-            } else if (armorMaterial.is(ArmorMaterials.GOLD)) {
+            } else if (armorMaterial == ArmorMaterials.GOLD) {
                 return AetherItems.GOLDEN_GLOVES.get();
-            } else if (armorMaterial.is(ArmorMaterials.CHAIN)) {
+            } else if (armorMaterial == ArmorMaterials.CHAINMAIL) {
                 return AetherItems.CHAINMAIL_GLOVES.get();
-            } else if (armorMaterial.is(ArmorMaterials.IRON)) {
+            } else if (armorMaterial == ArmorMaterials.IRON) {
                 return AetherItems.IRON_GLOVES.get();
-            } else if (armorMaterial.is(ArmorMaterials.DIAMOND)) {
+            } else if (armorMaterial == ArmorMaterials.DIAMOND) {
                 return AetherItems.DIAMOND_GLOVES.get();
             }
         } else if (identifier.equals(PendantItem.getStaticIdentifier())) {
-            if (armorMaterial.is(ArmorMaterials.IRON)) {
+            if (armorMaterial == ArmorMaterials.IRON) {
                 return AetherItems.IRON_PENDANT.get();
-            } else if (armorMaterial.is(ArmorMaterials.GOLD)) {
+            } else if (armorMaterial == ArmorMaterials.GOLD) {
                 return AetherItems.GOLDEN_PENDANT.get();
             }
         }
@@ -311,7 +313,7 @@ public class EntityHooks {
                         CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayer) player, bucketStack);
                     }
                     target.discard();
-                    interactionResult = Optional.of(InteractionResult.sidedSuccess(level.isClientSide()));
+                    interactionResult = Optional.of(InteractionResult.SUCCESS);
                 } else {
                     interactionResult = Optional.of(InteractionResult.FAIL);
                 }

@@ -34,6 +34,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.players.PlayerList;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -318,7 +319,7 @@ public class AetherPlayerAttachment implements INBTSynchable {
                 if (inventory.contains(AetherTags.Items.DEPLOYABLE_PARACHUTES)) {
                     for (ItemStack stack : inventory.items) {
                         if (stack.getItem() instanceof ParachuteItem parachuteItem) {
-                            Parachute parachute = parachuteItem.getParachuteEntity().get().create(level);
+                            Parachute parachute = parachuteItem.getParachuteEntity().get().create(level, EntitySpawnReason.TRIGGERED);
                             if (parachute != null) {
                                 parachute.setPos(player.getX(), player.getY() - 1.0, player.getZ());
                                 parachute.setDeltaMovement(player.getDeltaMovement());

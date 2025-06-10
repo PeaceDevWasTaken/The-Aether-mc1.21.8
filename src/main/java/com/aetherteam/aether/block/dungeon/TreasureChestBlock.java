@@ -113,19 +113,19 @@ public class TreasureChestBlock extends AbstractChestBlock<TreasureChestBlockEnt
             if (!treasureChestBlockEntity.getLocked()) {
                 if (level.isClientSide()) {
                     return InteractionResult.SUCCESS;
-                } else {
+                } else if (level instanceof ServerLevel serverLevel) {
                     MenuProvider menuprovider = this.getMenuProvider(state, level, pos);
                     if (menuprovider != null) {
                         player.openMenu(menuprovider);
                         player.awardStat(Stats.CUSTOM.get(Stats.OPEN_CHEST));
-                        PiglinAi.angerNearbyPiglins(player, true);
+                        PiglinAi.angerNearbyPiglins(serverLevel, player, true);
                     }
 
                     return InteractionResult.CONSUME;
                 }
             }
         }
-        return InteractionResult.sidedSuccess(level.isClientSide());
+        return InteractionResult.SUCCESS;
     }
 
     @Override
@@ -143,13 +143,13 @@ public class TreasureChestBlock extends AbstractChestBlock<TreasureChestBlockEnt
                         if (!player.getAbilities().instabuild) {
                             stack.shrink(1);
                         }
-                        return InteractionResult.sidedSuccess(level.isClientSide());
+                        return InteractionResult.SUCCESS;
                     }
                 }
                 player.displayClientMessage(Component.translatable(kind.getNamespace() + "." + kind.getPath() + "_treasure_chest_locked"), true);
             }
         }
-        return InteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return InteractionResult.PASS;
     }
 
     @Override
