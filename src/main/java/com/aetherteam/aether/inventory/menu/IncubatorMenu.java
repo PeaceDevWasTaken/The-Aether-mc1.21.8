@@ -55,36 +55,6 @@ public class IncubatorMenu extends RecipeBookMenu<SingleRecipeInput, IncubationR
     }
 
     @Override
-    public void clearCraftingContent() {
-        this.getSlot(0).set(ItemStack.EMPTY);
-    }
-
-    @Override
-    public boolean recipeMatches(RecipeHolder<IncubationRecipe> recipe) {
-        return recipe.value().matches(new SingleRecipeInput(this.container.getItem(0)), this.level);
-    }
-
-    @Override
-    public int getResultSlotIndex() {
-        return -1;
-    }
-
-    @Override
-    public int getGridWidth() {
-        return 1;
-    }
-
-    @Override
-    public int getGridHeight() {
-        return 1;
-    }
-
-    @Override
-    public int getSize() {
-        return 2;
-    }
-
-    @Override
     public boolean stillValid(Player player) {
         return this.container.stillValid(player);
     }
