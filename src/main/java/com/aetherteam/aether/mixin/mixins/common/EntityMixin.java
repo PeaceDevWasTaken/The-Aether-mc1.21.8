@@ -77,25 +77,13 @@ public class EntityMixin {
         if (minecraftserver != null) {
             ServerLevel destination = minecraftserver.getLevel(LevelUtil.returnDimension());
             if (destination != null && LevelUtil.returnDimension() != LevelUtil.destinationDimension()) {
-                List<Entity> passengers = entity.getPassengers();
                 ProfilerFiller profiler = Profiler.get();
                 profiler.push("aether_fall");
                 entity.setPortalCooldown();
                 TeleportTransition transition = new TeleportTransition(destination, new Vec3(entity.getX(), destination.getMaxY(), entity.getZ()), entity.getDeltaMovement(), entity.getYRot(), entity.getXRot(), Set.of(), TeleportTransition.DO_NOTHING);
                 Entity target = entity.teleport(transition);
                 profiler.pop();
-                // Check for passengers.
                 if (target != null) {
-                    for (Entity passenger : passengers) {
-                        passenger.stopRiding();
-                        Entity nextPassenger = entityFell(passenger);
-                        if (nextPassenger != null) {
-                            nextPassenger.startRiding(target);
-                            if (target instanceof ServerPlayer serverPlayer) { // Fixes a desync between the server and client.
-                                PacketDistributor.sendToPlayer(serverPlayer, new SetVehiclePacket(nextPassenger.getId(), target.getId()));
-                            }
-                        }
-                    }
                     if (target instanceof ServerPlayer) {
                         DimensionHooks.teleportationTimer = 500; // Sets a timer marking that the player teleported from falling out of the Aether.
                     }
