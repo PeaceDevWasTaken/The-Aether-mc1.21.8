@@ -452,7 +452,7 @@ public class Swet extends Slime implements MountableMob {
      * @return Whether the Swet should target, as a {@link Boolean}.
      */
     public boolean isFriendlyTowardEntity(LivingEntity entity) {
-        return EquipmentUtil.hasSwetCape(entity);
+        return EquipmentUtil.hasSwetPacifyingAccessory(entity);
     }
 
     /**
