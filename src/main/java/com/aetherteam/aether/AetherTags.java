@@ -103,6 +103,7 @@ public class AetherTags {
         public static final TagKey<Item> MOA_EGGS = tag("moa_eggs");
         public static final TagKey<Item> FREEZABLE_RINGS = tag("freezable_rings");
         public static final TagKey<Item> FREEZABLE_PENDANTS = tag("freezable_pendants");
+        public static final TagKey<Item> PACIFIES_SWETS = tag("pacifies_swets");
         public static final TagKey<Item> SLIDER_DAMAGING_ITEMS = tag("slider_damaging_items");
         public static final TagKey<Item> BRONZE_DUNGEON_LOOT = tag("bronze_dungeon_loot");
         public static final TagKey<Item> SILVER_DUNGEON_LOOT = tag("silver_dungeon_loot");

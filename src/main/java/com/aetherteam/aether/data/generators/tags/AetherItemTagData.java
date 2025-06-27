@@ -125,6 +125,7 @@ public class AetherItemTagData extends ItemTagsProvider {
         this.tag(AetherTags.Items.FREEZABLE_PENDANTS)
                 .add(AetherItems.IRON_PENDANT.get())
                 .add(AetherItems.GOLDEN_PENDANT.get());
+        this.tag(AetherTags.Items.PACIFIES_SWETS).add(AetherItems.SWET_CAPE.get());
         this.tag(AetherTags.Items.SLIDER_DAMAGING_ITEMS).addTag(ItemTags.PICKAXES);
         this.tag(AetherTags.Items.BRONZE_DUNGEON_LOOT).add(
                 AetherItems.VALKYRIE_LANCE.get(),
