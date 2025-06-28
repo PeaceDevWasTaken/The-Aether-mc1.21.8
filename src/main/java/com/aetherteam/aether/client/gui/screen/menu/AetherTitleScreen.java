@@ -101,24 +101,27 @@ public class AetherTitleScreen extends TitleScreen implements TitleScreenBehavio
 
     @Override
     public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTicks) {
+        PoseStack poseStack = guiGraphics.pose();
         TitleScreenAccessor titleScreenAccessor = (TitleScreenAccessor) this;
         if (this.minecraft != null && titleScreenAccessor.aether$getSplash() == null) {
             titleScreenAccessor.aether$setSplash(this.minecraft.getSplashManager().getSplash());
         }
         float fadeAmount = TitleScreenBehavior.super.handleFading(guiGraphics, this, titleScreenAccessor, PANORAMA, PANORAMA_OVERLAY, partialTicks);
         float scale = getScale(this, this.getMinecraft());
+        poseStack.pushPose();
+        poseStack.translate(0.0, 0.0, -2.0F);
         this.setupLogo(guiGraphics, fadeAmount, scale);
+        poseStack.popPose();
         int roundedFadeAmount = Mth.ceil(fadeAmount * 255.0F) << 24;
         if ((roundedFadeAmount & -67108864) != 0) {
             ClientHooks.renderMainMenu(this, guiGraphics, this.font, this.width, this.height, roundedFadeAmount);
             if (titleScreenAccessor.aether$getSplash() != null) {
                 SplashRendererAccessor splashRendererAccessor = (SplashRendererAccessor) titleScreenAccessor.aether$getSplash();
                 if (splashRendererAccessor.cumulus$getSplash() != null && !splashRendererAccessor.cumulus$getSplash().isEmpty()) {
-                    PoseStack poseStack = guiGraphics.pose();
                     float splashX = AetherTitleScreen.this.alignedLeft ? 400.0F / scale : (float) AetherTitleScreen.this.width / 2 + (175 / scale);
                     float splashY = AetherTitleScreen.this.alignedLeft ? 100.0F / scale : (int) (20 + (76 / scale));
                     poseStack.pushPose();
-                    poseStack.translate(splashX, splashY, 0.0F);
+                    poseStack.translate(splashX, splashY, -1.0F);
                     poseStack.mulPose(Axis.ZP.rotationDegrees(-20.0F));
                     float textSize = 1.8F - Mth.abs(Mth.sin((float) (Util.getMillis() % 1000L) / 1000.0F * Mth.TWO_PI) * 0.1F);
                     textSize = textSize * (200.0F / scale) / (AetherTitleScreen.this.font.width(splashRendererAccessor.cumulus$getSplash()) + (64 / scale));
@@ -144,7 +147,7 @@ public class AetherTitleScreen extends TitleScreen implements TitleScreenBehavio
         for (Renderable renderable : this.renderables) {
             renderable.render(guiGraphics, mouseX, mouseY, partialTicks);
             if (renderable instanceof AetherMenuButton aetherButton) { // Smoothly shifts the Aether-styled buttons to the right slightly when hovered over.
-                if (aetherButton.isMouseOver(mouseX, mouseY)) {
+                if (aetherButton.isMouseOver(mouseX, mouseY)) { //todo check currently open Modal
                     if (aetherButton.hoverOffset < 15) {
                         aetherButton.hoverOffset += 4;
                     }

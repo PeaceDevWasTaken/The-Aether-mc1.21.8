@@ -3,6 +3,7 @@ package com.aetherteam.aether.client.gui.screen.menu;
 import com.aetherteam.aether.mixin.mixins.client.accessor.TitleScreenAccessor;
 import com.aetherteam.cumulus.CumulusConfig;
 import com.mojang.blaze3d.systems.RenderSystem;
+import gg.essential.partnermod.AdButton;
 import net.minecraft.Util;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -87,6 +88,9 @@ public interface TitleScreenBehavior {
                     button.setY(4);
                 } else if (buttonText.equals(Component.translatable("options.language"))) {
                     button.setX(titleScreen.width - 24 + xOffset);
+                    button.setY(4);
+                } else if (button instanceof AdButton) {
+                    button.setX(titleScreen.width - 72 + xOffset);
                     button.setY(4);
                 }
             }
