@@ -142,6 +142,7 @@ public class AetherOverlays {
      */
     @SuppressWarnings("deprecation")
     private static void renderAetherPortalOverlay(GuiGraphics guiGraphics, Minecraft minecraft, AetherPlayerAttachment handler, DeltaTracker partialTicks) {
+        if(minecraft.options.hideGui) return;
         float timeInPortal = Mth.lerp(partialTicks.getGameTimeDeltaPartialTick(false), handler.getOldPortalIntensity(), handler.getPortalIntensity());
         if (timeInPortal > 0.0F) {
             if (timeInPortal < 1.0F) {
@@ -172,6 +173,7 @@ public class AetherOverlays {
      * @param player      The player that has the effect.
      */
     private static void renderInebriationOverlay(GuiGraphics guiGraphics, Minecraft minecraft, Window window, Player player) {
+        if(minecraft.options.hideGui) return;
         MobEffectInstance inebriation = player.getEffect(AetherEffects.INEBRIATION);
         double effectScale = minecraft.options.screenEffectScale().get();
         if (inebriation != null) {
@@ -190,6 +192,7 @@ public class AetherOverlays {
      * @param player      The player that has the effect.
      */
     private static void renderRemedyOverlay(GuiGraphics guiGraphics, Minecraft minecraft, Window window, Player player) {
+        if(minecraft.options.hideGui) return;
         MobEffectInstance remedy = player.getEffect(AetherEffects.REMEDY);
         double effectScale = minecraft.options.screenEffectScale().get();
         if (remedy != null) {
@@ -211,6 +214,7 @@ public class AetherOverlays {
      * @param player      The player.
      */
     private static void renderRepulsionOverlay(GuiGraphics guiGraphics, Minecraft minecraft, Window window, Player player) {
+        if(minecraft.options.hideGui) return;
         var handler = player.getData(AetherDataAttachments.AETHER_PLAYER);
         int projectileImpactedMaximum = handler.getProjectileImpactedMaximum();
         int projectileImpactedTimer = handler.getProjectileImpactedTimer();
@@ -246,7 +250,7 @@ public class AetherOverlays {
      * @param player      The {@link LocalPlayer}.
      */
     private static void renderHammerCooldownOverlay(GuiGraphics guiGraphics, Minecraft minecraft, Window window, LocalPlayer player) {
-        if (AetherConfig.CLIENT.enable_hammer_cooldown_overlay.get()) {
+        if (AetherConfig.CLIENT.enable_hammer_cooldown_overlay.get() && !minecraft.options.hideGui) {
             Inventory inventory = player.getInventory();
             if (inventory.contains((itemStack) -> itemStack.is(AetherItems.HAMMER_OF_KINGBDOGZ.get()))) {
                 List<ItemStack> items = new ArrayList<>(inventory.items);
@@ -281,7 +285,7 @@ public class AetherOverlays {
      * @param player      The {@link LocalPlayer}.
      */
     private static void renderMoaJumps(GuiGraphics guiGraphics, Window window, LocalPlayer player) {
-        if (player.getVehicle() instanceof Moa moa) {
+        if (player.getVehicle() instanceof Moa moa && !Minecraft.getInstance().options.hideGui) {
             for (int jumpCount = 0; jumpCount < moa.getMaxJumps(); jumpCount++) {
                 int xPos = ((window.getGuiScaledWidth() / 2) + (jumpCount * 8)) - (moa.getMaxJumps() * 8) / 2;
                 int yPos = 18;
@@ -360,7 +364,7 @@ public class AetherOverlays {
      */
     private static void renderSilverLifeShardHearts(GuiGraphics guiGraphics, Minecraft minecraft, Window window, Gui gui, LocalPlayer player) {
         GuiAccessor guiAccessor = (GuiAccessor) gui;
-        if (AetherConfig.CLIENT.enable_silver_hearts.get() && minecraft.gameMode.canHurtPlayer()) {
+        if (AetherConfig.CLIENT.enable_silver_hearts.get() && minecraft.gameMode.canHurtPlayer() && !minecraft.options.hideGui) {
             var aetherPlayer = player.getData(AetherDataAttachments.AETHER_PLAYER);
             if (aetherPlayer.getLifeShardCount() > 0) {
                 AttributeInstance attributeInstance = player.getAttribute(Attributes.MAX_HEALTH);
