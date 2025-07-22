@@ -1,3 +1,9 @@
+# The Aether - Fabric - 1.20.1-1.5.2-beta.9
+
+Fixes
+
+- Update Cumulus to fix splash crash.
+
 # The Aether - Fabric - 1.20.1-1.5.2-beta.8
 
 Fixes
