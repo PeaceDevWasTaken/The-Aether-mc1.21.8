@@ -35,6 +35,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.DyedItemColor;
 import net.minecraft.world.item.equipment.EquipmentModel;
 import net.minecraft.world.item.equipment.trim.ArmorTrim;
+import net.neoforged.neoforge.client.extensions.common.IClientItemExtensions;
 
 public class GlovesRenderer implements AccessoryRenderer {
     private final GlovesModel glovesModel;
@@ -84,10 +85,10 @@ public class GlovesRenderer implements AccessoryRenderer {
         AccessoryRenderer.followBodyRotations(reference.entity(), model);
         AccessoryRenderer.followBodyRotations(reference.entity(), trimModel);
 
-        int color = stack.is(ItemTags.DYEABLE) ? ARGB.opaque(DyedItemColor.getOrDefault(stack, -6265536)) : -1;
+        int color = IClientItemExtensions.of(stack).getDefaultDyeColor(stack);
         VertexConsumer vertexConsumer = multiBufferSource.getBuffer(RenderType.armorCutoutNoCull(texture));
         model.renderToBuffer(matrices, vertexConsumer, packedLight, OverlayTexture.NO_OVERLAY, color);
-
+        
         GlovesModel finalTrimModel = trimModel;
 
         ArmorTrim trim = stack.get(DataComponents.TRIM);
@@ -134,7 +135,7 @@ public class GlovesRenderer implements AccessoryRenderer {
         GlovesItem glovesItem = (GlovesItem) stack.getItem();
         VertexConsumer consumer = buffer.getBuffer(RenderType.armorCutoutNoCull(glovesItem.getGlovesTexture()));
 
-        int color = stack.is(ItemTags.DYEABLE) ? ARGB.opaque(DyedItemColor.getOrDefault(stack, -6265536)) : -1;
+        int color = IClientItemExtensions.of(stack).getDefaultDyeColor(stack);
 
         model.setAllVisible(false);/*
         model.attackTime = 0.0F;
