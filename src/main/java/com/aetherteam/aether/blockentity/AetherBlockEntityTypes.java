@@ -10,6 +10,9 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 public class AetherBlockEntityTypes {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(BuiltInRegistries.BLOCK_ENTITY_TYPE, Aether.MODID);
 
+    public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<AetherFlowerBlockEntity>> FLOWER = BLOCK_ENTITY_TYPES.register("flower", () ->
+            new BlockEntityType<>(AetherFlowerBlockEntity::new, AetherBlocks.PURPLE_FLOWER.get(), AetherBlocks.WHITE_FLOWER.get()));
+
     public static final DeferredHolder<BlockEntityType<?>, BlockEntityType<IcestoneBlockEntity>> ICESTONE = BLOCK_ENTITY_TYPES.register("icestone", () ->
             new BlockEntityType<>(IcestoneBlockEntity::new, AetherBlocks.ICESTONE.get(), AetherBlocks.ICESTONE_SLAB.get(), AetherBlocks.ICESTONE_STAIRS.get(), AetherBlocks.ICESTONE_WALL.get()));
 
