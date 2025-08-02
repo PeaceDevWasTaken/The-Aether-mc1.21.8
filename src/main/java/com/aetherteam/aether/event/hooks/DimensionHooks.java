@@ -139,7 +139,7 @@ public class DimensionHooks {
                     if ((level.dimension() == LevelUtil.returnDimension() || level.dimension() == LevelUtil.destinationDimension())) {
                         Optional<AetherPortalShape> optional = AetherPortalShape.findEmptyAetherPortalShape(level, relativePos, Direction.Axis.X);
                         if (optional.isPresent()) {
-                            optional.get().createPortalBlocks();
+                            optional.get().createPortalBlocks(level);
                             player.playSound(SoundEvents.BUCKET_EMPTY, 1.0F, 1.0F);
                             player.swing(hand);
                             if (!player.isCreative()) {
@@ -178,7 +178,7 @@ public class DimensionHooks {
                     if ((level.dimension() == LevelUtil.returnDimension() || level.dimension() == LevelUtil.destinationDimension()) && !AetherConfig.SERVER.disable_aether_portal.get()) {
                         Optional<AetherPortalShape> optional = AetherPortalShape.findEmptyAetherPortalShape(level, pos, Direction.Axis.X);
                         if (optional.isPresent()) {
-                            optional.get().createPortalBlocks();
+                            optional.get().createPortalBlocks(levelAccessor);
                             return true;
                         }
                     }

@@ -7,6 +7,7 @@ import com.aetherteam.nitrogen.recipe.BlockStateIngredient;
 import com.aetherteam.nitrogen.recipe.recipes.AbstractBlockStateRecipe;
 import com.aetherteam.nitrogen.recipe.serializer.BlockStateRecipeSerializer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 
 import java.util.Optional;
@@ -17,7 +18,12 @@ public class AccessoryFreezableRecipe extends AbstractBlockStateRecipe {
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeBookCategory recipeBookCategory() {
+        return null;
+    }
+
+    @Override
+    public RecipeSerializer<AccessoryFreezableRecipe> getSerializer() {
         return AetherRecipeSerializers.ACCESSORY_FREEZABLE.get();
     }
 

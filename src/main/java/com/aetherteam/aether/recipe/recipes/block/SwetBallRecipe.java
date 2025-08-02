@@ -12,6 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -36,7 +37,12 @@ public class SwetBallRecipe extends AbstractBiomeParameterRecipe implements Matc
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeBookCategory recipeBookCategory() {
+        return null;
+    }
+
+    @Override
+    public RecipeSerializer<SwetBallRecipe> getSerializer() {
         return AetherRecipeSerializers.SWET_BALL_CONVERSION.get();
     }
 

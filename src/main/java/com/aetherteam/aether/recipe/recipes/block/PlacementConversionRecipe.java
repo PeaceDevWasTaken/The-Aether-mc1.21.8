@@ -12,6 +12,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.crafting.RecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.biome.Biome;
@@ -49,7 +50,12 @@ public class PlacementConversionRecipe extends AbstractBiomeParameterRecipe {
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeBookCategory recipeBookCategory() {
+        return null;
+    }
+
+    @Override
+    public RecipeSerializer<PlacementConversionRecipe> getSerializer() {
         return AetherRecipeSerializers.PLACEMENT_CONVERSION.get();
     }
 

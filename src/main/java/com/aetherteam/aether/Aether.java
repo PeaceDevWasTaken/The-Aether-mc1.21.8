@@ -55,6 +55,7 @@ import com.aetherteam.aether.network.packet.serverbound.*;
 import com.aetherteam.aether.recipe.AetherRecipeSerializers;
 import com.aetherteam.aether.recipe.AetherRecipeTypes;
 import com.aetherteam.aether.recipe.book.AetherRecipeBookCategories;
+import com.aetherteam.aether.recipe.display.AetherRecipeDisplays;
 import com.aetherteam.aether.world.AetherPoi;
 import com.aetherteam.aether.world.feature.AetherFeatures;
 import com.aetherteam.aether.world.foliageplacer.AetherFoliagePlacerTypes;
@@ -156,6 +157,7 @@ public class Aether {
                 AetherStructureProcessors.STRUCTURE_PROCESSOR_TYPES,
                 AetherRecipeTypes.RECIPE_TYPES,
                 AetherRecipeSerializers.RECIPE_SERIALIZERS,
+                AetherRecipeDisplays.RECIPE_DISPLAYS,
                 AetherRecipeBookCategories.RECIPE_BOOK_CATEGORIES,
                 AetherLootFunctions.LOOT_FUNCTION_TYPES,
                 AetherLootConditions.LOOT_CONDITION_TYPES,

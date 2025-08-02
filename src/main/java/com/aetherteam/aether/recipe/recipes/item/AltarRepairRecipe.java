@@ -9,18 +9,17 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.AbstractCookingRecipe;
-import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.SingleRecipeInput;
+import net.minecraft.world.item.crafting.*;
 
 public class AltarRepairRecipe extends AbstractAetherCookingRecipe {
     public final Ingredient ingredient;
 
     public AltarRepairRecipe(String group, Ingredient ingredient, int repairTime) {
-        super(AetherRecipeTypes.ENCHANTING.get(), group, AetherBookCategory.ENCHANTING_REPAIR, ingredient, ingredient.getItems()[0], 0.0F, repairTime);
+        super(group, AetherBookCategory.ENCHANTING_REPAIR, ingredient, ingredient.items().get(0).value().getDefaultInstance(), 0.0F, repairTime);
         this.ingredient = ingredient;
     }
 
@@ -30,32 +29,29 @@ public class AltarRepairRecipe extends AbstractAetherCookingRecipe {
      */
     @Override
     public ItemStack assemble(SingleRecipeInput inventory, HolderLookup.Provider provider) {
-        return this.ingredient.getItems()[0];
-    }
-
-    /**
-     * @return The original {@link ItemStack} ingredient for Recipe Book display, because repairing always outputs the same item as the input.
-     */
-    @Override
-    public ItemStack getResultItem(HolderLookup.Provider provider) {
-        return this.ingredient.getItems()[0];
+        return this.ingredient.items().get(0).value().getDefaultInstance();
     }
 
     @Override
-    public ItemStack getToastSymbol() {
-        return new ItemStack(AetherBlocks.ALTAR.get());
+    protected Item furnaceIcon() {
+        return AetherBlocks.ALTAR.get().asItem();
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<AltarRepairRecipe> getSerializer() {
         return AetherRecipeSerializers.REPAIRING.get();
+    }
+
+    @Override
+    public RecipeType<? extends AbstractCookingRecipe> getType() {
+        return AetherRecipeTypes.ENCHANTING.get();
     }
 
     public static class Serializer implements RecipeSerializer<AltarRepairRecipe> {
         private static final MapCodec<AltarRepairRecipe> CODEC = RecordCodecBuilder.mapCodec((instance) -> instance.group(
-                Codec.STRING.optionalFieldOf("group", "").forGetter(AbstractCookingRecipe::getGroup),
-                Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter((recipe) -> recipe.ingredient),
-                Codec.INT.fieldOf("repairTime").orElse(500).forGetter((recipe) -> recipe.cookingTime)
+                Codec.STRING.optionalFieldOf("group", "").forGetter(AbstractCookingRecipe::group),
+                Ingredient.CODEC.fieldOf("ingredient").forGetter(SingleItemRecipe::input),
+                Codec.INT.fieldOf("repairTime").orElse(500).forGetter(AbstractCookingRecipe::cookingTime)
         ).apply(instance, AltarRepairRecipe::new));
 
         @Override
@@ -65,20 +61,12 @@ public class AltarRepairRecipe extends AbstractAetherCookingRecipe {
 
         @Override
         public StreamCodec<RegistryFriendlyByteBuf, AltarRepairRecipe> streamCodec() {
-            return StreamCodec.of(this::toNetwork, this::fromNetwork);
-        }
-
-        public AltarRepairRecipe fromNetwork(RegistryFriendlyByteBuf buffer) {
-            String group = buffer.readUtf();
-            Ingredient ingredient = Ingredient.CONTENTS_STREAM_CODEC.decode(buffer);
-            int cookingTime = buffer.readVarInt();
-            return new AltarRepairRecipe(group, ingredient, cookingTime);
-        }
-
-        public void toNetwork(RegistryFriendlyByteBuf buffer, AltarRepairRecipe recipe) {
-            buffer.writeUtf(recipe.group);
-            Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.ingredient);
-            buffer.writeVarInt(recipe.cookingTime);
+            return StreamCodec.composite(
+                ByteBufCodecs.STRING_UTF8, AbstractCookingRecipe::group,
+                Ingredient.CONTENTS_STREAM_CODEC, AbstractCookingRecipe::input,
+                ByteBufCodecs.INT, AbstractCookingRecipe::cookingTime,
+                AltarRepairRecipe::new
+            );
         }
     }
 }

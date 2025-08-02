@@ -9,6 +9,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.FuelValues;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class FreezerBlockEntity extends AbstractAetherFurnaceBlockEntity {
@@ -28,7 +29,7 @@ public class FreezerBlockEntity extends AbstractAetherFurnaceBlockEntity {
     }
 
     @Override
-    protected int getBurnDuration(ItemStack fuelStack) {
+    protected int getBurnDuration(FuelValues fuelValues, ItemStack fuelStack) {
         if (!fuelStack.isEmpty()) {
             var datamap = fuelStack.getItemHolder().getData(AetherDataMaps.FREEZER_FUEL);
             if (datamap != null) {

@@ -41,11 +41,9 @@ public class ReloadListeners {
         }
     }
 
-    public static class BannerReloadListener extends SimpleJsonResourceReloadListener {
-        public static final Gson GSON_INSTANCE = new GsonBuilder().create();
-
+    public static class BannerReloadListener extends SimpleJsonResourceReloadListener<JsonElement> {
         public BannerReloadListener() {
-            super(GSON_INSTANCE, Registries.elementsDirPath(Registries.BANNER_PATTERN));
+            super(ExtraCodecs.JSON, Registries.elementsDirPath(Registries.BANNER_PATTERN));
         }
 
         @Override

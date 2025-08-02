@@ -5,6 +5,7 @@ import com.aetherteam.aether.event.hooks.EntityHooks;
 import io.wispforest.accessories.api.AccessoriesAPI;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.Accessory;
+import io.wispforest.accessories.api.AccessoryRegistry;
 import io.wispforest.accessories.api.events.OnDeathCallback;
 import net.fabricmc.fabric.api.util.TriState;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -224,14 +225,14 @@ public class EntityListener {
                                     var location = ResourceLocation.parse(itemCompoundTag.getString("id"));
                                     if (!location.getNamespace().equals(Aether.MODID)) continue;
 
-                                    Item item = BuiltInRegistries.ITEM.get(location);
+                                    Item item = BuiltInRegistries.ITEM.getValue(location);
                                     if (item == Items.AIR) continue;
 
                                     ItemStack stack = new ItemStack(item);
                                     AccessoriesCapability accessories = AccessoriesCapability.get(player);
                                     if (accessories == null) continue;
 
-                                    Accessory accessory = AccessoriesAPI.getOrDefaultAccessory(stack);
+                                    Accessory accessory = AccessoryRegistry.getAccessoryOrDefault(stack);
                                     var equipReference = accessories.canEquipAccessory(stack, true);
                                     if (equipReference == null) continue;
 

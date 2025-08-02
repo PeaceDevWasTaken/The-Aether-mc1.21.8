@@ -3,12 +3,12 @@ package com.aetherteam.aether.recipe.recipes.item;
 import com.aetherteam.aether.block.AetherBlocks;
 import com.aetherteam.aether.recipe.AetherRecipeSerializers;
 import com.aetherteam.aether.recipe.AetherRecipeTypes;
+import com.aetherteam.aether.recipe.display.IncubatorRecipeDisplay;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -16,7 +16,6 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
-import net.minecraft.world.item.crafting.display.FurnaceRecipeDisplay;
 import net.minecraft.world.item.crafting.display.RecipeDisplay;
 import net.minecraft.world.item.crafting.display.SlotDisplay;
 import net.minecraft.world.level.Level;
@@ -25,7 +24,7 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Optional;
 
-public class IncubationRecipe implements SingleItemRecipe {
+public class IncubationRecipe implements Recipe<SingleRecipeInput> {
     protected final RecipeType<IncubationRecipe> type;
     protected final String group;
     protected final Ingredient ingredient;
@@ -67,36 +66,37 @@ public class IncubationRecipe implements SingleItemRecipe {
         return this.tag;
     }
 
-    @Override
-    public NonNullList<Ingredient> getIngredients() {
-        NonNullList<Ingredient> nonNullList = NonNullList.create();
-        nonNullList.add(this.ingredient);
-        return nonNullList;
+    public Ingredient getIngredient() {
+        return this.ingredient;
     }
 
     @Override
-    public String getGroup() {
+    public String group() {
         return this.group;
     }
 
     @Override
-    public ItemStack getToastSymbol() {
-        return new ItemStack(AetherBlocks.INCUBATOR.get());
+    public List<RecipeDisplay> display() {
+        return List.of(
+            new IncubatorRecipeDisplay(
+                this.ingredient.display(),
+                SlotDisplay.AnyFuel.INSTANCE,
+                this.ingredient.display(),
+                new SlotDisplay.ItemSlotDisplay(AetherBlocks.INCUBATOR.get().asItem()),
+                this.incubationTime
+            )
+        );
     }
 
-//    @Override
-//    public List<RecipeDisplay> display() {
-//        return List.of(
-//            new FurnaceRecipeDisplay(
-//                this.input().display(),
-//                SlotDisplay.AnyFuel.INSTANCE,
-//                new SlotDisplay.ItemStackSlotDisplay(this.result()),
-//                new SlotDisplay.ItemSlotDisplay(this.furnaceIcon()),
-//                this.cookingTime,
-//                this.experience
-//            )
-//        );
-//    }
+    @Override
+    public PlacementInfo placementInfo() {
+        return null;
+    }
+
+    @Override
+    public RecipeBookCategory recipeBookCategory() {
+        return null;
+    }
 
     @Override
     public RecipeSerializer<IncubationRecipe> getSerializer() {

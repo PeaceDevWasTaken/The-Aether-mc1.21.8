@@ -15,11 +15,6 @@ public class EnchantingRecipe extends AbstractAetherCookingRecipe {
     }
 
     @Override
-    public RecipeType<? extends AbstractCookingRecipe> getType() {
-        return AetherRecipeTypes.ENCHANTING.get();
-    }
-
-    @Override
     protected Item furnaceIcon() {
         return AetherBlocks.ALTAR.asItem();
     }
@@ -27,6 +22,11 @@ public class EnchantingRecipe extends AbstractAetherCookingRecipe {
     @Override
     public RecipeSerializer<EnchantingRecipe> getSerializer() {
         return AetherRecipeSerializers.ENCHANTING.get();
+    }
+
+    @Override
+    public RecipeType<? extends AbstractCookingRecipe> getType() {
+        return AetherRecipeTypes.ENCHANTING.get();
     }
 
     public static class Serializer extends AetherCookingSerializer<EnchantingRecipe> {

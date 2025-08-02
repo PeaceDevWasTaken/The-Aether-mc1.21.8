@@ -57,7 +57,7 @@ public class IncubatorBlock extends BaseEntityBlock {
 
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> blockEntityType) {
-        return createTickerHelper(blockEntityType, AetherBlockEntityTypes.INCUBATOR.get(), IncubatorBlockEntity::serverTick);
+        return level instanceof ServerLevel serverLevel ?  createTickerHelper(blockEntityType, AetherBlockEntityTypes.INCUBATOR.get(), (blockEntityLevel, pos, blockEntityState, blockEntity) -> IncubatorBlockEntity.serverTick(serverLevel, pos, blockEntityState, blockEntity)) : null;
     }
 
     @Override

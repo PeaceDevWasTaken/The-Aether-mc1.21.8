@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
@@ -29,7 +30,12 @@ public class AmbrosiumRecipe extends AbstractBlockStateRecipe implements MatchEv
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeBookCategory recipeBookCategory() {
+        return null;
+    }
+
+    @Override
+    public RecipeSerializer<AmbrosiumRecipe> getSerializer() {
         return AetherRecipeSerializers.AMBROSIUM_ENCHANTING.get();
     }
 
