@@ -23,13 +23,16 @@ import net.minecraft.client.gui.components.ImageButton;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.navigation.ScreenPosition;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.gui.screens.recipebook.CraftingRecipeBookComponent;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.client.gui.screens.recipebook.RecipeUpdateListener;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Tuple;
@@ -48,7 +51,7 @@ import java.util.Map;
  * [CODE COPY] - {@link InventoryScreen}.<br><br>
  * Modified to register slots for Aether accessories.
  */
-public class AetherAccessoriesScreen extends AbstractRecipeBookScreen<AetherAccessoriesMenu> implements RecipeUpdateListener {
+public class AetherAccessoriesScreen extends AbstractRecipeBookScreen<AetherAccessoriesMenu> {
     public static final WidgetSprites ACCESSORIES_BUTTON = new WidgetSprites(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "inventory/accessories_button"), ResourceLocation.fromNamespaceAndPath(Aether.MODID, "inventory/accessories_button_highlighted"));
     public static final WidgetSprites SKINS_BUTTON = new WidgetSprites(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "skins/skins_button"), ResourceLocation.fromNamespaceAndPath(Aether.MODID, "skins/skins_button_highlighted"));
     public static final WidgetSprites CUSTOMIZATION_BUTTON = new WidgetSprites(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "customization/customization_button"), ResourceLocation.fromNamespaceAndPath(Aether.MODID, "customization/customization_button_highlighted"));
@@ -58,7 +61,7 @@ public class AetherAccessoriesScreen extends AbstractRecipeBookScreen<AetherAcce
 
     private static final SimpleContainer DESTROY_ITEM_CONTAINER = new SimpleContainer(1);
     private final Map<AccessoriesBasedSlot, ToggleButton> cosmeticButtons = new LinkedHashMap<>();
-    private final RecipeBookComponent recipeBookComponent = new RecipeBookComponent();
+    private final RecipeBookComponent<?> recipeBookComponent;
     private boolean widthTooNarrow;
     private boolean buttonClicked;
     private boolean isRenderButtonHovered;
@@ -66,8 +69,14 @@ public class AetherAccessoriesScreen extends AbstractRecipeBookScreen<AetherAcce
     private Slot destroyItemSlot;
     private int nukeCoolDown = 0;
 
+
     public AetherAccessoriesScreen(AetherAccessoriesMenu accessoriesMenu, Inventory playerInventory, Component title) {
-        super(accessoriesMenu, playerInventory, title);
+        this(accessoriesMenu, new CraftingRecipeBookComponent(playerInventory.player.inventoryMenu), playerInventory, title);
+    }
+
+    public AetherAccessoriesScreen(AetherAccessoriesMenu accessoriesMenu, RecipeBookComponent<?> recipeBookComponent, Inventory playerInventory, Component title) {
+        super(accessoriesMenu, recipeBookComponent, playerInventory, title);
+        this.recipeBookComponent = recipeBookComponent;
     }
 
     @Override
@@ -77,7 +86,7 @@ public class AetherAccessoriesScreen extends AbstractRecipeBookScreen<AetherAcce
             this.imageWidth = this.getMinecraft().player.isCreative() ? 176 + this.creativeXOffset() : 176;
         }
         this.widthTooNarrow = this.width < 379;
-        this.getRecipeBookComponent().init(this.width, this.height, this.getMinecraft(), this.widthTooNarrow, this.getMenu());
+        this.getRecipeBookComponent().init(this.width, this.height, this.getMinecraft(), this.widthTooNarrow);
         this.updateScreenPosition();
         this.addWidget(this.getRecipeBookComponent());
         this.setInitialFocus(this.getRecipeBookComponent());
@@ -112,11 +121,15 @@ public class AetherAccessoriesScreen extends AbstractRecipeBookScreen<AetherAcce
     }
 
     @Override
-    protected void containerTick() {
+    protected ScreenPosition getRecipeBookButtonPosition() {
+        return new ScreenPosition(this.leftPos + 142, this.height / 2 - 22);
+    }
+
+    @Override
+    public void containerTick() {
         if (this.nukeCoolDown > 0) {
             this.nukeCoolDown--;
         }
-        RecipeBookBehavior.super.containerTick(this);
     }
 
     /**
@@ -209,7 +222,7 @@ public class AetherAccessoriesScreen extends AbstractRecipeBookScreen<AetherAcce
         } else {
             this.getRecipeBookComponent().render(guiGraphics, mouseX, mouseY, partialTicks);
             super.render(guiGraphics, mouseX, mouseY, partialTicks);
-            this.getRecipeBookComponent().renderGhostRecipe(guiGraphics, this.getGuiLeft(), this.getGuiTop(), false, partialTicks);
+            this.getRecipeBookComponent().renderGhostRecipe(guiGraphics, this.isBiggerResultSlot());
 
             for (var cosmeticButton : this.cosmeticButtons.values()) {
                 cosmeticButton.render(guiGraphics, mouseX, mouseY, partialTicks);
@@ -251,7 +264,7 @@ public class AetherAccessoriesScreen extends AbstractRecipeBookScreen<AetherAcce
             }
         }
         this.renderTooltip(guiGraphics, mouseX, mouseY);
-        this.getRecipeBookComponent().renderTooltip(guiGraphics, this.getGuiLeft(), this.getGuiTop(), mouseX, mouseY);
+        this.getRecipeBookComponent().renderTooltip(guiGraphics, mouseX, mouseY, this.hoveredSlot);
     }
 
     @Override
@@ -259,7 +272,7 @@ public class AetherAccessoriesScreen extends AbstractRecipeBookScreen<AetherAcce
         if (this.getMinecraft().player != null) {
             int i = this.getGuiLeft();
             int j = this.getGuiTop();
-            guiGraphics.blit(this.getMinecraft().player.isCreative() ? ACCESSORIES_INVENTORY_CREATIVE : ACCESSORIES_INVENTORY, i, j, 0, 0, this.getXSize() + this.creativeXOffset(), this.getYSize());
+            guiGraphics.blit(RenderType::guiTextured, this.getMinecraft().player.isCreative() ? ACCESSORIES_INVENTORY_CREATIVE : ACCESSORIES_INVENTORY, i, j, 0.0F, 0.0F, this.getXSize() + this.creativeXOffset(), this.getYSize(), 256, 256);
             InventoryScreen.renderEntityInInventoryFollowsMouse(guiGraphics, i + 9, j + 8, i + 58, j + 78, 30, 0.1575F, mouseX, mouseY, this.getMinecraft().player);
         }
     }
@@ -336,18 +349,12 @@ public class AetherAccessoriesScreen extends AbstractRecipeBookScreen<AetherAcce
         }
     }
 
-    @Override
-    protected boolean hasClickedOutside(double mouseX, double mouseY, int guiLeft, int guiTop, int mouseButton) {
-        return RecipeBookBehavior.super.hasClickedOutside(this, mouseX, mouseY, guiLeft, guiTop, mouseButton);
-    }
-
     /**
      * [CODE COPY] {@link net.minecraft.client.gui.screens.inventory.AbstractContainerScreen}.<br><br>
      * Heavily modified to only have behavior for the item trash slot.
      */
     @Override
     protected void slotClicked(@Nullable Slot slot, int slotId, int mouseButton, ClickType type) {
-        RecipeBookBehavior.super.slotClicked(this, slot);
         if (this.getMinecraft().player != null && this.getMinecraft().gameMode != null) {
             boolean flag = type == ClickType.QUICK_MOVE;
             if (slot != null || type == ClickType.QUICK_CRAFT) {
@@ -372,22 +379,16 @@ public class AetherAccessoriesScreen extends AbstractRecipeBookScreen<AetherAcce
         }
     }
 
-    @Override
-    public void recipesUpdated() {
-        RecipeBookBehavior.super.recipesUpdated(this);
-    }
-
-    @Override
-    public RecipeBookComponent getRecipeBookComponent() {
+    public RecipeBookComponent<?> getRecipeBookComponent() {
         return this.recipeBookComponent;
     }
 
-    @Override
-    public boolean canSeeEffects() {
-        int i = this.getGuiLeft() + this.getXSize() + 2 + this.creativeXOffset();
-        int j = this.width - i;
-        return j > 13;
-    }
+//    @Override
+//    public boolean canSeeEffects() {
+//        int i = this.getGuiLeft() + this.getXSize() + 2 + this.creativeXOffset();
+//        int j = this.width - i;
+//        return j > 13;
+//    }
 
     /**
      * Offsets the accessories screen button based on what screen is currently open.

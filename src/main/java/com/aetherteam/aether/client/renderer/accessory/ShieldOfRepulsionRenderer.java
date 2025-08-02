@@ -76,13 +76,13 @@ public class ShieldOfRepulsionRenderer implements AccessoryRenderer {
      * @param headPitch         The {@link Float} for the head pitch rotation.
      */
     @Override
-    public <S extends LivingEntityRenderState> void render(ItemStack stack, SlotReference reference, PoseStack matrices, EntityModel<S> model, S renderState, MultiBufferSource multiBufferSource, int light, float partialTicks) {
+    public <S extends LivingEntityRenderState> void render(ItemStack stack, SlotReference reference, PoseStack poseStack, EntityModel<S> entityModel, S renderState, MultiBufferSource buffer, int packedLight, float partialTicks) {
         LivingEntity livingEntity = reference.entity();
         ShieldOfRepulsionItem shield = (ShieldOfRepulsionItem) stack.getItem();
         ResourceLocation texture;
-        HumanoidModel<LivingEntity> model;
+        HumanoidModel<HumanoidRenderState> model;
 
-        if (livingEntity instanceof Player player && entityModel instanceof PlayerModel<?> playerModel) {
+        if (livingEntity instanceof Player player && entityModel instanceof PlayerModel playerModel) {
             PlayerModelAccessor playerModelAccessor = (PlayerModelAccessor) playerModel;
             var data = player.getData(AetherDataAttachments.AETHER_PLAYER);
             Vec3 motion = player.getDeltaMovement();
@@ -101,7 +101,7 @@ public class ShieldOfRepulsionRenderer implements AccessoryRenderer {
                 texture = shield.getShieldOfRepulsionInactiveTexture();
             }
         }
-        entityModel.copyPropertiesTo((EntityModel<M>) model);
+        entityModel.copyPropertiesTo((EntityModel<S>) model);
 
         AccessoryRenderer.followBodyRotations(reference.entity(), model);
         VertexConsumer consumer = ItemRenderer.getArmorFoilBuffer(buffer, shieldOfRepulsionRenderType(texture), false);
@@ -114,10 +114,10 @@ public class ShieldOfRepulsionRenderer implements AccessoryRenderer {
     }
 
     @Override
-    public <M extends LivingEntity> void renderOnFirstPerson(HumanoidArm arm, ItemStack stack, SlotReference reference, PoseStack matrices, EntityModel<M> model, MultiBufferSource multiBufferSource, int light) {
+    public <S extends LivingEntityRenderState> void renderOnFirstPerson(HumanoidArm arm, ItemStack stack, SlotReference reference, PoseStack matrices, EntityModel<S> model, S renderState, MultiBufferSource multiBufferSource, int light, float partialTicks) {
         LivingEntity livingEntity = reference.entity();
-        if (livingEntity instanceof AbstractClientPlayer player) {
-            this.renderFirstPerson(stack, matrices, multiBufferSource, light, player, arm);
+        if (livingEntity instanceof AbstractClientPlayer player && renderState instanceof HumanoidRenderState humanoidRenderState) {
+            this.renderFirstPerson(stack, matrices, multiBufferSource, light, player, humanoidRenderState, arm);
         }
     }
 
@@ -133,9 +133,9 @@ public class ShieldOfRepulsionRenderer implements AccessoryRenderer {
      * @param player      The {@link AbstractClientPlayer} to render for.
      * @param arm         The {@link HumanoidArm} to render on.
      */
-    public void renderFirstPerson(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, AbstractClientPlayer player, HumanoidArm arm) {
+    public void renderFirstPerson(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, AbstractClientPlayer player, HumanoidRenderState renderState, HumanoidArm arm) {
         boolean isSlim = player.getSkin().model() == PlayerSkin.Model.SLIM;
-        this.setupShieldOnHand(stack, this.shieldModelArm, poseStack, buffer, packedLight, player, arm, isSlim);
+        this.setupShieldOnHand(stack, this.shieldModelArm, poseStack, buffer, packedLight, player, renderState, arm, isSlim);
     }
 
     /**
@@ -150,8 +150,8 @@ public class ShieldOfRepulsionRenderer implements AccessoryRenderer {
      * @param arm         The {@link HumanoidArm} to render on.
      * @param isSlim      Whether the arm model is slim, as a {@link Boolean}.
      */
-    private void setupShieldOnHand(ItemStack stack, HumanoidModel<HumanoidRenderState> model, PoseStack poseStack, MultiBufferSource buffer, int packedLight, AbstractClientPlayer player, HumanoidArm arm, boolean isSlim) {
-        this.setupModel(model, player);
+    private void setupShieldOnHand(ItemStack stack, HumanoidModel<HumanoidRenderState> model, PoseStack poseStack, MultiBufferSource buffer, int packedLight, AbstractClientPlayer player, HumanoidRenderState renderState, HumanoidArm arm, boolean isSlim) {
+        this.setupModel(model, renderState);
 
         ResourceLocation texture;
         ShieldOfRepulsionItem shield = (ShieldOfRepulsionItem) stack.getItem();
@@ -182,14 +182,14 @@ public class ShieldOfRepulsionRenderer implements AccessoryRenderer {
      * Applies basic model properties for an arm model.
      *
      * @param model  The player's {@link PlayerModel}.
-     * @param player The {@link AbstractClientPlayer} to render for.
+     * @param renderState The {@link AbstractClientPlayer} to render for.
      */
-    private void setupModel(HumanoidModel<HumanoidRenderState> model, AbstractClientPlayer player) {
+    private void setupModel(HumanoidModel<HumanoidRenderState> model, HumanoidRenderState renderState) {
         model.setAllVisible(false);
-        model.attackTime = 0.0F;
-        model.crouching = false;
-        model.swimAmount = 0.0F;
-        model.setupAnim(player, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+        renderState.attackTime = 0.0F;
+        renderState.crouching = false;
+        renderState.swimAmount = 0.0F;
+        model.setupAnim(renderState);
     }
 
     /**

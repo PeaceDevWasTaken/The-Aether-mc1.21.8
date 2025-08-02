@@ -70,7 +70,7 @@ public class PlayerWingsLayer<T extends PlayerRenderState, M extends PlayerModel
         this.wings.leftWing.yRot = -0.4F;
         this.wings.leftWing.zRot = -0.125F;
 
-        if (entity.isCrouching()) {
+        if (entity.isCrouching) {
             this.wings.rightWing.xRot = 0.45F;
             this.wings.rightWing.y = 3.33F;
             this.wings.rightWing.z = 3.388F;
