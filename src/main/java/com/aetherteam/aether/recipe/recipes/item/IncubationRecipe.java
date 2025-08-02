@@ -1,6 +1,7 @@
 package com.aetherteam.aether.recipe.recipes.item;
 
 import com.aetherteam.aether.block.AetherBlocks;
+import com.aetherteam.aether.data.resources.registries.AetherDataMaps;
 import com.aetherteam.aether.recipe.AetherRecipeSerializers;
 import com.aetherteam.aether.recipe.AetherRecipeTypes;
 import com.aetherteam.aether.recipe.display.IncubatorRecipeDisplay;
@@ -22,7 +23,9 @@ import net.minecraft.world.level.Level;
 
 import javax.annotation.Nullable;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class IncubationRecipe implements Recipe<SingleRecipeInput> {
     protected final RecipeType<IncubationRecipe> type;
@@ -80,7 +83,7 @@ public class IncubationRecipe implements Recipe<SingleRecipeInput> {
         return List.of(
             new IncubatorRecipeDisplay(
                 this.ingredient.display(),
-                SlotDisplay.AnyFuel.INSTANCE,
+                new SlotDisplay.Composite(BuiltInRegistries.ITEM.getDataMap(AetherDataMaps.INCUBATOR_FUEL).keySet().stream().map(BuiltInRegistries.ITEM::getValue).filter(Objects::nonNull).map(SlotDisplay.ItemSlotDisplay::new).collect(Collectors.toList())),
                 this.ingredient.display(),
                 new SlotDisplay.ItemSlotDisplay(AetherBlocks.INCUBATOR.get().asItem()),
                 this.incubationTime

@@ -1,23 +1,29 @@
 package com.aetherteam.aether.client.gui.screen.inventory.recipebook;
 
 import com.aetherteam.aether.data.resources.registries.AetherDataMaps;
+import com.aetherteam.aether.inventory.menu.IncubatorMenu;
 import net.minecraft.client.gui.components.WidgetSprites;
+import net.minecraft.client.gui.screens.recipebook.GhostSlots;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
+import net.minecraft.client.gui.screens.recipebook.RecipeCollection;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.context.ContextMap;
+import net.minecraft.world.entity.player.StackedItemContents;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.display.RecipeDisplay;
 
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class IncubatorRecipeBookComponent extends RecipeBookComponent {
+public class IncubatorRecipeBookComponent extends RecipeBookComponent<IncubatorMenu> {
     private static final WidgetSprites FILTER_SPRITES = new WidgetSprites(
             ResourceLocation.withDefaultNamespace("recipe_book/furnace_filter_enabled"),
             ResourceLocation.withDefaultNamespace("recipe_book/furnace_filter_disabled"),
@@ -34,11 +40,21 @@ public class IncubatorRecipeBookComponent extends RecipeBookComponent {
     }
 
     @Override
+    protected boolean isCraftingSlot(Slot slot) {
+        return false;
+    }
+
+    @Override
     public void slotClicked(@Nullable Slot slot) {
         super.slotClicked(slot);
         if (slot != null && slot.index < this.menu.getSize()) {
             this.ghostRecipe.clear();
         }
+    }
+
+    @Override
+    protected void selectMatchingRecipes(RecipeCollection recipeCollection, StackedItemContents stackedItemContents) {
+
     }
 
     @Override
@@ -64,7 +80,8 @@ public class IncubatorRecipeBookComponent extends RecipeBookComponent {
         return FILTER_NAME;
     }
 
-    protected Set<Item> getFuelItems() {
-        return BuiltInRegistries.ITEM.getDataMap(AetherDataMaps.INCUBATOR_FUEL).keySet().stream().map(BuiltInRegistries.ITEM::get).collect(Collectors.toSet());
+    @Override
+    protected void fillGhostRecipe(GhostSlots ghostSlots, RecipeDisplay recipeDisplay, ContextMap contextMap) {
+
     }
 }

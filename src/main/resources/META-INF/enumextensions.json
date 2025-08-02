@@ -19,24 +19,6 @@
       }
     },
     {
-      "enum": "net/minecraft/world/inventory/RecipeBookType",
-      "name": "AETHER_ALTAR",
-      "constructor": "()V",
-      "parameters": [ ]
-    },
-    {
-      "enum": "net/minecraft/world/inventory/RecipeBookType",
-      "name": "AETHER_FREEZER",
-      "constructor": "()V",
-      "parameters": [ ]
-    },
-    {
-      "enum": "net/minecraft/world/inventory/RecipeBookType",
-      "name": "AETHER_INCUBATOR",
-      "constructor": "()V",
-      "parameters": [ ]
-    },
-    {
       "enum": "net/minecraft/world/entity/MobCategory",
       "name": "AETHER_AETHER_SURFACE_MONSTER",
       "constructor": "(Ljava/lang/String;IZZI)V",
@@ -59,96 +41,6 @@
       "name": "AETHER_AETHER_AERWHALE",
       "constructor": "(Ljava/lang/String;IZZI)V",
       "parameters": [ "aether:aether_aerwhale", 1, true, false, 128 ]
-    },
-    {
-      "enum": "net/minecraft/client/RecipeBookCategories",
-      "name": "AETHER_ENCHANTING_SEARCH",
-      "constructor": "(Ljava/util/function/Supplier;)V",
-      "parameters": {
-        "class": "com/aetherteam/aether/AetherEnumExtensions",
-        "method": "enchantingSearchIcon"
-      }
-    },
-    {
-      "enum": "net/minecraft/client/RecipeBookCategories",
-      "name": "AETHER_ENCHANTING_FOOD",
-      "constructor": "(Ljava/util/function/Supplier;)V",
-      "parameters": {
-        "class": "com/aetherteam/aether/AetherEnumExtensions",
-        "method": "enchantingFoodIcon"
-      }
-    },
-    {
-      "enum": "net/minecraft/client/RecipeBookCategories",
-      "name": "AETHER_ENCHANTING_BLOCKS",
-      "constructor": "(Ljava/util/function/Supplier;)V",
-      "parameters": {
-        "class": "com/aetherteam/aether/AetherEnumExtensions",
-        "method": "enchantingBlocksIcon"
-      }
-    },
-    {
-      "enum": "net/minecraft/client/RecipeBookCategories",
-      "name": "AETHER_ENCHANTING_MISC",
-      "constructor": "(Ljava/util/function/Supplier;)V",
-      "parameters": {
-        "class": "com/aetherteam/aether/AetherEnumExtensions",
-        "method": "enchantingMiscIcon"
-      }
-    },
-    {
-      "enum": "net/minecraft/client/RecipeBookCategories",
-      "name": "AETHER_ENCHANTING_REPAIR",
-      "constructor": "(Ljava/util/function/Supplier;)V",
-      "parameters": {
-        "class": "com/aetherteam/aether/AetherEnumExtensions",
-        "method": "enchantingRepairIcon"
-      }
-    },
-    {
-      "enum": "net/minecraft/client/RecipeBookCategories",
-      "name": "AETHER_FREEZABLE_SEARCH",
-      "constructor": "(Ljava/util/function/Supplier;)V",
-      "parameters": {
-        "class": "com/aetherteam/aether/AetherEnumExtensions",
-        "method": "freezableSearchIcon"
-      }
-    },
-    {
-      "enum": "net/minecraft/client/RecipeBookCategories",
-      "name": "AETHER_FREEZABLE_BLOCKS",
-      "constructor": "(Ljava/util/function/Supplier;)V",
-      "parameters": {
-        "class": "com/aetherteam/aether/AetherEnumExtensions",
-        "method": "freezableBlocksIcon"
-      }
-    },
-    {
-      "enum": "net/minecraft/client/RecipeBookCategories",
-      "name": "AETHER_FREEZABLE_MISC",
-      "constructor": "(Ljava/util/function/Supplier;)V",
-      "parameters": {
-        "class": "com/aetherteam/aether/AetherEnumExtensions",
-        "method": "freezableMiscIcon"
-      }
-    },
-    {
-      "enum": "net/minecraft/client/RecipeBookCategories",
-      "name": "AETHER_INCUBATION_SEARCH",
-      "constructor": "(Ljava/util/function/Supplier;)V",
-      "parameters": {
-        "class": "com/aetherteam/aether/AetherEnumExtensions",
-        "method": "incubationSearchIcon"
-      }
-    },
-    {
-      "enum": "net/minecraft/client/RecipeBookCategories",
-      "name": "AETHER_INCUBATION_MISC",
-      "constructor": "(Ljava/util/function/Supplier;)V",
-      "parameters": {
-        "class": "com/aetherteam/aether/AetherEnumExtensions",
-        "method": "incubationMiscIcon"
-      }
     }
   ]
 }
