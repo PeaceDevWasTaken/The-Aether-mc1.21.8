@@ -176,20 +176,23 @@ public abstract class AbstractAetherFurnaceBlockEntity extends AbstractFurnaceBl
      */
     @Override
     public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
-        AbstractFurnaceBlockEntityAccessor abstractFurnaceBlockEntityAccessor = (AbstractFurnaceBlockEntityAccessor) this;
-        Optional<Ingredient> ingredient = abstractFurnaceBlockEntityAccessor.aether$getQuickCheck().getRecipeFor(new SingleRecipeInput(abstractFurnaceBlockEntityAccessor.aether$getItems().getFirst()), this.level).map((recipe) -> recipe.value().input());
-        if (this.remainderItem.isEmpty()) {
-            ingredient.ifPresent(ing -> this.remainderItem = stack.getCraftingRemainder()); // Stores the correlating crafting remainder item.
-        }
-        if (direction == Direction.DOWN && index == 0) {
-            if (!this.remainderItem.isEmpty()) {
-                return stack.is(this.remainderItem.getItem()); // An item can be taken as long as it matches the stored crafting remainder item.
-            } else {
-                return false;
+        if (this.level instanceof ServerLevel serverLevel) {
+            AbstractFurnaceBlockEntityAccessor abstractFurnaceBlockEntityAccessor = (AbstractFurnaceBlockEntityAccessor) this;
+            Optional<Ingredient> ingredient = abstractFurnaceBlockEntityAccessor.aether$getQuickCheck().getRecipeFor(new SingleRecipeInput(abstractFurnaceBlockEntityAccessor.aether$getItems().getFirst()), serverLevel).map((recipe) -> recipe.value().input());
+            if (this.remainderItem.isEmpty()) {
+                ingredient.ifPresent(ing -> this.remainderItem = stack.getCraftingRemainder()); // Stores the correlating crafting remainder item.
             }
-        } else {
-            return true;
+            if (direction == Direction.DOWN && index == 0) {
+                if (!this.remainderItem.isEmpty()) {
+                    return stack.is(this.remainderItem.getItem()); // An item can be taken as long as it matches the stored crafting remainder item.
+                } else {
+                    return false;
+                }
+            } else {
+                return true;
+            }
         }
+        return false;
     }
 
     @Override

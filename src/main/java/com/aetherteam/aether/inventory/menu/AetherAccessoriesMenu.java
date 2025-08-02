@@ -4,8 +4,8 @@ import com.aetherteam.aether.inventory.AetherAccessorySlots;
 import com.aetherteam.aether.mixin.mixins.common.accessor.AbstractContainerMenuAccessor;
 import com.aetherteam.aether.mixin.mixins.common.accessor.CraftingMenuAccessor;
 import com.mojang.datafixers.util.Pair;
-import io.wispforest.accessories.api.AccessoriesAPI;
 import io.wispforest.accessories.api.menu.AccessoriesSlotGenerator;
+import io.wispforest.accessories.api.slot.SlotPredicateRegistry;
 import io.wispforest.accessories.api.slot.SlotType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -139,7 +139,7 @@ public class AetherAccessoriesMenu extends InventoryMenu {
             ItemStack itemStack1 = slot.getItem();
             itemStack = itemStack1.copy();
             EquipmentSlot equipmentSlot = player.getEquipmentSlotForItem(itemStack);
-            Collection<SlotType> accessorySlots = AccessoriesAPI.getValidSlotTypes(player, itemStack);
+            Collection<SlotType> accessorySlots = SlotPredicateRegistry.getValidSlotTypes(player, itemStack);
             if (index == 0) {
                 if (!this.moveItemStackTo(itemStack1, 17, 53, true)) {
                     return ItemStack.EMPTY;

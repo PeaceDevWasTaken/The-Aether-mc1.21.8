@@ -12,6 +12,7 @@ import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.renderer.PanoramaRenderer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -29,8 +30,7 @@ public interface TitleScreenBehavior {
         float fadeAmount = titleScreenAccessor.aether$isFading() ? (float) (Util.getMillis() - titleScreenAccessor.aether$getFadeInStart()) / 1000.0F : 1.0F;
         panorama.render(guiGraphics, titleScreen.width, titleScreen.height, Mth.clamp(fadeAmount, 0.0F, 1.0F), partialTicks);
         RenderSystem.enableBlend();
-        guiGraphics.setColor(1.0F, 1.0F, 1.0F, titleScreenAccessor.aether$isFading() ? (float) Mth.ceil(Mth.clamp(fadeAmount, 0.0F, 1.0F)) : 1.0F);
-        guiGraphics.blit(panoramaOverlay, 0, 0, titleScreen.width, titleScreen.height, 0.0F, 0.0F, 16, 128, 16, 128);
+        guiGraphics.blit(RenderType::guiTextured, panoramaOverlay, 0, 0, titleScreen.width, titleScreen.height, 16, 128, 16, (int) ((titleScreenAccessor.aether$isFading() ? (float) Mth.ceil(Mth.clamp(fadeAmount, 0.0F, 1.0F)) : 1.0F) * 255.0F));
         return titleScreenAccessor.aether$isFading() ? Mth.clamp(fadeAmount - 1.0F, 0.0F, 1.0F) : 1.0F;
     }
 

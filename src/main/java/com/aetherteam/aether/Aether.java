@@ -56,6 +56,7 @@ import com.aetherteam.aether.recipe.AetherRecipeSerializers;
 import com.aetherteam.aether.recipe.AetherRecipeTypes;
 import com.aetherteam.aether.recipe.book.AetherRecipeBookCategories;
 import com.aetherteam.aether.recipe.display.AetherRecipeDisplays;
+import com.aetherteam.aether.recipe.recipes.set.AetherRecipePropertySets;
 import com.aetherteam.aether.world.AetherPoi;
 import com.aetherteam.aether.world.feature.AetherFeatures;
 import com.aetherteam.aether.world.foliageplacer.AetherFoliagePlacerTypes;
@@ -205,6 +206,8 @@ public class Aether {
 
             AetherItems.registerAccessories();
             AetherItems.setupBucketReplacements();
+
+            AetherRecipePropertySets.addToMap();
 
             this.registerDispenserBehaviors();
             this.registerCauldronInteractions();

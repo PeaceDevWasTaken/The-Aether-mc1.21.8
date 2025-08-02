@@ -149,7 +149,7 @@ public class DimensionClientHooks {
             if (!data.isTimeSynced()) {
                 LevelAccessor levelAccessor = (LevelAccessor) level;
                 if (levelAccessor.aether$getLevelData().getGameRules().getBoolean(GameRules.RULE_DAYLIGHT)) {
-                    level.setDayTime(data.tickTime(level) - 1); // The client always increments time by 1 every tick.
+                    level.setDayTimePerTick(data.tickTime(level) - 1); // The client always increments time by 1 every tick.
                 }
             }
         }

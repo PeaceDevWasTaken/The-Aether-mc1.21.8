@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.WidgetSprites;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
 public class PatreonButton extends Button {
@@ -29,7 +30,7 @@ public class PatreonButton extends Button {
         if (this.small) {
             location = SMALL_WIDGET.get(this.isActive(), this.isHoveredOrFocused());
         }
-        guiGraphics.blitSprite(location, this.getX(), this.getY(), this.getWidth(), this.getHeight());
+        guiGraphics.blitSprite(RenderType::guiTextured, location, this.getX(), this.getY(), this.getWidth(), this.getHeight());
         guiGraphics.drawCenteredString(minecraft.font, this.getMessage(), this.getX() + (this.getWidth() / 2), this.getY() + (this.getHeight() / 2) - 4, 16777215);
     }
 }

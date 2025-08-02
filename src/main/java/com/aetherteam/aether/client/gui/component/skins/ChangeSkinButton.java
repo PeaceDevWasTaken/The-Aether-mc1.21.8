@@ -4,6 +4,7 @@ import com.aetherteam.aether.Aether;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.WidgetSprites;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
 public class ChangeSkinButton extends Button {
@@ -32,7 +33,7 @@ public class ChangeSkinButton extends Button {
         } else {
             location = REMOVE_WIDGET.get(this.isActive(), this.isHovered());
         }
-        guiGraphics.blitSprite(location, this.getX(), this.getY(), 7, 7);
+        guiGraphics.blitSprite(RenderType::guiTextured, location, this.getX(), this.getY(), 7, 7);
     }
 
     public enum ButtonType {

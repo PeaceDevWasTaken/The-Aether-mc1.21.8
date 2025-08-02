@@ -1,7 +1,6 @@
 package com.aetherteam.aether.client.gui.screen.inventory;
 
 import com.aetherteam.aether.Aether;
-import com.aetherteam.aether.block.AetherBlocks;
 import com.aetherteam.aether.client.gui.screen.inventory.recipebook.IncubatorRecipeBookComponent;
 import com.aetherteam.aether.inventory.menu.IncubatorMenu;
 import com.aetherteam.aether.item.AetherItems;
@@ -27,7 +26,7 @@ public class IncubatorScreen extends AbstractRecipeBookScreen<IncubatorMenu> {
         new RecipeBookComponent.TabInfo(AetherItems.BLUE_MOA_EGG.get(), AetherRecipeBookCategories.INCUBATION_MISC.get()));
 
     public IncubatorScreen(IncubatorMenu menu, Inventory playerInventory, Component title) {
-        super(menu, new IncubatorRecipeBookComponent(), playerInventory, title);
+        super(menu, new IncubatorRecipeBookComponent(menu, TABS), playerInventory, title);
     }
 
     @Override

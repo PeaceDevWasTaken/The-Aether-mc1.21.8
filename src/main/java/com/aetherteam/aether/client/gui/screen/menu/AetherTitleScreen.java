@@ -22,6 +22,7 @@ import net.minecraft.client.gui.screens.ConnectScreen;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.client.multiplayer.resolver.ServerAddress;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.Music;
@@ -175,9 +176,7 @@ public class AetherTitleScreen extends TitleScreen implements TitleScreenBehavio
         int height = (int) (76 / scale);
         int logoX = this.alignedLeft ? (int) (10 + (18 / scale)) : (int) ((this.width / 2 - 175 / scale));
         int logoY = this.alignedLeft ? (int) (15 + (10 / scale)) : (int) (25 + (10 / scale));
-        guiGraphics.setColor(1.0F, 1.0F, 1.0F, transparency);
-        guiGraphics.blit(AETHER_LOGO, logoX, logoY, 0, 0, width, height, width, height);
-        guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
+        guiGraphics.blit(RenderType::guiTextured, AETHER_LOGO, logoX, logoY, 0, 0, width, height, width, height, (int) (transparency * 255.0F));
     }
 
     /**

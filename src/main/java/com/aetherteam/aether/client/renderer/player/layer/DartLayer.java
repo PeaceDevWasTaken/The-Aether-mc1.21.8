@@ -34,9 +34,9 @@ public class DartLayer<M extends PlayerModel> extends StuckInBodyLayer<M> {
     }
 
     /**
-     * [CODE COPY] - {@link StuckInBodyLayer#render(PoseStack, MultiBufferSource, int, LivingEntity, float, float, float, float, float, float)}.
+     * [CODE COPY] - {@link StuckInBodyLayer#render(PoseStack, MultiBufferSource, int, LivingEntity, float, float)}.
      */
-    public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T livingEntity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
+    public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T livingEntity, float netHeadYaw, float headPitch) {
         int i = this.numStuck(livingEntity);
         float offset = this.offset;
         RandomSource randomSource = RandomSource.create((long) (livingEntity.getId() * (0.25 * offset)));

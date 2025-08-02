@@ -28,7 +28,6 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.entity.player.StackedItemContents;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ContainerData;
@@ -36,7 +35,6 @@ import net.minecraft.world.inventory.RecipeCraftingHolder;
 import net.minecraft.world.inventory.StackedContentsCompatible;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
@@ -199,12 +197,12 @@ public class IncubatorBlockEntity extends BaseContainerBlockEntity implements Wo
     private boolean incubate(@Nullable RecipeHolder<IncubationRecipe> recipe, NonNullList<ItemStack> stacks) {
         if (recipe != null && this.canIncubate(recipe, stacks)) {
             ItemStack itemStack = stacks.getFirst();
-            EntityType<?> entityType = recipe.value().getEntity();
+            EntityType<?> entityType = recipe.value().entity();
             BlockPos spawnPos = this.getBlockPos().above();
             if (this.level != null && !this.level.isClientSide() && this.level instanceof ServerLevel serverLevel) {
                 CompoundTag tag;
-                if (recipe.value().getTag().isPresent()) {
-                    tag = recipe.value().getTag().get();
+                if (recipe.value().tag().isPresent()) {
+                    tag = recipe.value().tag().get();
                 } else {
                     tag = null;
                 }
@@ -243,7 +241,7 @@ public class IncubatorBlockEntity extends BaseContainerBlockEntity implements Wo
     }
 
     private static int getTotalIncubationTime(ServerLevel level, IncubatorBlockEntity blockEntity) {
-        return blockEntity.quickCheck.getRecipeFor(new SingleRecipeInput(blockEntity.items.getFirst()), level).map((recipe) -> recipe.value().getIncubationTime()).orElse(5700);
+        return blockEntity.quickCheck.getRecipeFor(new SingleRecipeInput(blockEntity.items.getFirst()), level).map((recipe) -> recipe.value().incubationTime()).orElse(5700);
     }
 
     private boolean isLit() {
@@ -293,9 +291,11 @@ public class IncubatorBlockEntity extends BaseContainerBlockEntity implements Wo
             stack.setCount(this.getMaxStackSize());
         }
         if (index == 0 && !flag) {
-            this.incubationTotalTime = getTotalIncubationTime(this.level, this);
-            this.incubationProgress = 0;
-            this.setChanged();
+            if (this.level instanceof ServerLevel serverLevel) {
+                this.incubationTotalTime = getTotalIncubationTime(serverLevel, this);
+                this.incubationProgress = 0;
+                this.setChanged();
+            }
         }
     }
 

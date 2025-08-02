@@ -10,6 +10,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.WidgetSprites;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
@@ -65,10 +66,7 @@ public class AetherMenuButton extends Button {
 
         ResourceLocation location = AETHER_WIDGETS.get(this.isActive(), this.isHoveredOrFocused());
 
-        RenderSystem.enableBlend();
-        guiGraphics.setColor(1.0F, 1.0F, 1.0F, this.alpha);
-        guiGraphics.blitSprite(location, this.getX() + this.hoverOffset, this.getY(), (int) (BUTTON_WIDTH / scale), (int) (BUTTON_HEIGHT / scale));
-        RenderSystem.disableBlend();
+        guiGraphics.blitSprite(RenderType::guiTextured, location, this.getX() + this.hoverOffset, this.getY(), (int) (BUTTON_WIDTH / scale), (int) (BUTTON_HEIGHT / scale), (int) (this.alpha * 255.0F));
 
         poseStack.pushPose();
         float textScale = getTextScale(this.screen, minecraft);  // The scaling for text relative to the true screen scale.

@@ -37,28 +37,28 @@ public class AetherCookingRecipeDisplay<T extends Recipe<?>> extends BasicDispla
         var experience = 0f;
 
         if (recipe instanceof AbstractCookingRecipe cookingRecipe){
-            cookingTime = cookingRecipe.getCookingTime();
-            experience = cookingRecipe.getExperience();
+            cookingTime = cookingRecipe.cookingTime();
+            experience = cookingRecipe.experience();
         } else if (recipe instanceof IncubationRecipe incubationRecipe){
-            cookingTime = incubationRecipe.getIncubationTime();
+            cookingTime = incubationRecipe.incubationTime();
         }
 
         return new AetherCookingRecipeDisplay<>(categoryIdentifier, getInput(recipe), getOutput(recipe), experience, cookingTime, (recipe instanceof IncubationRecipe), Optional.empty());
     }
 
     private static List<EntryIngredient> getInput(Recipe<?> recipe) {
-        if (recipe instanceof AltarRepairRecipe) {
-            ItemStack damagedItem = recipe.getIngredients().getFirst().getItems()[0].copy();
+        if (recipe instanceof AltarRepairRecipe altarRepairRecipe) {
+            ItemStack damagedItem = altarRepairRecipe.input().getValues().get(0).value().getDefaultInstance().copy();
             damagedItem.setDamageValue(damagedItem.getMaxDamage() * 3 / 4);
 
             return List.of(EntryIngredients.of(damagedItem));
         } else {
-            return List.of(EntryIngredients.ofIngredient(recipe.getIngredients().getFirst()));
+            return List.of();
         }
     }
 
     private static List<EntryIngredient> getOutput(Recipe<?> recipe) {
-        return (recipe instanceof AbstractAetherCookingRecipe cookingRecipe) ? List.of(EntryIngredients.of(cookingRecipe.getResult())) : List.of();
+        return (recipe instanceof AbstractAetherCookingRecipe cookingRecipe) ? List.of(EntryIngredients.of(cookingRecipe.result())) : List.of();
     }
 
     @Override

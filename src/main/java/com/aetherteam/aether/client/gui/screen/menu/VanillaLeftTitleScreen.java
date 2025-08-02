@@ -13,6 +13,7 @@ import net.minecraft.client.gui.components.LogoRenderer;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.TitleScreen;
 import net.minecraft.client.renderer.PanoramaRenderer;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -118,9 +119,7 @@ public class VanillaLeftTitleScreen extends TitleScreen implements TitleScreenBe
     public void renderLogo(GuiGraphics guiGraphics, float transparency, int height) {
         int xOffset = 16;
         int yOffset = -11;
-        guiGraphics.setColor(1.0F, 1.0F, 1.0F, transparency);
-        guiGraphics.blit(this.showMinceraftEasterEgg ? LogoRenderer.EASTER_EGG_LOGO : LogoRenderer.MINECRAFT_LOGO, xOffset, yOffset + 22, 0.0F, 0.0F, 256, 44, 256, 64);
-        guiGraphics.blit(LogoRenderer.MINECRAFT_EDITION, xOffset + 67, height + 37 + yOffset, 0.0F, 0.0F, 128, 14, 128, 16);
-        guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
+        guiGraphics.blit(RenderType::guiTextured, this.showMinceraftEasterEgg ? LogoRenderer.EASTER_EGG_LOGO : LogoRenderer.MINECRAFT_LOGO, xOffset, yOffset + 22, 0.0F, 0.0F, 256, 44, 256, 64, (int) (transparency * 255.0F));
+        guiGraphics.blit(RenderType::guiTextured, LogoRenderer.MINECRAFT_EDITION, xOffset + 67, height + 37 + yOffset, 0.0F, 0.0F, 128, 14, 128, 16, (int) (transparency * 255.0F));
     }
 }

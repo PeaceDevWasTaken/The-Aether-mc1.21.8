@@ -184,22 +184,22 @@ public abstract class AbstractWhirlwind extends Mob {
                 List<ItemStack> list = lootTable.getRandomItems(parameters);
                 for (ItemStack itemstack : list) {
                     serverLevel.playSound(null, this.blockPosition(), AetherSoundEvents.ENTITY_WHIRLWIND_DROP.get(), SoundSource.HOSTILE, 0.5F, 1.0F);
-                    this.spawnAtLocation(itemstack, 1);
+                    this.spawnAtLocation(serverLevel, itemstack, 1);
                 }
             }
         }
     }
 
     @Override
-    public boolean hurt(DamageSource source, float damage) {
+    public boolean hurtServer(ServerLevel level, DamageSource damageSource, float amount) {
         return false;
     }
 
     /**
-     * [CODE COPY] - {@link Entity#kill()}.
+     * [CODE COPY] - {@link Entity#kill(ServerLevel)}.
      */
     @Override
-    public void kill() {
+    public void kill(ServerLevel level) {
         this.remove(Entity.RemovalReason.KILLED);
         this.gameEvent(GameEvent.ENTITY_DIE);
     }

@@ -1,13 +1,10 @@
 package com.aetherteam.aether.client.gui.screen.inventory.recipebook;
 
-import com.aetherteam.aether.data.resources.registries.AetherDataMaps;
 import com.aetherteam.aether.inventory.menu.AbstractAetherFurnaceMenu;
 import net.minecraft.client.gui.components.WidgetSprites;
-import net.minecraft.client.gui.screens.recipebook.AbstractFurnaceRecipeBookComponent;
 import net.minecraft.client.gui.screens.recipebook.GhostSlots;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.client.gui.screens.recipebook.RecipeCollection;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.context.ContextMap;

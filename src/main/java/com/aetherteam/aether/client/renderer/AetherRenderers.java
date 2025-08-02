@@ -41,6 +41,7 @@ import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
+import net.minecraft.client.renderer.entity.state.ArmorStandRenderState;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
@@ -257,7 +258,7 @@ public class AetherRenderers {
                 playerRenderer.addLayer(new PlayerWingsLayer<>(playerRenderer, Minecraft.getInstance().getEntityModels()));
             }
         }
-        LivingEntityRenderer<ArmorStand, ArmorStandModel> renderer = event.getRenderer(EntityType.ARMOR_STAND);
+        LivingEntityRenderer<ArmorStand, ArmorStandRenderState, ArmorStandModel> renderer = event.getRenderer(EntityType.ARMOR_STAND);
         if (renderer != null) {
             renderer.addLayer(new ArmorStandCapeLayer(renderer));
         }

@@ -35,6 +35,7 @@
     "common.accessor.LootContextParamSetsAccessor",
     "common.accessor.MinecraftServerAccessor",
     "common.accessor.PlayerAccessor",
+    "common.accessor.RecipeManagerAccessor",
     "common.accessor.ServerGamePacketListenerImplAccessor",
     "common.accessor.ServerLevelAccessor",
     "common.accessor.SpreadingSnowyDirtBlockAccessor",

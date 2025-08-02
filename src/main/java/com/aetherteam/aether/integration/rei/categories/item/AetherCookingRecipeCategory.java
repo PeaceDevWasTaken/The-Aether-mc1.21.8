@@ -19,6 +19,7 @@ import me.shedaniel.rei.api.common.category.CategoryIdentifier;
 import me.shedaniel.rei.api.common.entry.EntryIngredient;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
@@ -76,16 +77,16 @@ public class AetherCookingRecipeCategory<R extends Recipe<?>> extends AbstractRe
                 int textureLength = 54;
                 int scissorOffset = (int) Math.round(textureLength * (lastTick.getValue() / 5700));
 
-                graphics.blitSprite(INCUBATION_PROGRESS_BACKGROUND_TEXTURE, bound.x, bound.y,  10, 54);
+                graphics.blitSprite(RenderType::guiTextured, INCUBATION_PROGRESS_BACKGROUND_TEXTURE, bound.x, bound.y,  10, 54);
                 graphics.enableScissor(bound.x + 1, bound.y + textureLength - scissorOffset, bound.x + 10 + 1, bound.y + (textureLength * 2) - scissorOffset);
-                graphics.blitSprite(INCUBATION_PROGRESS_TEXTURE, bound.x + 1, bound.y, 10, 54);
+                graphics.blitSprite(RenderType::guiTextured, INCUBATION_PROGRESS_TEXTURE, bound.x + 1, bound.y, 10, 54);
                 graphics.disableScissor();
             });
         });
     }
 
     private static WidgetWithBounds fuelIndicator(ResourceLocation texture) {
-        return Widgets.wrapRenderer(new Rectangle(14, 13), (graphics, bounds, mouseX, mouseY, delta) -> graphics.blitSprite(texture, bounds.x, bounds.y, 14, 13));
+        return Widgets.wrapRenderer(new Rectangle(14, 13), (graphics, bounds, mouseX, mouseY, delta) -> graphics.blitSprite(RenderType::guiTextured, texture, bounds.x, bounds.y, 14, 13));
     }
 
     private static WidgetWithBounds animatedArrow(ResourceLocation texture, int burnTime) {
@@ -101,10 +102,10 @@ public class AetherCookingRecipeCategory<R extends Recipe<?>> extends AbstractRe
             int xOffset = 23 - (int) Math.round(23 * (lastTick.getValue() / burnTime));
 
             ResourceLocation blankArrow = REIRuntime.getInstance().getDefaultDisplayTexture(false);
-            graphics.blit(blankArrow, bound.x, bound.y, 106, 91, 24, 17);
+            graphics.blitSprite(RenderType::guiTextured, blankArrow, bound.x, bound.y, 24, 17);
 
             graphics.enableScissor(bound.x - xOffset, bound.y, bound.x + 23 - xOffset, bound.y + 16);
-            graphics.blitSprite(texture, bound.x, bound.y,  24, 16);
+            graphics.blitSprite(RenderType::guiTextured, texture, bound.x, bound.y,  24, 16);
             graphics.disableScissor();
         });
     }

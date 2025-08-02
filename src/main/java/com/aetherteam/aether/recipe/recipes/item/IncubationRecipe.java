@@ -57,19 +57,19 @@ public class IncubationRecipe implements Recipe<SingleRecipeInput> {
         return ItemStack.EMPTY;
     }
 
-    public int getIncubationTime() {
+    public int incubationTime() {
         return this.incubationTime;
     }
 
-    public EntityType<?> getEntity() {
+    public EntityType<?> entity() {
         return this.entity;
     }
 
-    public Optional<CompoundTag> getTag() {
+    public Optional<CompoundTag> tag() {
         return this.tag;
     }
 
-    public Ingredient getIngredient() {
+    public Ingredient input() {
         return this.ingredient;
     }
 
@@ -141,9 +141,9 @@ public class IncubationRecipe implements Recipe<SingleRecipeInput> {
         public void toNetwork(RegistryFriendlyByteBuf buffer, IncubationRecipe recipe) {
             buffer.writeUtf(recipe.group);
             Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.ingredient);
-            buffer.writeUtf(EntityType.getKey(recipe.getEntity()).toString());
+            buffer.writeUtf(EntityType.getKey(recipe.entity()).toString());
             buffer.writeOptional(recipe.tag, RegistryFriendlyByteBuf::writeNbt);
-            buffer.writeVarInt(recipe.getIncubationTime());
+            buffer.writeVarInt(recipe.incubationTime());
         }
     }
 }

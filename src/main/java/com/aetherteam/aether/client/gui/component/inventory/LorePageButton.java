@@ -6,6 +6,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.WidgetSprites;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
 public class LorePageButton extends Button {
@@ -27,7 +28,7 @@ public class LorePageButton extends Button {
         ResourceLocation location = BUTTON_TEXTURES.get(this.isActive(), this.isHoveredOrFocused());
         Minecraft minecraft = Minecraft.getInstance();
         Font fontRenderer = minecraft.font;
-        guiGraphics.blitSprite(location, this.getX(), this.getY(), this.width, this.height);
+        guiGraphics.blitSprite(RenderType::guiTextured, location, this.getX(), this.getY(), this.width, this.height);
         int color = this.getFGColor();
         guiGraphics.drawCenteredString(fontRenderer, this.getMessage(), this.getX() + this.width / 2, this.getY() + (this.height - 8) / 2, color | 255 << 24);
     }

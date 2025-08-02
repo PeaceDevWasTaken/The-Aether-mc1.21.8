@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class IncubatorRecipeBookComponent extends RecipeBookComponent<IncubatorMenu> {
+public class IncubatorRecipeBookComponent extends RecipeBookComponent<IncubatorMenu> { //todo
     private static final WidgetSprites FILTER_SPRITES = new WidgetSprites(
             ResourceLocation.withDefaultNamespace("recipe_book/furnace_filter_enabled"),
             ResourceLocation.withDefaultNamespace("recipe_book/furnace_filter_disabled"),
@@ -31,8 +31,10 @@ public class IncubatorRecipeBookComponent extends RecipeBookComponent<IncubatorM
             ResourceLocation.withDefaultNamespace("recipe_book/furnace_filter_disabled_highlighted")
     );
     private static final Component FILTER_NAME = Component.translatable("gui.aether.recipebook.toggleRecipes.incubatable");
-    @Nullable
-    private Ingredient fuels;
+
+    public IncubatorRecipeBookComponent(IncubatorMenu menu, List<TabInfo> tabInfos) {
+        super(menu, tabInfos);
+    }
 
     @Override
     protected void initFilterButtonTextures() {
@@ -45,36 +47,46 @@ public class IncubatorRecipeBookComponent extends RecipeBookComponent<IncubatorM
     }
 
     @Override
-    public void slotClicked(@Nullable Slot slot) {
-        super.slotClicked(slot);
-        if (slot != null && slot.index < this.menu.getSize()) {
-            this.ghostRecipe.clear();
-        }
-    }
-
-    @Override
     protected void selectMatchingRecipes(RecipeCollection recipeCollection, StackedItemContents stackedItemContents) {
 
     }
 
-    @Override
-    public void setupGhostRecipe(RecipeHolder<?> recipe, List<Slot> slots) {
-        this.ghostRecipe.setRecipe(recipe);
-        Slot fuelSlot = slots.get(1);
-        if (fuelSlot.getItem().isEmpty()) {
-            if (this.fuels == null) {
-                this.fuels = Ingredient.of(this.getFuelItems().stream().map(ItemStack::new));
-            }
-            this.ghostRecipe.addIngredient(this.fuels, fuelSlot.x, fuelSlot.y);
-        }
-
-        Ingredient ingredient = recipe.value().getIngredients().getFirst();
-        if (!ingredient.isEmpty()) {
-            Slot eggSlot = slots.getFirst();
-            this.ghostRecipe.addIngredient(ingredient, eggSlot.x, eggSlot.y);
-        }
-    }
-
+//    @Override
+//    protected boolean isCraftingSlot(Slot slot) {
+//        return false;
+//    }
+//
+////    @Override
+////    public void slotClicked(@Nullable Slot slot) {
+////        super.slotClicked(slot);
+////        if (slot != null && slot.index < this.menu.getSize()) {
+////            this.ghostRecipe.clear();
+////        }
+////    }
+//
+//    @Override
+//    protected void selectMatchingRecipes(RecipeCollection recipeCollection, StackedItemContents stackedItemContents) {
+//
+//    }
+//
+//    @Override
+//    public void setupGhostRecipe(RecipeHolder<?> recipe, List<Slot> slots) {
+//        this.ghostRecipe.setRecipe(recipe);
+//        Slot fuelSlot = slots.get(1);
+//        if (fuelSlot.getItem().isEmpty()) {
+//            if (this.fuels == null) {
+//                this.fuels = Ingredient.of(this.getFuelItems().stream().map(ItemStack::new));
+//            }
+//            this.ghostRecipe.addIngredient(this.fuels, fuelSlot.x, fuelSlot.y);
+//        }
+//
+//        Ingredient ingredient = recipe.value().getIngredients().getFirst();
+//        if (!ingredient.isEmpty()) {
+//            Slot eggSlot = slots.getFirst();
+//            this.ghostRecipe.addIngredient(ingredient, eggSlot.x, eggSlot.y);
+//        }
+//    }
+//
     @Override
     protected Component getRecipeFilterName() {
         return FILTER_NAME;
@@ -84,4 +96,9 @@ public class IncubatorRecipeBookComponent extends RecipeBookComponent<IncubatorM
     protected void fillGhostRecipe(GhostSlots ghostSlots, RecipeDisplay recipeDisplay, ContextMap contextMap) {
 
     }
+//
+//    @Override
+//    protected void fillGhostRecipe(GhostSlots ghostSlots, RecipeDisplay recipeDisplay, ContextMap contextMap) {
+//
+//    }
 }
