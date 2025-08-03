@@ -1,6 +1,7 @@
 package com.aetherteam.aether.client.renderer;
 
 import com.aetherteam.aether.Aether;
+import com.aetherteam.aether.attachment.AetherDataAttachments;
 import com.aetherteam.aether.attachment.AetherPlayerAttachment;
 import com.aetherteam.aether.block.AetherBlocks;
 import com.aetherteam.aether.blockentity.AetherBlockEntityTypes;
@@ -61,14 +62,6 @@ import java.util.Map;
 import java.util.UUID;
 
 public class AetherRenderers {
-    public static ContextKey<UUID> UUID_KEY = new ContextKey<>(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "uuid"));
-
-    public static void registerRenderStateModifier(RegisterRenderStateModifiersEvent event) {
-        event.registerEntityModifier(PlayerRenderer.class, (abstractClientPlayer, playerRenderState) -> {
-            playerRenderState.setRenderData(UUID_KEY, abstractClientPlayer.getUUID());
-        });
-    }
-
     /**
      * @see AetherClient#eventSetup(IEventBus)
      */

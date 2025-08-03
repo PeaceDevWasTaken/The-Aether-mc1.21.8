@@ -53,6 +53,7 @@
     "client.accessor.BlockColorsAccessor",
     "client.accessor.BossHealthOverlayAccessor",
     "client.accessor.ButtonAccessor",
+    "client.accessor.ClientLevelAccessor",
     "client.accessor.EntityRendererAccessor",
     "client.accessor.GuiAccessor",
     "client.accessor.HeartTypeAccessor",

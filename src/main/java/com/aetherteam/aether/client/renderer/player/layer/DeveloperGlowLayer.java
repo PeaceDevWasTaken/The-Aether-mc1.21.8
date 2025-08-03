@@ -1,6 +1,7 @@
 package com.aetherteam.aether.client.renderer.player.layer;
 
 import com.aetherteam.aether.client.gui.screen.perks.AetherCustomizationsScreen;
+import com.aetherteam.aether.client.renderer.AetherRenderStateModifiers;
 import com.aetherteam.aether.client.renderer.AetherRenderers;
 import com.aetherteam.aether.perk.PerkUtil;
 import com.aetherteam.aether.perk.data.ClientDeveloperGlowPerkData;
@@ -42,7 +43,7 @@ public class DeveloperGlowLayer<T extends PlayerRenderState, M extends PlayerMod
     public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T entity, float netHeadYaw, float headPitch) {
         if (!entity.isInvisible) {
             User user = UserData.Client.getClientUser();
-            UUID playerUUID = entity.getRenderData(AetherRenderers.UUID_KEY);
+            UUID playerUUID = entity.getRenderData(AetherRenderStateModifiers.UUID);
             Map<UUID, DeveloperGlow> developerGlows = ClientDeveloperGlowPerkData.INSTANCE.getClientPerkData();
             if (playerUUID != null && (Minecraft.getInstance().screen instanceof AetherCustomizationsScreen aetherCustomizationsScreen && aetherCustomizationsScreen.developerGlowEnabled && Minecraft.getInstance().player != null && playerUUID.equals(Minecraft.getInstance().player.getUUID()) && user != null && PerkUtil.hasDeveloperGlow().test(user))
                     || (!(Minecraft.getInstance().screen instanceof AetherCustomizationsScreen) && developerGlows.containsKey(playerUUID))) {

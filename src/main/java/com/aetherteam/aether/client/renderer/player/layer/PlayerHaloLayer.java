@@ -3,6 +3,7 @@ package com.aetherteam.aether.client.renderer.player.layer;
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.client.gui.screen.perks.AetherCustomizationsScreen;
 import com.aetherteam.aether.client.renderer.AetherModelLayers;
+import com.aetherteam.aether.client.renderer.AetherRenderStateModifiers;
 import com.aetherteam.aether.client.renderer.AetherRenderers;
 import com.aetherteam.aether.client.renderer.entity.model.HaloModel;
 import com.aetherteam.aether.perk.PerkUtil;
@@ -52,7 +53,7 @@ public class PlayerHaloLayer<T extends PlayerRenderState, M extends PlayerModel>
     public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T entity, float netHeadYaw, float headPitch) {
         if (!entity.isInvisible) {
             User user = UserData.Client.getClientUser();
-            UUID playerUUID = entity.getRenderData(AetherRenderers.UUID_KEY);
+            UUID playerUUID = entity.getRenderData(AetherRenderStateModifiers.UUID);
             Map<UUID, Halo> halos = ClientHaloPerkData.INSTANCE.getClientPerkData();
             if (playerUUID != null && (Minecraft.getInstance().screen instanceof AetherCustomizationsScreen aetherCustomizationsScreen && aetherCustomizationsScreen.haloEnabled && Minecraft.getInstance().player != null && playerUUID.equals(Minecraft.getInstance().player.getUUID()) && user != null && PerkUtil.hasHalo().test(user))
                 || (!(Minecraft.getInstance().screen instanceof AetherCustomizationsScreen) && halos.containsKey(playerUUID))) {

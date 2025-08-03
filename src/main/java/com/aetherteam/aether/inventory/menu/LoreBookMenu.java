@@ -113,7 +113,7 @@ public class LoreBookMenu extends AbstractContainerMenu {
     @OnlyIn(Dist.CLIENT)
     public String getLoreEntryKey(ItemStack stack) {
         Optional<String> key = LORE_ENTRY_OVERRIDES.entrySet().stream().filter(e -> e.getKey().apply(this.loreInventory.player.registryAccess()).test(stack)).findAny().map(Map.Entry::getValue);
-        return key.orElseGet(() -> "lore." + stack.getDescriptionId());
+        return key.orElseGet(() -> "lore." + stack.getItem().getDescriptionId());
     }
 
     @OnlyIn(Dist.CLIENT)

@@ -1,10 +1,9 @@
 package com.aetherteam.aether.client.renderer.player.layer;
 
 import com.aetherteam.aether.Aether;
-import com.aetherteam.aether.attachment.AetherDataAttachments;
 import com.aetherteam.aether.client.renderer.AetherModelLayers;
+import com.aetherteam.aether.client.renderer.AetherRenderStateModifiers;
 import com.aetherteam.aether.client.renderer.entity.model.ValkyrieWingsModel;
-import com.aetherteam.aether.item.EquipmentUtil;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.model.PlayerModel;
@@ -17,7 +16,8 @@ import net.minecraft.client.renderer.entity.state.PlayerRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
-import net.minecraft.world.entity.player.Player;
+
+import java.util.Objects;
 
 public class PlayerWingsLayer<T extends PlayerRenderState, M extends PlayerModel> extends RenderLayer<T, M> {
     private static final ResourceLocation VALKYRIE_TEXTURE = ResourceLocation.fromNamespaceAndPath(Aether.MODID, "textures/entity/mobs/valkyrie/valkyrie.png");
@@ -35,18 +35,16 @@ public class PlayerWingsLayer<T extends PlayerRenderState, M extends PlayerModel
      * @param buffer          The rendering {@link MultiBufferSource}.
      * @param packedLight     The {@link Integer} for the packed lighting for rendering.
      * @param entity          The entity.
-     * @param limbSwing       The {@link Float} for the limb swing rotation.
-     * @param limbSwingAmount The {@link Float} for the limb swing amount.
-     * @param partialTicks    The {@link Float} for the game's partial ticks.
-     * @param ageInTicks      The {@link Float} for the entity's age in ticks.
      * @param netHeadYaw      The {@link Float} for the head yaw rotation.
      * @param headPitch       The {@link Float} for the head pitch rotation.
      */
     @Override
-    public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T entity, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch) {
-        if (EquipmentUtil.hasFullValkyrieSet(entity)) {
-            var data = entity.getData(AetherDataAttachments.AETHER_PLAYER);
-            this.setupWingRotation(entity, Mth.lerp(partialTicks, data.getWingRotationO(), data.getWingRotation()));
+    public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T entity, float netHeadYaw, float headPitch) {
+        boolean hasFullValkyrieSet = Objects.requireNonNullElse(entity.getRenderData(AetherRenderStateModifiers.HAS_FULL_VALKYRIE_ARMOR), false);
+        int wingRotationO = Objects.requireNonNullElse(entity.getRenderData(AetherRenderStateModifiers.VALKYRIE_WING_ROTATION_OLD), 0);
+        int wingRotation = Objects.requireNonNullElse(entity.getRenderData(AetherRenderStateModifiers.VALKYRIE_WING_ROTATION), 0);
+        if (hasFullValkyrieSet) {
+            this.setupWingRotation(entity, Mth.lerp(entity.partialTick, wingRotationO, wingRotation));
             VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(VALKYRIE_TEXTURE));
             this.wings.renderToBuffer(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY);
         }
@@ -59,7 +57,12 @@ public class PlayerWingsLayer<T extends PlayerRenderState, M extends PlayerModel
      * @param sinage The {@link Float} for the rotation value.
      */
     public void setupWingRotation(T entity, float sinage) {
-        if (!entity.onGround() && !entity.isInFluidType() && (entity.getVehicle() != null && !entity.getVehicle().onGround())) {
+        boolean onGround = Objects.requireNonNullElse(entity.getRenderData(AetherRenderStateModifiers.ON_GROUND), false);
+        boolean isInFluidType = Objects.requireNonNullElse(entity.getRenderData(AetherRenderStateModifiers.IN_FLUID_TYPE), false);
+        boolean hasVehicle = Objects.requireNonNullElse(entity.getRenderData(AetherRenderStateModifiers.HAS_VEHICLE), false);
+        boolean hasVehicleOnGround = Objects.requireNonNullElse(entity.getRenderData(AetherRenderStateModifiers.HAS_VEHICLE_ON_GROUND), false);
+
+        if (!onGround && !isInFluidType && (hasVehicle && !hasVehicleOnGround)) {
             sinage *= 1.5F;
         } else {
             sinage *= 0.3F;
@@ -83,8 +86,8 @@ public class PlayerWingsLayer<T extends PlayerRenderState, M extends PlayerModel
         }
 
         this.wings.rightWing.yRot -= Mth.sin(sinage) / 6.0F;
-        this.wings.rightWing.zRot -= Mth.cos(sinage) / (entity.onGround() || entity.isInFluidType() ? 8.0F : 3.0F);
+        this.wings.rightWing.zRot -= Mth.cos(sinage) / (onGround || isInFluidType ? 8.0F : 3.0F);
         this.wings.leftWing.yRot += Mth.sin(sinage) / 6.0F;
-        this.wings.leftWing.zRot += Mth.cos(sinage) / (entity.onGround() || entity.isInFluidType() ? 8.0F : 3.0F);
+        this.wings.leftWing.zRot += Mth.cos(sinage) / (onGround || isInFluidType ? 8.0F : 3.0F);
     }
 }

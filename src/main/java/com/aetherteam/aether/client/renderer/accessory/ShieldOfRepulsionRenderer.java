@@ -27,6 +27,7 @@ import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.TriState;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -40,7 +41,7 @@ public class ShieldOfRepulsionRenderer implements AccessoryRenderer {
         (location, state) -> {
             RenderType.CompositeState renderType = RenderType.CompositeState.builder()
                 .setShaderState(RenderType.RENDERTYPE_ENTITY_TRANSLUCENT_SHADER)
-                .setTextureState(new RenderStateShard.TextureStateShard(location, false, false))
+                .setTextureState(new RenderStateShard.TextureStateShard(location, TriState.FALSE, false))
                 .setTransparencyState(RenderType.TRANSLUCENT_TRANSPARENCY)
                 .setCullState(RenderType.NO_CULL)
                 .setDepthTestState(RenderType.LEQUAL_DEPTH_TEST)
@@ -68,12 +69,7 @@ public class ShieldOfRepulsionRenderer implements AccessoryRenderer {
      * @param entityModel       The {@link EntityModel} for the renderer.
      * @param buffer            The rendering {@link MultiBufferSource}.
      * @param packedLight       The {@link Integer} for the packed lighting for rendering.
-     * @param limbSwing         The {@link Float} for the limb swing rotation.
-     * @param limbSwingAmount   The {@link Float} for the limb swing amount.
      * @param partialTicks      The {@link Float} for the game's partial ticks.
-     * @param ageInTicks        The {@link Float} for the entity's age in ticks.
-     * @param netHeadYaw        The {@link Float} for the head yaw rotation.
-     * @param headPitch         The {@link Float} for the head pitch rotation.
      */
     @Override
     public <S extends LivingEntityRenderState> void render(ItemStack stack, SlotReference reference, PoseStack poseStack, EntityModel<S> entityModel, S renderState, MultiBufferSource buffer, int packedLight, float partialTicks) {
@@ -101,7 +97,7 @@ public class ShieldOfRepulsionRenderer implements AccessoryRenderer {
                 texture = shield.getShieldOfRepulsionInactiveTexture();
             }
         }
-        entityModel.copyPropertiesTo((EntityModel<S>) model);
+//        entityModel.copyPropertiesTo((EntityModel<S>) model);
 
         AccessoryRenderer.followBodyRotations(reference.entity(), model);
         VertexConsumer consumer = ItemRenderer.getArmorFoilBuffer(buffer, shieldOfRepulsionRenderType(texture), false);
@@ -187,7 +183,7 @@ public class ShieldOfRepulsionRenderer implements AccessoryRenderer {
     private void setupModel(HumanoidModel<HumanoidRenderState> model, HumanoidRenderState renderState) {
         model.setAllVisible(false);
         renderState.attackTime = 0.0F;
-        renderState.crouching = false;
+        renderState.isCrouching = false;
         renderState.swimAmount = 0.0F;
         model.setupAnim(renderState);
     }

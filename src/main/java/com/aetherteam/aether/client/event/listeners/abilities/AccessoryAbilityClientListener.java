@@ -2,16 +2,20 @@ package com.aetherteam.aether.client.event.listeners.abilities;
 
 import com.aetherteam.aether.attachment.AetherDataAttachments;
 import com.aetherteam.aether.client.AetherClient;
+import com.aetherteam.aether.client.renderer.AetherRenderStateModifiers;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.entity.state.PlayerRenderState;
 import net.minecraft.world.entity.player.Player;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.client.event.RenderArmEvent;
 import net.neoforged.neoforge.client.event.RenderPlayerEvent;
 
+import java.util.Objects;
+
 public class AccessoryAbilityClientListener {
     /**
-     * @see AetherClient#eventSetup(IEventBus) 
+     * @see AetherClient#eventSetup(IEventBus)
      */
     public static void listen(IEventBus bus) {
         bus.addListener(AccessoryAbilityClientListener::onRenderPlayer);
@@ -22,9 +26,9 @@ public class AccessoryAbilityClientListener {
      * Disables the player's rendering completely if wearing an Invisibility Cloak.
      */
     public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
-        Player player = event.getEntity();
+        PlayerRenderState playerRenderState = event.getRenderState();
         if (!event.isCanceled()) {
-            if (player.getData(AetherDataAttachments.AETHER_PLAYER).isWearingInvisibilityCloak()) {
+            if (Objects.requireNonNullElse(playerRenderState.getRenderData(AetherRenderStateModifiers.HAS_INVISIBILITY_CLOAK), false)) {
                 event.setCanceled(true);
             }
         }

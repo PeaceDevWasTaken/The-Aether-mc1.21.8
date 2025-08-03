@@ -9,6 +9,7 @@ import com.aetherteam.aether.client.gui.screen.inventory.SunAltarScreen;
 import com.aetherteam.aether.client.gui.screen.menu.AetherReceivingLevelScreen;
 import com.aetherteam.aether.client.particle.AetherParticleTypes;
 import com.aetherteam.aether.client.renderer.AetherOverlays;
+import com.aetherteam.aether.client.renderer.AetherRenderStateModifiers;
 import com.aetherteam.aether.client.renderer.AetherRenderers;
 import com.aetherteam.aether.client.renderer.level.AetherRenderEffects;
 import com.aetherteam.aether.data.resources.registries.AetherDimensions;
@@ -121,12 +122,12 @@ public class AetherClient {
         neoBus.addListener(AetherRecipeBookCategories::registerRecipeCategories);
         neoBus.addListener(AetherParticleTypes::registerParticleFactories);
         neoBus.addListener(AetherOverlays::registerOverlays);
-        neoBus.addListener(AetherRenderers::registerRenderStateModifier);
         neoBus.addListener(AetherRenderers::registerEntityRenderers);
         neoBus.addListener(AetherRenderers::registerLayerDefinitions);
         neoBus.addListener(AetherRenderers::addEntityLayers);
         neoBus.addListener(AetherRenderers::bakeModels);
         neoBus.addListener(AetherRenderEffects::registerRenderEffects);
+        neoBus.addListener(AetherRenderStateModifiers::registerRenderStateModifier);
     }
 
     /**

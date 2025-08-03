@@ -5,6 +5,7 @@ import com.aetherteam.aether.attachment.AetherTimeAttachment;
 import com.aetherteam.aether.client.renderer.level.AetherSkyRenderEffects;
 import com.aetherteam.aether.data.resources.registries.AetherDimensions;
 import com.aetherteam.aether.item.EquipmentUtil;
+import com.aetherteam.aether.mixin.mixins.client.accessor.ClientLevelAccessor;
 import com.aetherteam.aether.mixin.mixins.common.accessor.LevelAccessor;
 import net.minecraft.client.Camera;
 import net.minecraft.client.Minecraft;
@@ -147,9 +148,9 @@ public class DimensionClientHooks {
         if (level != null && !Minecraft.getInstance().isPaused() && level.dimensionType().effectsLocation().equals(AetherDimensions.AETHER_DIMENSION_TYPE.location())) {
             AetherTimeAttachment data = level.getData(AetherDataAttachments.AETHER_TIME);
             if (!data.isTimeSynced()) {
-                LevelAccessor levelAccessor = (LevelAccessor) level;
-                if (levelAccessor.aether$getLevelData().getGameRules().getBoolean(GameRules.RULE_DAYLIGHT)) {
-                    level.setDayTimePerTick(data.tickTime(level) - 1); // The client always increments time by 1 every tick.
+                ClientLevelAccessor clientLevelAccessor = (ClientLevelAccessor) level;
+                if (clientLevelAccessor.aether$getTickDayTime()) {
+                    level.getLevelData().setDayTime(data.tickTime(level) - 1); // The client always increments time by 1 every tick.
                 }
             }
         }

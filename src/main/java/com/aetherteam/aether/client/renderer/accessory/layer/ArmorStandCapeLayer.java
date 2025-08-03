@@ -2,14 +2,11 @@ package com.aetherteam.aether.client.renderer.accessory.layer;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.client.renderer.AetherModelLayers;
+import com.aetherteam.aether.client.renderer.AetherRenderStateModifiers;
 import com.aetherteam.aether.client.renderer.accessory.model.CapeModel;
-import com.aetherteam.aether.item.accessories.cape.CapeItem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import io.wispforest.accessories.api.AccessoriesCapability;
-import io.wispforest.accessories.api.AccessoriesContainer;
-import io.wispforest.accessories.api.slot.SlotTypeReference;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ArmorStandModel;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -19,8 +16,6 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.client.renderer.entity.state.ArmorStandRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.EquipmentSlot;
-import net.minecraft.world.entity.decoration.ArmorStand;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
@@ -29,7 +24,7 @@ import net.minecraft.world.item.Items;
  * Modified to check for capes in the Armor Stand's slots, as well as remove rotational fields and instead keep rotations constant.
  */
 public class ArmorStandCapeLayer extends RenderLayer<ArmorStandRenderState, ArmorStandModel> {
-    private static final ResourceLocation SWUFF_CAPE_LOCATION = ResourceLocation.fromNamespaceAndPath(Aether.MODID, "textures/models/accessory/capes/swuff_accessory.png");
+    public static final ResourceLocation SWUFF_CAPE_LOCATION = ResourceLocation.fromNamespaceAndPath(Aether.MODID, "textures/models/accessory/capes/swuff_accessory.png");
 
     private final CapeModel cape;
 
@@ -40,33 +35,18 @@ public class ArmorStandCapeLayer extends RenderLayer<ArmorStandRenderState, Armo
 
     @Override
     public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, ArmorStandRenderState armorStandRenderState, float netHeadYaw, float headPitch) {
-        SlotTypeReference identifier = CapeItem.getStaticIdentifier();
-        AccessoriesCapability accessories = AccessoriesCapability.get(livingEntity);
-        if (accessories != null) {
-            AccessoriesContainer accessoriesContainer = accessories.getContainer(identifier);
-            if (accessoriesContainer != null) {
-                ItemStack itemStack = accessoriesContainer.getAccessories().getItem(0);
-                if (!itemStack.isEmpty()) {
-                    if (itemStack.getItem() instanceof CapeItem capeItem) {
-                        ResourceLocation texture = capeItem.getCapeTexture();
-                        if (itemStack.getHoverName().getString().equalsIgnoreCase("swuff_'s cape")) { // Easter Egg cape texture.
-                            texture = SWUFF_CAPE_LOCATION;
-                        }
-                        if (!armorStandRenderState.isInvisible && texture != null) {
-                            ItemStack itemstack = armorStandRenderState.chestItem;
-                            if (!itemstack.is(Items.ELYTRA)) {
-                                poseStack.pushPose();
-                                poseStack.translate(0.0F, 0.0F, 0.0925F);
-                                poseStack.mulPose(Axis.XP.rotationDegrees(3.0F));
-                                poseStack.mulPose(Axis.ZP.rotationDegrees(0.0F));
-                                poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
-                                VertexConsumer vertexconsumer = buffer.getBuffer(RenderType.entitySolid(texture));
-                                this.cape.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY);
-                                poseStack.popPose();
-                            }
-                        }
-                    }
-                }
+        ResourceLocation texture = armorStandRenderState.getRenderData(AetherRenderStateModifiers.CAPE_TEXTURE);
+        if (!armorStandRenderState.isInvisible && texture != null) {
+            ItemStack itemstack = armorStandRenderState.chestItem;
+            if (!itemstack.is(Items.ELYTRA)) {
+                poseStack.pushPose();
+                poseStack.translate(0.0F, 0.0F, 0.0925F);
+                poseStack.mulPose(Axis.XP.rotationDegrees(3.0F));
+                poseStack.mulPose(Axis.ZP.rotationDegrees(0.0F));
+                poseStack.mulPose(Axis.YP.rotationDegrees(180.0F));
+                VertexConsumer vertexconsumer = buffer.getBuffer(RenderType.entitySolid(texture));
+                this.cape.renderToBuffer(poseStack, vertexconsumer, packedLight, OverlayTexture.NO_OVERLAY);
+                poseStack.popPose();
             }
         }
     }

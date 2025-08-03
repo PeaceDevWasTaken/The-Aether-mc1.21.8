@@ -253,14 +253,14 @@ public class Aerwhale extends FlyingMob {
     }
 
 
-    /**
-     * @return An expanded {@link AABB} for render culling, so that Aerwhales don't de-render
-     * when their model is still in camera view while their bounding box isn't.
-     */
-    @Override
-    public AABB getBoundingBoxForCulling() {
-        return this.getBoundingBox().inflate(3.0);
-    }
+//    /**
+//     * @return An expanded {@link AABB} for render culling, so that Aerwhales don't de-render
+//     * when their model is still in camera view while their bounding box isn't.
+//     */
+//    @Override
+//    public AABB getBoundingBoxForCulling() {
+//        return this.getBoundingBox().inflate(3.0); //todo
+//    }
 
     /**
      * [CODE COPY] - {@link PathfinderMob#shouldStayCloseToLeashHolder()}.

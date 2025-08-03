@@ -39,9 +39,9 @@ public class AetherREIServerPlugin implements REIServerPlugin {
 
     @Override
     public void registerDisplaySerializer(DisplaySerializerRegistry registry) {
-        registry.register(ALTAR_REPAIR, AetherCookingRecipeDisplay.serializer(ALTAR_REPAIR));
-        registry.register(ALTAR_ENCHANTING, AetherCookingRecipeDisplay.serializer(ALTAR_ENCHANTING));
-        registry.register(FREEZING, AetherCookingRecipeDisplay.serializer(FREEZING));
-        registry.register(INCUBATING, AetherCookingRecipeDisplay.serializer(INCUBATING));
+        registry.register(ALTAR_REPAIR.getIdentifier(), AetherCookingRecipeDisplay.serializer(ALTAR_REPAIR));
+        registry.register(ALTAR_ENCHANTING.getIdentifier(), AetherCookingRecipeDisplay.serializer(ALTAR_ENCHANTING));
+        registry.register(FREEZING.getIdentifier(), AetherCookingRecipeDisplay.serializer(FREEZING));
+        registry.register(INCUBATING.getIdentifier(), AetherCookingRecipeDisplay.serializer(INCUBATING));
     }
 }

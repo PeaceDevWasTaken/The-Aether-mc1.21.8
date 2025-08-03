@@ -341,11 +341,11 @@ public class FloatingBlockEntity extends Entity {
 
     @Nullable
     @Override
-    public Entity changeDimension(TeleportTransition transition) {
+    public Entity teleport(TeleportTransition transition) {
         ResourceKey<Level> newDimension = transition.newLevel().dimension();
         ResourceKey<Level> currentDimension = this.level().dimension();
         boolean flag = (currentDimension == Level.END || newDimension == Level.END) && currentDimension != newDimension;
-        Entity entity = super.changeDimension(transition);
+        Entity entity = super.teleport(transition);
         this.forceTickAfterTeleportToDuplicate = entity != null && flag;
         return entity;
     }

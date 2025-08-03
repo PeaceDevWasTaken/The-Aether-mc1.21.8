@@ -24,6 +24,7 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Relative;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.GameRules;
@@ -69,8 +70,8 @@ public class DimensionHooks {
                     if (server != null) {
                         ServerLevel aetherLevel = server.getLevel(AetherDimensions.AETHER_LEVEL);
                         if (aetherLevel != null && serverPlayer.level().dimension() == Level.OVERWORLD) {
-                            TeleportTransition transition = new TeleportTransition(aetherLevel, checkPositionsForInitialSpawn(aetherLevel, serverPlayer.blockPosition()).getCenter(), Vec3.ZERO, serverPlayer.getYRot(), serverPlayer.getXRot(), false, TeleportTransition.DO_NOTHING);
-                            if (serverPlayer.changeDimension(transition) != null) {
+                            TeleportTransition transition = new TeleportTransition(aetherLevel, checkPositionsForInitialSpawn(aetherLevel, serverPlayer.blockPosition()).getCenter(), Vec3.ZERO, serverPlayer.getYRot(), serverPlayer.getXRot(), Relative.union(Relative.DELTA, Relative.ROTATION), TeleportTransition.DO_NOTHING);
+                            if (serverPlayer.teleport(transition) != null) {
                                 serverPlayer.setRespawnPosition(AetherDimensions.AETHER_LEVEL, serverPlayer.blockPosition(), serverPlayer.getYRot(), true, false);
                                 aetherPlayer.setCanSpawnInAether(false); // Sets that the player has already spawned in the Aether.
                             }
@@ -87,7 +88,7 @@ public class DimensionHooks {
         if (!isSafe(level, origin)) {
             for (int i = 0; i <= 750; i += 5) {
                 for (Direction facing : Direction.Plane.HORIZONTAL) {
-                    BlockPos offsetPosition = origin.offset(facing.getNormal().multiply(i));
+                    BlockPos offsetPosition = origin.offset(facing.getUnitVec3i().multiply(i));
                     if (isSafeAround(level, offsetPosition)) {
                         return offsetPosition;
                     }
