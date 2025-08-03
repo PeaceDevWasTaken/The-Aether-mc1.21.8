@@ -93,7 +93,7 @@ public class IncubationRecipe implements Recipe<SingleRecipeInput> {
 
     @Override
     public PlacementInfo placementInfo() {
-        return null;
+        return PlacementInfo.NOT_PLACEABLE;
     }
 
     @Override
