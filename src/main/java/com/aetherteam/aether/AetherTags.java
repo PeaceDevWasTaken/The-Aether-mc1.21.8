@@ -138,6 +138,13 @@ public class AetherTags {
         public static final TagKey<Item> GEMS_ZANITE = tag("gems/zanite");
         public static final TagKey<Item> PROCESSED_GRAVITITE = tag("processed/gravitite");
 
+        public static final TagKey<Item> LEATHER_ARMOR = tag("armors/leather");
+        public static final TagKey<Item> CHAINMAIL_ARMOR = tag("armors/chainmail");
+        public static final TagKey<Item> IRON_ARMOR = tag("armors/iron");
+        public static final TagKey<Item> GOLDEN_ARMOR = tag("armors/golden");
+        public static final TagKey<Item> DIAMOND_ARMOR = tag("armors/diamond");
+        public static final TagKey<Item> NETHERITE_ARMOR = tag("armors/netherite");
+
         public static final TagKey<Item> TOOLS_LANCES = tag("tools/lances");
         public static final TagKey<Item> TOOLS_HAMMERS = tag("tools/hammers");
 

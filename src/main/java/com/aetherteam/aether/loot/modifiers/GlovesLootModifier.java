@@ -6,14 +6,13 @@ import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.EnchantmentTags;
+import net.minecraft.tags.TagKey;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ArmorItem;
-import net.minecraft.world.item.ArmorMaterial;
-import net.minecraft.world.item.ArmorMaterials;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -33,16 +32,16 @@ import java.util.Optional;
 public class GlovesLootModifier extends LootModifier {
     public static final MapCodec<GlovesLootModifier> CODEC = RecordCodecBuilder.mapCodec(instance -> codecStart(instance)
             .and(ItemStack.CODEC.fieldOf("gloves").forGetter(modifier -> modifier.glovesStack))
-            .and(BuiltInRegistries.ARMOR_MATERIAL.holderByNameCodec().fieldOf("armor_material").forGetter(modifier -> modifier.armorMaterial))
+            .and(TagKey.codec(Registries.ITEM).fieldOf("armor_tag").forGetter(modifier -> modifier.armorTag))
             .apply(instance, GlovesLootModifier::new));
 
     public final ItemStack glovesStack;
-    public final Holder<ArmorMaterial> armorMaterial;
+    public final TagKey<Item> armorTag;
 
-    public GlovesLootModifier(LootItemCondition[] conditionsIn, ItemStack glovesStack, Holder<ArmorMaterial> armorMaterial) {
+    public GlovesLootModifier(LootItemCondition[] conditionsIn, ItemStack glovesStack, TagKey<Item> armorTag) {
         super(conditionsIn);
         this.glovesStack = glovesStack;
-        this.armorMaterial = armorMaterial;
+        this.armorTag = armorTag;
     }
 
     /**
@@ -64,7 +63,7 @@ public class GlovesLootModifier extends LootModifier {
             BlockPos pos = BlockPos.containing(vec3);
             BlockEntity blockEntity = context.getLevel().getBlockEntity(pos);
             if (blockEntity instanceof BaseContainerBlockEntity) {
-                List<ItemStack> armorItems = lootStacks.stream().filter((itemStack) -> itemStack.getItem() instanceof ArmorItem armorItem && armorItem.getMaterial().equals(this.armorMaterial)).toList();
+                List<ItemStack> armorItems = lootStacks.stream().filter((itemStack) -> itemStack.getItem() instanceof ArmorItem && itemStack.is(this.armorTag)).toList();
                 for (ItemStack armorStack : armorItems) {
                     if (randomSource.nextInt(4) < 1) {
                         ItemStack gloves = this.glovesStack.copy();

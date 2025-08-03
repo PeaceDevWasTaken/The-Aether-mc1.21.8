@@ -116,7 +116,7 @@ public class EntityHooks {
                 if (mob instanceof AbstractPiglin abstractPiglin && abstractPiglin.isAdult()) {
                     for (SlotTypeReference identifier : allSlots) {
                         if (random.nextFloat() < 0.1F) {
-                            equipAccessory(mob, identifier, ArmorMaterials.GOLD);
+                            equipAccessory(mob, identifier, Items.GOLDEN_CHESTPLATE.getDefaultInstance());
                         }
                     }
                 }
@@ -132,9 +132,9 @@ public class EntityHooks {
                     }
                 }
                 if (fullyArmored && random.nextInt(4) == 1) {
-                    if (mob.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof ArmorItem armorItem) {
+                    if (mob.getItemBySlot(EquipmentSlot.CHEST).getItem() instanceof ArmorItem) {
                         for (SlotTypeReference identifier : gloveSlots) {
-                            equipAccessory(mob, identifier, armorItem.getMaterial());
+                            equipAccessory(mob, identifier, mob.getItemBySlot(EquipmentSlot.CHEST));
                         }
                     }
                 }
@@ -151,7 +151,7 @@ public class EntityHooks {
      * @param armorMaterials The {@link ArmorMaterials} to get an item from.
      * @see EntityHooks#spawnWithAccessories(Entity, DifficultyInstance)
      */
-    private static void equipAccessory(Mob mob, SlotTypeReference identifier, ArmorMaterial armorMaterials) {
+    private static void equipAccessory(Mob mob, SlotTypeReference identifier, ItemStack armor) {
         AccessoriesCapability accessories = AccessoriesCapability.get(mob);
         if (accessories != null) {
             AccessoriesContainer accessoriesContainer = accessories.getContainer(identifier);
@@ -164,7 +164,7 @@ public class EntityHooks {
                     }
                 }
                 if (empty) {
-                    Item item = getEquipmentForSlot(identifier, armorMaterials);
+                    Item item = getEquipmentForSlot(identifier, armor);
                     if (item != null) {
                         accessoriesContainer.getAccessories().setItem(0, new ItemStack(item));
                     }
@@ -182,23 +182,23 @@ public class EntityHooks {
      * @see EntityHooks#equipAccessory(Mob, SlotTypeReference, Holder)
      */
     @Nullable
-    private static Item getEquipmentForSlot(SlotTypeReference identifier, ArmorMaterial armorMaterial) {
+    private static Item getEquipmentForSlot(SlotTypeReference identifier, ItemStack armor) {
         if (identifier.equals(GlovesItem.getStaticIdentifier())) {
-            if (armorMaterial == ArmorMaterials.LEATHER) {
+            if (armor.is(AetherTags.Items.LEATHER_ARMOR)) {
                 return AetherItems.LEATHER_GLOVES.get();
-            } else if (armorMaterial == ArmorMaterials.GOLD) {
+            } else if (armor.is(AetherTags.Items.GOLDEN_ARMOR)) {
                 return AetherItems.GOLDEN_GLOVES.get();
-            } else if (armorMaterial == ArmorMaterials.CHAINMAIL) {
+            } else if (armor.is(AetherTags.Items.CHAINMAIL_ARMOR)) {
                 return AetherItems.CHAINMAIL_GLOVES.get();
-            } else if (armorMaterial == ArmorMaterials.IRON) {
+            } else if (armor.is(AetherTags.Items.IRON_ARMOR)) {
                 return AetherItems.IRON_GLOVES.get();
-            } else if (armorMaterial == ArmorMaterials.DIAMOND) {
+            } else if (armor.is(AetherTags.Items.DIAMOND_ARMOR)) {
                 return AetherItems.DIAMOND_GLOVES.get();
             }
         } else if (identifier.equals(PendantItem.getStaticIdentifier())) {
-            if (armorMaterial == ArmorMaterials.IRON) {
+            if (armor.is(AetherTags.Items.IRON_ARMOR)) {
                 return AetherItems.IRON_PENDANT.get();
-            } else if (armorMaterial == ArmorMaterials.GOLD) {
+            } else if (armor.is(AetherTags.Items.GOLDEN_ARMOR)) {
                 return AetherItems.GOLDEN_PENDANT.get();
             }
         }

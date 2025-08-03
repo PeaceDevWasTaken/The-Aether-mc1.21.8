@@ -206,6 +206,37 @@ public class AetherItemTagData extends ItemTagsProvider {
         this.tag(AetherTags.Items.GEMS_ZANITE).add(AetherItems.ZANITE_GEMSTONE.get());
         this.tag(AetherTags.Items.PROCESSED_GRAVITITE).add(AetherBlocks.ENCHANTED_GRAVITITE.get().asItem());
 
+        this.tag(AetherTags.Items.LEATHER_ARMOR).add(
+            Items.LEATHER_HELMET,
+            Items.LEATHER_CHESTPLATE,
+            Items.LEATHER_LEGGINGS,
+            Items.LEATHER_BOOTS);
+        this.tag(AetherTags.Items.CHAINMAIL_ARMOR).add(
+            Items.CHAINMAIL_HELMET,
+            Items.CHAINMAIL_CHESTPLATE,
+            Items.CHAINMAIL_LEGGINGS,
+            Items.CHAINMAIL_BOOTS);
+        this.tag(AetherTags.Items.IRON_ARMOR).add(
+            Items.IRON_HELMET,
+            Items.IRON_CHESTPLATE,
+            Items.IRON_LEGGINGS,
+            Items.IRON_BOOTS);
+        this.tag(AetherTags.Items.GOLDEN_ARMOR).add(
+            Items.GOLDEN_HELMET,
+            Items.GOLDEN_CHESTPLATE,
+            Items.GOLDEN_LEGGINGS,
+            Items.GOLDEN_BOOTS);
+        this.tag(AetherTags.Items.DIAMOND_ARMOR).add(
+            Items.DIAMOND_HELMET,
+            Items.DIAMOND_CHESTPLATE,
+            Items.DIAMOND_LEGGINGS,
+            Items.DIAMOND_BOOTS);
+        this.tag(AetherTags.Items.NETHERITE_ARMOR).add(
+            Items.NETHERITE_HELMET,
+            Items.NETHERITE_CHESTPLATE,
+            Items.NETHERITE_LEGGINGS,
+            Items.NETHERITE_BOOTS);
+
         this.tag(AetherTags.Items.TOOLS_LANCES).add(AetherItems.VALKYRIE_LANCE.get());
         this.tag(AetherTags.Items.TOOLS_HAMMERS).add(AetherItems.HAMMER_OF_KINGBDOGZ.get());
 
