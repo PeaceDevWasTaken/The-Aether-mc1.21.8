@@ -1,4 +1,4 @@
-// 1.21.3	2025-08-03T13:32:05.6161956	Loot Tables
+// 1.21.3	2025-08-03T14:00:17.0021705	Loot Tables
 6fd07ff3ea848d0b3b26cbf2b2d5c37dd5dc8b9a data/aether/loot_table/advancements/enter_aether.json
 a2337d3e3c05d3efabc3f907351bfe480fd09caa data/aether/loot_table/blocks/aerogel.json
 cb18a05b606bd3951085b27c35172c0e9867f0b0 data/aether/loot_table/blocks/aerogel_slab.json
@@ -206,4 +206,3 @@ d61b067786d7fd175bffd74b9354ba9799125d5c data/aether/loot_table/shearing/sheepuf
 695cd0fc6dd7532604b36efc07839707104231d0 data/aether/loot_table/shearing/sheepuff/white.json
 1671eea26f47debcad2df9fee001fffbe9596caf data/aether/loot_table/shearing/sheepuff/yellow.json
 783828291387d8340036159a2978b260561e6908 data/aether/loot_table/stripping/strip_golden_oak.json
-df1d14563f029306330e1fb601ca3db9f0848769 data/minecraft/loot_table/blocks/torch.json

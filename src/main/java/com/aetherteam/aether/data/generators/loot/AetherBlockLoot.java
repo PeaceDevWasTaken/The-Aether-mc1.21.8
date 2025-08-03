@@ -83,7 +83,6 @@ public class AetherBlockLoot extends AetherBlockLootSubProvider {
         this.add(AetherBlocks.FREEZER.get(), this::droppingNameableBlockEntityTable);
         this.add(AetherBlocks.INCUBATOR.get(), this::droppingNameableBlockEntityTable);
 
-        this.dropOther(AetherBlocks.AMBROSIUM_WALL_TORCH.get(), AetherBlocks.AMBROSIUM_TORCH.get());
         this.dropSelf(AetherBlocks.AMBROSIUM_TORCH.get());
 
         this.dropOther(AetherBlocks.SKYROOT_WALL_SIGN.get(), AetherBlocks.SKYROOT_SIGN.get());
