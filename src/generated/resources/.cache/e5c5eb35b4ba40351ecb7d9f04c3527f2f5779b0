@@ -1,4 +1,4 @@
-// 1.21.1	2024-10-23T11:06:35.8624499	Advancements
+// 1.21.3	2025-08-03T13:32:05.6341962	Advancements
 af7e5807b23d1f30cf6d04a313824b6e392d9650 data/aether/advancement/aether_sleep.json
 1305a40aa14edcf4b6a71e8f5dc7323129a1aca3 data/aether/advancement/black_moa.json
 adbb35f9f7c2c7cbb858accd2d637b4fb0eaf84c data/aether/advancement/blue_aercloud.json
@@ -20,7 +20,7 @@ f523525a9f58d443d4ba0a158276b3cebf2260a8 data/aether/advancement/mount_phyg.json
 2ceb36dbde98d4f16b63047c03ab6ae92c0698b7 data/aether/advancement/obtain_petal.json
 ec72e9c9163215ecef12b6a75c1f24bb021424df data/aether/advancement/phoenix_armor.json
 5cc6a46d29343f8f635f7cf0e7f50099f9220a46 data/aether/advancement/prevent_aechor_petal_spawning.json
-3292ae273140c21c5374551bdaea796748a43e69 data/aether/advancement/prevent_swet_spawning.json
+5fde1f84a5ad01f1d5a45f613d57e68b35c988fc data/aether/advancement/prevent_swet_spawning.json
 20041e7647e6dc6ccfed1f806620834c3f162dc9 data/aether/advancement/read_lore.json
 4ed670dc21d048af965e50d938c37108524f93fd data/aether/advancement/regen_stone.json
 45fe52d95e88595d777aa19d1ef72285e368ad76 data/aether/advancement/silver_dungeon.json

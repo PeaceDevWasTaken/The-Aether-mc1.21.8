@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "group": "minecraft:lectern",
+  "key": {
+    "B": "aether:skyroot_bookshelf",
+    "S": "#minecraft:wooden_slabs"
+  },
+  "pattern": [
+    "SSS",
+    " B ",
+    " S "
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:lectern"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "minecraft:cartography_table",
+  "key": {
+    "#": "minecraft:paper",
+    "P": "#aether:planks_crafting"
+  },
+  "pattern": [
+    "##",
+    "PP",
+    "PP"
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:cartography_table"
+  }
+}

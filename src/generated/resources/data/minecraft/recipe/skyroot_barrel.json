@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "minecraft:barrel",
+  "key": {
+    "H": "#minecraft:wooden_slabs",
+    "P": "#aether:planks_crafting"
+  },
+  "pattern": [
+    "PHP",
+    "P P",
+    "PHP"
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:barrel"
+  }
+}

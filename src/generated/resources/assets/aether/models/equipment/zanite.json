@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "aether:zanite"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "aether:zanite"
+      }
+    ]
+  }
+}

@@ -109,59 +109,59 @@ public class AetherEntityTypes {
 
     // Miscellaneous Entities
     public static final DeferredHolder<EntityType<?>, EntityType<Boat>> SKYROOT_BOAT = ENTITY_TYPES.register("skyroot_boat",
-            () -> EntityType.Builder.<Boat>of((type, level) -> new Boat(type, level, AetherItems.SKYROOT_BOAT), MobCategory.MISC).sized(1.375F, 0.5625F).clientTrackingRange(10).build(AetherEntityKeys.SKYROOT_BOAT));
+            () -> EntityType.Builder.<Boat>of((type, level) -> new Boat(type, level, AetherItems.SKYROOT_BOAT), MobCategory.MISC).noLootTable().sized(1.375F, 0.5625F).clientTrackingRange(10).build(AetherEntityKeys.SKYROOT_BOAT));
 
     public static final DeferredHolder<EntityType<?>, EntityType<ChestBoat>> SKYROOT_CHEST_BOAT = ENTITY_TYPES.register("skyroot_chest_boat",
-            () -> EntityType.Builder.<ChestBoat>of((type, level) -> new ChestBoat(type, level, AetherItems.SKYROOT_CHEST_BOAT), MobCategory.MISC).sized(1.375F, 0.5625F).clientTrackingRange(10).build(AetherEntityKeys.SKYROOT_CHEST_BOAT));
+            () -> EntityType.Builder.<ChestBoat>of((type, level) -> new ChestBoat(type, level, AetherItems.SKYROOT_CHEST_BOAT), MobCategory.MISC).noLootTable().sized(1.375F, 0.5625F).clientTrackingRange(10).build(AetherEntityKeys.SKYROOT_CHEST_BOAT));
 
     public static final DeferredHolder<EntityType<?>, EntityType<CloudMinion>> CLOUD_MINION = ENTITY_TYPES.register("cloud_minion",
-            () -> EntityType.Builder.<CloudMinion>of(CloudMinion::new, MobCategory.MISC).sized(0.75F, 0.75F).clientTrackingRange(5).build(AetherEntityKeys.CLOUD_MINION));
+            () -> EntityType.Builder.<CloudMinion>of(CloudMinion::new, MobCategory.MISC).noLootTable().sized(0.75F, 0.75F).clientTrackingRange(5).build(AetherEntityKeys.CLOUD_MINION));
 
     public static final DeferredHolder<EntityType<?>, EntityType<Parachute>> COLD_PARACHUTE = ENTITY_TYPES.register("cold_parachute",
-            () -> EntityType.Builder.of(Parachute::new, MobCategory.MISC).sized(1.0F, 1.0F).clientTrackingRange(8).build(AetherEntityKeys.COLD_PARACHUTE));
+            () -> EntityType.Builder.of(Parachute::new, MobCategory.MISC).noLootTable().sized(1.0F, 1.0F).clientTrackingRange(8).build(AetherEntityKeys.COLD_PARACHUTE));
 
     public static final DeferredHolder<EntityType<?>, EntityType<Parachute>> GOLDEN_PARACHUTE = ENTITY_TYPES.register("golden_parachute",
-            () -> EntityType.Builder.of(Parachute::new, MobCategory.MISC).sized(1.0F, 1.0F).clientTrackingRange(8).build(AetherEntityKeys.GOLDEN_PARACHUTE));
+            () -> EntityType.Builder.of(Parachute::new, MobCategory.MISC).noLootTable().sized(1.0F, 1.0F).clientTrackingRange(8).build(AetherEntityKeys.GOLDEN_PARACHUTE));
 
     public static final DeferredHolder<EntityType<?>, EntityType<FloatingBlockEntity>> FLOATING_BLOCK = ENTITY_TYPES.register("floating_block",
-            () -> EntityType.Builder.<FloatingBlockEntity>of(FloatingBlockEntity::new, MobCategory.MISC).sized(1.0F, 1.0F).clientTrackingRange(10).updateInterval(20).build(AetherEntityKeys.FLOATING_BLOCK));
+            () -> EntityType.Builder.<FloatingBlockEntity>of(FloatingBlockEntity::new, MobCategory.MISC).noLootTable().sized(1.0F, 1.0F).clientTrackingRange(10).updateInterval(20).build(AetherEntityKeys.FLOATING_BLOCK));
 
     public static final DeferredHolder<EntityType<?>, EntityType<TntPresent>> TNT_PRESENT = ENTITY_TYPES.register("tnt_present",
-            () -> EntityType.Builder.<TntPresent>of(TntPresent::new, MobCategory.MISC).fireImmune().sized(1.0F, 1.0F).eyeHeight(0.15F).clientTrackingRange(10).updateInterval(10).build(AetherEntityKeys.TNT_PRESENT));
+            () -> EntityType.Builder.<TntPresent>of(TntPresent::new, MobCategory.MISC).noLootTable().fireImmune().sized(1.0F, 1.0F).eyeHeight(0.15F).clientTrackingRange(10).updateInterval(10).build(AetherEntityKeys.TNT_PRESENT));
 
     // Projectiles
     public static final DeferredHolder<EntityType<?>, EntityType<ZephyrSnowball>> ZEPHYR_SNOWBALL = ENTITY_TYPES.register("zephyr_snowball",
-            () -> EntityType.Builder.<ZephyrSnowball>of(ZephyrSnowball::new, MobCategory.MISC).sized(1.0F, 1.0F).clientTrackingRange(4).updateInterval(10).build(AetherEntityKeys.ZEPHYR_SNOWBALL));
+            () -> EntityType.Builder.<ZephyrSnowball>of(ZephyrSnowball::new, MobCategory.MISC).noLootTable().sized(1.0F, 1.0F).clientTrackingRange(4).updateInterval(10).build(AetherEntityKeys.ZEPHYR_SNOWBALL));
 
     public static final DeferredHolder<EntityType<?>, EntityType<CloudCrystal>> CLOUD_CRYSTAL = ENTITY_TYPES.register("cloud_crystal",
-            () -> EntityType.Builder.<CloudCrystal>of(CloudCrystal::new, MobCategory.MISC).sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(10).build(AetherEntityKeys.CLOUD_CRYSTAL));
+            () -> EntityType.Builder.<CloudCrystal>of(CloudCrystal::new, MobCategory.MISC).noLootTable().sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(10).build(AetherEntityKeys.CLOUD_CRYSTAL));
 
     public static final DeferredHolder<EntityType<?>, EntityType<FireCrystal>> FIRE_CRYSTAL = ENTITY_TYPES.register("fire_crystal",
-            () -> EntityType.Builder.<FireCrystal>of(FireCrystal::new, MobCategory.MISC).sized(0.85F, 0.85F).clientTrackingRange(4).updateInterval(10).fireImmune().build(AetherEntityKeys.FIRE_CRYSTAL));
+            () -> EntityType.Builder.<FireCrystal>of(FireCrystal::new, MobCategory.MISC).noLootTable().sized(0.85F, 0.85F).clientTrackingRange(4).updateInterval(10).fireImmune().build(AetherEntityKeys.FIRE_CRYSTAL));
 
     public static final DeferredHolder<EntityType<?>, EntityType<IceCrystal>> ICE_CRYSTAL = ENTITY_TYPES.register("ice_crystal",
-            () -> EntityType.Builder.<IceCrystal>of(IceCrystal::new, MobCategory.MISC).sized(1.2F, 1.2F).clientTrackingRange(4).updateInterval(10).fireImmune().build(AetherEntityKeys.ICE_CRYSTAL));
+            () -> EntityType.Builder.<IceCrystal>of(IceCrystal::new, MobCategory.MISC).noLootTable().sized(1.2F, 1.2F).clientTrackingRange(4).updateInterval(10).fireImmune().build(AetherEntityKeys.ICE_CRYSTAL));
 
     public static final DeferredHolder<EntityType<?>, EntityType<ThunderCrystal>> THUNDER_CRYSTAL = ENTITY_TYPES.register("thunder_crystal",
-            () -> EntityType.Builder.<ThunderCrystal>of(ThunderCrystal::new, MobCategory.MISC).sized(0.7F, 0.7F).updateInterval(2).build(AetherEntityKeys.THUNDER_CRYSTAL));
+            () -> EntityType.Builder.<ThunderCrystal>of(ThunderCrystal::new, MobCategory.MISC).noLootTable().sized(0.7F, 0.7F).updateInterval(2).build(AetherEntityKeys.THUNDER_CRYSTAL));
 
     public static final DeferredHolder<EntityType<?>, EntityType<GoldenDart>> GOLDEN_DART = ENTITY_TYPES.register("golden_dart",
-            () -> EntityType.Builder.<GoldenDart>of(GoldenDart::new, MobCategory.MISC).sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(20).build(AetherEntityKeys.GOLDEN_DART));
+            () -> EntityType.Builder.<GoldenDart>of(GoldenDart::new, MobCategory.MISC).noLootTable().sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(20).build(AetherEntityKeys.GOLDEN_DART));
 
     public static final DeferredHolder<EntityType<?>, EntityType<PoisonDart>> POISON_DART = ENTITY_TYPES.register("poison_dart",
-            () -> EntityType.Builder.<PoisonDart>of(PoisonDart::new, MobCategory.MISC).sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(20).build(AetherEntityKeys.POISON_DART));
+            () -> EntityType.Builder.<PoisonDart>of(PoisonDart::new, MobCategory.MISC).noLootTable().sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(20).build(AetherEntityKeys.POISON_DART));
 
     public static final DeferredHolder<EntityType<?>, EntityType<EnchantedDart>> ENCHANTED_DART = ENTITY_TYPES.register("enchanted_dart",
-            () -> EntityType.Builder.<EnchantedDart>of(EnchantedDart::new, MobCategory.MISC).sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(20).build(AetherEntityKeys.ENCHANTED_DART));
+            () -> EntityType.Builder.<EnchantedDart>of(EnchantedDart::new, MobCategory.MISC).noLootTable().sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(20).build(AetherEntityKeys.ENCHANTED_DART));
 
     public static final DeferredHolder<EntityType<?>, EntityType<PoisonNeedle>> POISON_NEEDLE = ENTITY_TYPES.register("poison_needle",
-            () -> EntityType.Builder.<PoisonNeedle>of(PoisonNeedle::new, MobCategory.MISC).sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(20).build(AetherEntityKeys.POISON_NEEDLE));
+            () -> EntityType.Builder.<PoisonNeedle>of(PoisonNeedle::new, MobCategory.MISC).noLootTable().sized(0.5F, 0.5F).clientTrackingRange(4).updateInterval(20).build(AetherEntityKeys.POISON_NEEDLE));
 
     public static final DeferredHolder<EntityType<?>, EntityType<ThrownLightningKnife>> LIGHTNING_KNIFE = ENTITY_TYPES.register("lightning_knife",
-            () -> EntityType.Builder.<ThrownLightningKnife>of(ThrownLightningKnife::new, MobCategory.MISC).sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10).build(AetherEntityKeys.LIGHTNING_KNIFE));
+            () -> EntityType.Builder.<ThrownLightningKnife>of(ThrownLightningKnife::new, MobCategory.MISC).noLootTable().sized(0.25F, 0.25F).clientTrackingRange(4).updateInterval(10).build(AetherEntityKeys.LIGHTNING_KNIFE));
 
     public static final DeferredHolder<EntityType<?>, EntityType<HammerProjectile>> HAMMER_PROJECTILE = ENTITY_TYPES.register("hammer_projectile",
-            () -> EntityType.Builder.<HammerProjectile>of(HammerProjectile::new, MobCategory.MISC).sized(0.35F, 0.35F).clientTrackingRange(4).updateInterval(10).build(AetherEntityKeys.HAMMER_PROJECTILE));
+            () -> EntityType.Builder.<HammerProjectile>of(HammerProjectile::new, MobCategory.MISC).noLootTable().sized(0.35F, 0.35F).clientTrackingRange(4).updateInterval(10).build(AetherEntityKeys.HAMMER_PROJECTILE));
 
     /**
      * @see Aether#eventSetup(IEventBus)

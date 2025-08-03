@@ -59,7 +59,7 @@
           "weight": 20
         },
         {
-          "type": "minecraft:item",
+          "type": "minecraft:empty",
           "functions": [
             {
               "count": 1,
@@ -67,7 +67,6 @@
               "function": "aether:whirlwind_spawn_entity"
             }
           ],
-          "name": "minecraft:air",
           "weight": 60
         }
       ],

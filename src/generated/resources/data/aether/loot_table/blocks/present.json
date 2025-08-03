@@ -25,23 +25,21 @@
       ],
       "entries": [
         {
-          "type": "minecraft:item",
+          "type": "minecraft:empty",
           "functions": [
             {
               "function": "aether:spawn_tnt"
             }
           ],
-          "name": "minecraft:air",
           "weight": 18
         },
         {
-          "type": "minecraft:item",
+          "type": "minecraft:empty",
           "functions": [
             {
               "function": "aether:spawn_xp"
             }
           ],
-          "name": "minecraft:air",
           "weight": 9
         },
         {

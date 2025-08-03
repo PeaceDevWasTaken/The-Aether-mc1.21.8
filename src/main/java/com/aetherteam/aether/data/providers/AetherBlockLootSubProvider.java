@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.EmptyLootItem;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolEntryContainer;
 import net.minecraft.world.level.storage.loot.functions.ApplyBonusCount;
@@ -153,9 +154,9 @@ public abstract class AetherBlockLootSubProvider extends NitrogenBlockLootSubPro
 
     public LootTable.Builder droppingPresentLoot(Block block) {
         return LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
-                .add(LootItem.lootTableItem(Items.AIR).setWeight(18)
+                .add(EmptyLootItem.emptyItem().setWeight(18)
                         .apply(SpawnTNT.builder()))
-                .add(LootItem.lootTableItem(Items.AIR).setWeight(9)
+                .add(EmptyLootItem.emptyItem().setWeight(9)
                         .apply(SpawnXP.builder()))
                 .add(this.applyExplosionDecay(block, LootItem.lootTableItem(AetherItems.GINGERBREAD_MAN.get()).setWeight(8)
                         .apply(SetItemCountFunction.setCount(UniformGenerator.between(5.0F, 6.0F)))))

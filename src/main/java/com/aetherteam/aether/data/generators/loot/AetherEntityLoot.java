@@ -235,12 +235,6 @@ public class AetherEntityLoot extends EntityLootSubProvider {
         );
     }
 
-    private static LootTable.Builder createSheepuffTable(ItemLike wool) {
-        return LootTable.lootTable()
-                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(LootItem.lootTableItem(wool)))
-                .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1)).add(NestedLootTable.lootTableReference(AetherEntityTypes.SHEEPUFF.get().getDefaultLootTable().get())));
-    }
-
     @Override
     public Stream<EntityType<?>> getKnownEntityTypes() {
         return AetherEntityTypes.ENTITY_TYPES.getEntries().stream().flatMap(entityType -> Stream.of(entityType.get()));

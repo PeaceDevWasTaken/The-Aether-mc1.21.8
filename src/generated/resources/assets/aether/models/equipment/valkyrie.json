@@ -1,0 +1,14 @@
+{
+  "layers": {
+    "humanoid": [
+      {
+        "texture": "aether:valkyrie"
+      }
+    ],
+    "humanoid_leggings": [
+      {
+        "texture": "aether:valkyrie"
+      }
+    ]
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "type": "aether:repairing",
+  "group": "altar_chestplate_repair",
+  "ingredient": "aether:gravitite_chestplate",
+  "repairTime": 1500
+}

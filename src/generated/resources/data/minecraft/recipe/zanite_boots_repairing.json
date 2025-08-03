@@ -1,0 +1,6 @@
+{
+  "type": "aether:repairing",
+  "group": "altar_boots_repair",
+  "ingredient": "aether:zanite_boots",
+  "repairTime": 750
+}

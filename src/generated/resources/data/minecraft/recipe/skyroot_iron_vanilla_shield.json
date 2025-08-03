@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "minecraft:shield",
+  "key": {
+    "I": "#c:ingots/iron",
+    "P": "#aether:planks_crafting"
+  },
+  "pattern": [
+    "PIP",
+    "PPP",
+    " P "
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:shield"
+  }
+}

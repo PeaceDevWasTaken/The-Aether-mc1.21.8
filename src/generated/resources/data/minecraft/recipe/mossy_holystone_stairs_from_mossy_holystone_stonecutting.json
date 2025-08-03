@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "aether:mossy_holystone",
+  "result": {
+    "count": 1,
+    "id": "aether:mossy_holystone_stairs"
+  }
+}

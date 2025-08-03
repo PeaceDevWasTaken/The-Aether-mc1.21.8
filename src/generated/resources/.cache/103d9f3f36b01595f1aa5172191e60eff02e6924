@@ -1,4 +1,4 @@
-// 1.21.1	2025-03-26T10:49:00.6096114	Registries
+// 1.21.3	2025-08-03T13:32:05.6321966	Registries
 2eb04213a52c1c17da768788f861402c3da130c7 data/aether/aether/moa_type/black.json
 0fec10b7ec3a92e56c0d6098e2e6459d24fb16e9 data/aether/aether/moa_type/blue.json
 ebef15be8334cbbe35897bedcfb54c3251f52d8a data/aether/aether/moa_type/white.json
@@ -21,10 +21,10 @@ fd00a4a804d34d61fcad3050b1193c6df04575db data/aether/jukebox_song/sliders_wrath.
 63509f24b207c095924e5b49d671a69b3f220289 data/aether/trim_material/golden_amber.json
 68202c4f994624d4f02991a97d8aafaccc3aaf7a data/aether/trim_material/gravitite.json
 191264061b6e368ec29ad4c90a7cc0dd748d8e24 data/aether/trim_material/zanite.json
-5fbd30e97137994d48844f3fbcb554d2d43968a3 data/aether/worldgen/biome/skyroot_forest.json
-f00a03c6e8f3f7d159de20ed90842cb59edc2d51 data/aether/worldgen/biome/skyroot_grove.json
-6f9ddc007f108117bdafb00fa2c7b31835eee13b data/aether/worldgen/biome/skyroot_meadow.json
-b4860842538bfab582b5f909b17dae4f3ac670bc data/aether/worldgen/biome/skyroot_woodland.json
+325b8d6df336fa13fb909d83db6daaa3b7035d26 data/aether/worldgen/biome/skyroot_forest.json
+5657f2ca11bd50ecf24a59265ee0078e70402b99 data/aether/worldgen/biome/skyroot_grove.json
+eddc511915a01b3c1b90e2586ad96a93d0626642 data/aether/worldgen/biome/skyroot_meadow.json
+8d8042d3e495ef3aa903065f7d34758d2fe560dd data/aether/worldgen/biome/skyroot_woodland.json
 e397ce55b7eeb517bc7e2fd10db0c1b5846f4107 data/aether/worldgen/configured_feature/aether_dirt_ore.json
 c17ecb282b0b0f8d0c626946bf59db30a87b6c71 data/aether/worldgen/configured_feature/ambrosium_ore.json
 cfc20656c4daf53484000d4c79fe7f5128b63e4b data/aether/worldgen/configured_feature/berry_bush_patch.json

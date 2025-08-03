@@ -13,6 +13,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.EmptyLootItem;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 
@@ -25,7 +26,7 @@ public record AetherSelectorLoot(HolderLookup.Provider registries) implements Lo
                 .withPool(whirlwindLoot())
         );
         builder.accept(AetherLoot.EVIL_WHIRLWIND_JUNK, LootTable.lootTable()
-                .withPool(whirlwindLoot().add(LootItem.lootTableItem(Items.AIR).apply(WhirlwindSpawnEntity.builder(EntityTypePredicate.of(BuiltInRegistries.ENTITY_TYPE, EntityType.CREEPER), ConstantInt.of(1))).setWeight(60)))
+                .withPool(whirlwindLoot().add(EmptyLootItem.emptyItem().apply(WhirlwindSpawnEntity.builder(EntityTypePredicate.of(BuiltInRegistries.ENTITY_TYPE, EntityType.CREEPER), ConstantInt.of(1))).setWeight(60)))
         );
     }
 

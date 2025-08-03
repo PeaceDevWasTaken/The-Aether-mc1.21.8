@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "minecraft:loom",
+  "key": {
+    "P": "#aether:planks_crafting",
+    "T": "#c:strings"
+  },
+  "pattern": [
+    "TT",
+    "PP"
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:loom"
+  }
+}

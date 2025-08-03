@@ -1,0 +1,6 @@
+{
+  "type": "aether:repairing",
+  "group": "altar_pickaxe_repair",
+  "ingredient": "aether:skyroot_pickaxe",
+  "repairTime": 250
+}

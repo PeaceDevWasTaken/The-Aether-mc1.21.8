@@ -1,0 +1,8 @@
+{
+  "type": "minecraft:stonecutting",
+  "ingredient": "aether:light_hellfire_stone",
+  "result": {
+    "count": 1,
+    "id": "aether:hellfire_stone"
+  }
+}

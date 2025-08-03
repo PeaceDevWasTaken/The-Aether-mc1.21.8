@@ -1,0 +1,6 @@
+{
+  "type": "aether:repairing",
+  "group": "altar_shovel_repair",
+  "ingredient": "aether:zanite_shovel",
+  "repairTime": 750
+}

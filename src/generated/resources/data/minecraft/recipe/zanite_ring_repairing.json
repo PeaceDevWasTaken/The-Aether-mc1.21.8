@@ -1,0 +1,6 @@
+{
+  "type": "aether:repairing",
+  "group": "altar_ring_repair",
+  "ingredient": "aether:zanite_ring",
+  "repairTime": 500
+}
