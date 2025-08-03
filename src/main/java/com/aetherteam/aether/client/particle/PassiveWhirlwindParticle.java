@@ -10,15 +10,15 @@ import net.minecraft.core.particles.SimpleParticleType;
 public class PassiveWhirlwindParticle extends AbstractWhirlwindParticle<PassiveWhirlwind> {
     public PassiveWhirlwindParticle(ClientLevel level, double xCoord, double yCoord, double zCoord, double xSpeed, double ySpeed, double zSpeed, SpriteSet sprite) {
         super(level, xCoord, yCoord, zCoord, xSpeed, ySpeed, zSpeed, sprite);
-        if (this.whirlwind != null) {
-            this.quadSize = this.random.nextFloat() * this.random.nextFloat() * 0.5F;
-            this.lifetime = (int) (16.0 / ((double) this.random.nextFloat() * 0.8 + 0.2)) + 2;
-            int color = this.whirlwind.getColorData();
-            float red = ((color >> 16) & 0xFF) / 255.0F;
-            float green = ((color >> 8) & 0xFF) / 255.0F;
-            float blue = (color & 0xFF) / 255.0F;
-            this.setColor(red, green, blue);
-        }
+//        if (this.whirlwind != null) {
+//            this.quadSize = this.random.nextFloat() * this.random.nextFloat() * 0.5F;
+//            this.lifetime = (int) (16.0 / ((double) this.random.nextFloat() * 0.8 + 0.2)) + 2;
+//            int color = this.whirlwind.getColorData();
+//            float red = ((color >> 16) & 0xFF) / 255.0F;
+//            float green = ((color >> 8) & 0xFF) / 255.0F;
+//            float blue = (color & 0xFF) / 255.0F;
+//            this.setColor(red, green, blue);
+//        }
     }
 
     @Override

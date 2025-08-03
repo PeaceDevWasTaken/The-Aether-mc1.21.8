@@ -28,9 +28,9 @@ public class EvilWhirlwindParticle extends AbstractWhirlwindParticle<EvilWhirlwi
         this.smokeParticleScale = this.quadSize;
         this.lifetime = (int) (8.0 / (Math.random() * 0.8 + 0.2));
         this.lifetime = (int) ((float) this.lifetime * scale);
-        if (this.whirlwind != null) {
-            this.setPos(this.whirlwind.getX(), this.whirlwind.getY(), this.whirlwind.getZ());
-        }
+//        if (this.whirlwind != null) {
+//            this.setPos(this.whirlwind.getX(), this.whirlwind.getY(), this.whirlwind.getZ());
+//        }
     }
 
     @Override

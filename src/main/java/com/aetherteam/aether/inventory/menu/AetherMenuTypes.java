@@ -2,6 +2,7 @@ package com.aetherteam.aether.inventory.menu;
 
 import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.client.gui.screen.inventory.*;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -24,7 +25,7 @@ public class AetherMenuTypes {
     }
 
     public static void registerMenuScreens(RegisterMenuScreensEvent event) {
-        event.register(AetherMenuTypes.ACCESSORIES.get(), AetherAccessoriesScreen::new);
+        event.<AetherAccessoriesMenu, AetherAccessoriesScreen>register(AetherMenuTypes.ACCESSORIES.get(), AetherAccessoriesScreen::new); //todo why does it crash without these type parameters
         event.register(AetherMenuTypes.BOOK_OF_LORE.get(), LoreBookScreen::new);
         event.register(AetherMenuTypes.ALTAR.get(), AltarScreen::new);
         event.register(AetherMenuTypes.FREEZER.get(), FreezerScreen::new);
