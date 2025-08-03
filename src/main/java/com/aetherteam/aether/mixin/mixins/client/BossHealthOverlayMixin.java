@@ -19,7 +19,7 @@ public class BossHealthOverlayMixin {
      * @param event The original {@link net.neoforged.neoforge.client.event.CustomizeGuiOverlayEvent.BossEventProgress} parameter value.
      * @return The modified {@link net.neoforged.neoforge.client.event.CustomizeGuiOverlayEvent.BossEventProgress} parameter value.
      */
-    @ModifyVariable(at = @At(value = "STORE"), method = "render(Lnet/minecraft/client/gui/GuiGraphics;)V", index = 7)
+    @ModifyVariable(at = @At(value = "STORE"), method = "render(Lnet/minecraft/client/gui/GuiGraphics;)V")
     private CustomizeGuiOverlayEvent.BossEventProgress event(CustomizeGuiOverlayEvent.BossEventProgress event) {
         if (Minecraft.getInstance().level != null &&
                 GuiHooks.BOSS_EVENTS.containsKey(event.getBossEvent().getId()) &&

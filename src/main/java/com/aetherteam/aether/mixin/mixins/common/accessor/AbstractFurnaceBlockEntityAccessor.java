@@ -2,6 +2,7 @@ package com.aetherteam.aether.mixin.mixins.common.accessor;
 
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -9,6 +10,7 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.world.level.block.entity.FuelValues;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
@@ -21,7 +23,7 @@ public interface AbstractFurnaceBlockEntityAccessor {
     RecipeManager.CachedCheck<SingleRecipeInput, ? extends AbstractCookingRecipe> aether$getQuickCheck();
 
     @Invoker
-    static boolean callCanBurn(RegistryAccess registryAccess, @Nullable RecipeHolder<?> recipe, NonNullList<ItemStack> stacks, int stackSize, AbstractFurnaceBlockEntity furnace) {
+    static boolean callCanBurn(RegistryAccess registryAccess, @Nullable RecipeHolder<? extends AbstractCookingRecipe> recipe, SingleRecipeInput recipeInput, NonNullList<ItemStack> stacks, int stackSize) {
         throw new AssertionError();
     }
 
@@ -50,7 +52,7 @@ public interface AbstractFurnaceBlockEntityAccessor {
     boolean callIsLit();
 
     @Invoker
-    static int callGetTotalCookTime(Level level, AbstractFurnaceBlockEntity blockEntity) {
+    static int callGetTotalCookTime(ServerLevel level, AbstractFurnaceBlockEntity blockEntity) {
         throw new AssertionError();
     }
 
@@ -58,5 +60,5 @@ public interface AbstractFurnaceBlockEntityAccessor {
     NonNullList<ItemStack> aether$getItems();
 
     @Invoker
-    int callGetBurnDuration(ItemStack pFuel);
+    int callGetBurnDuration(FuelValues fuelValues, ItemStack fuel);
 }

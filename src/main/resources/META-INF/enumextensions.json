@@ -19,6 +19,24 @@
       }
     },
     {
+      "enum": "net/minecraft/world/inventory/RecipeBookType",
+      "name": "AETHER_ALTAR",
+      "constructor": "()V",
+      "parameters": [ ]
+    },
+    {
+      "enum": "net/minecraft/world/inventory/RecipeBookType",
+      "name": "AETHER_FREEZER",
+      "constructor": "()V",
+      "parameters": [ ]
+    },
+    {
+      "enum": "net/minecraft/world/inventory/RecipeBookType",
+      "name": "AETHER_INCUBATOR",
+      "constructor": "()V",
+      "parameters": [ ]
+    },
+    {
       "enum": "net/minecraft/world/entity/MobCategory",
       "name": "AETHER_AETHER_SURFACE_MONSTER",
       "constructor": "(Ljava/lang/String;IZZI)V",

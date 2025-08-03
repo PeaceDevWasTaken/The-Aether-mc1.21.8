@@ -12,8 +12,8 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.Enchantments;
 
 public class PhoenixBowItem extends BowItem {
-    public PhoenixBowItem() {
-        super(new Item.Properties().durability(384).rarity(AetherItems.AETHER_LOOT));
+    public PhoenixBowItem(Item.Properties properties) {
+        super(properties.durability(384).rarity(AetherItems.AETHER_LOOT));
     }
 
     /**

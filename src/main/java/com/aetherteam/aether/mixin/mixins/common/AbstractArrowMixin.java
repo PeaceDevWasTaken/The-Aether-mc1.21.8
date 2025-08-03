@@ -13,11 +13,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AbstractArrow.class)
-public class AbstractArrowMixin {
-    @Shadow
-    protected boolean inGround;
+public abstract class AbstractArrowMixin {
     @Shadow
     protected int inGroundTime;
+
+    @Shadow
+    protected abstract boolean isInGround();
 
     /**
      * Spawns particles from Phoenix Arrows.
@@ -32,7 +33,7 @@ public class AbstractArrowMixin {
             var attachment = arrow.getData(AetherDataAttachments.PHOENIX_ARROW);
             if (attachment.isPhoenixArrow() && !arrow.level().isClientSide()) {
                 attachment.setSynched(arrow.getId(), INBTSynchable.Direction.CLIENT, "setPhoenixArrow", true); // Sync Phoenix Arrow variable to client.
-                if (this.inGround) { // Spawn less particles when the arrow is in the ground.
+                if (this.isInGround()) { // Spawn less particles when the arrow is in the ground.
                     if (this.inGroundTime % 5 == 0) {
                         this.spawnParticles(arrow);
                     }

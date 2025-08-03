@@ -19,8 +19,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class CloudStaffItem extends Item {
-    public CloudStaffItem() {
-        super(new Item.Properties().durability(60).rarity(AetherItems.AETHER_LOOT));
+    public CloudStaffItem(Properties properties) {
+        super(properties.durability(60).rarity(AetherItems.AETHER_LOOT));
     }
 
     /**

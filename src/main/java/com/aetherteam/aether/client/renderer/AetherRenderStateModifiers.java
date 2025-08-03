@@ -10,6 +10,7 @@ import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.api.slot.SlotTypeReference;
 import net.minecraft.client.renderer.entity.ArmorStandRenderer;
+import net.minecraft.client.renderer.entity.TippableArrowRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.context.ContextKey;
@@ -34,6 +35,8 @@ public class AetherRenderStateModifiers {
 
     public static ContextKey<ItemStack> IS_CAPE_VISIBLE = new ContextKey<>(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "is_cape_visible"));
     public static ContextKey<ResourceLocation> CAPE_TEXTURE = new ContextKey<>(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "cape_texture"));
+
+    public static ContextKey<Boolean> IS_PHOENIX_ARROW = new ContextKey<>(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "is_phoenix_arrow"));
 
     public static void registerRenderStateModifier(RegisterRenderStateModifiersEvent event) {
         event.registerEntityModifier(PlayerRenderer.class, (abstractClientPlayer, playerRenderState) -> {
@@ -73,6 +76,10 @@ public class AetherRenderStateModifiers {
                 }
             }
             armorStandRenderState.setRenderData(CAPE_TEXTURE, texture);
+        });
+
+        event.registerEntityModifier(TippableArrowRenderer.class, (arrow, tippableArrowRenderState) -> {
+            tippableArrowRenderState.setRenderData(IS_PHOENIX_ARROW, arrow.getData(AetherDataAttachments.PHOENIX_ARROW).isPhoenixArrow());
         });
     }
 }

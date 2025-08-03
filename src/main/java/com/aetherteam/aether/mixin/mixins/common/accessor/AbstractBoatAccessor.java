@@ -1,11 +1,12 @@
 package com.aetherteam.aether.mixin.mixins.common.accessor;
 
+import net.minecraft.world.entity.vehicle.AbstractBoat;
 import net.minecraft.world.entity.vehicle.Boat;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(Boat.class)
-public interface BoatAccessor {
+@Mixin(AbstractBoat.class)
+public interface AbstractBoatAccessor {
     @Accessor("deltaRotation")
     float aether$getDeltaRotation();
 

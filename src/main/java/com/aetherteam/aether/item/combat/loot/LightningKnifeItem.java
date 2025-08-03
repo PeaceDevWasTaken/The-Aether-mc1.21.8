@@ -19,8 +19,8 @@ import net.minecraft.world.level.Level;
 import net.neoforged.neoforge.event.entity.EntityStruckByLightningEvent;
 
 public class LightningKnifeItem extends Item implements ProjectileItem {
-    public LightningKnifeItem() {
-        super(new Item.Properties().rarity(AetherItems.AETHER_LOOT).stacksTo(16));
+    public LightningKnifeItem(Item.Properties properties) {
+        super(properties.rarity(AetherItems.AETHER_LOOT).stacksTo(16));
     }
 
     /**

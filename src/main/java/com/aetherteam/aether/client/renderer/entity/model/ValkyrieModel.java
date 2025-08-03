@@ -88,8 +88,8 @@ public class ValkyrieModel<T extends ValkyrieRenderState> extends HumanoidModel<
     public static LayerDefinition createBodyLayer() {
         MeshDefinition meshDefinition = new MeshDefinition();
         PartDefinition partDefinition = meshDefinition.getRoot();
-        partDefinition.addOrReplaceChild("hat", CubeListBuilder.create(), PartPose.ZERO);
         PartDefinition head = partDefinition.addOrReplaceChild("head", CubeListBuilder.create().texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F), PartPose.ZERO);
+        head.addOrReplaceChild("hat", CubeListBuilder.create(), PartPose.ZERO);
         PartDefinition body = partDefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(12, 16).addBox(-3.0F, 0.0F, -1.5F, 6.0F, 12.0F, 3.0F), PartPose.ZERO);
         body.addOrReplaceChild("upper_body", CubeListBuilder.create().texOffs(12, 16).addBox(-3.0F, 0.5F, -1.25F, 6.0F, 5.0F, 3.0F, new CubeDeformation(0.75F)), PartPose.ZERO);
         PartDefinition rightArm = partDefinition.addOrReplaceChild("right_arm", CubeListBuilder.create().texOffs(30, 16).addBox(-3.0F, -1.5F, -1.5F, 3.0F, 12.0F, 3.0F), PartPose.offsetAndRotation(-4.0F, 1.5F, 0.0F, 0.0F, 0.0F, 0.05F));

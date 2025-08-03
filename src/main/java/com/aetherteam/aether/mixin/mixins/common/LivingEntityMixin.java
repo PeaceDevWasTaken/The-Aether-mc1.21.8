@@ -20,14 +20,14 @@ public class LivingEntityMixin {
      * @param ci The {@link CallbackInfo} for the void method return.
      * @see PhoenixArmor#boostVerticalLavaSwimming(LivingEntity)
      */
-    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getFluidJumpThreshold()D", shift = At.Shift.AFTER), method = "travel(Lnet/minecraft/world/phys/Vec3;)V")
+    @Inject(at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;getFluidJumpThreshold()D", shift = At.Shift.AFTER), method = "travelInFluid(Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/level/material/FluidState;)V")
     private void travel(CallbackInfo ci) {
         LivingEntity livingEntity = (LivingEntity) (Object) this;
         PhoenixArmor.boostVerticalLavaSwimming(livingEntity);
     }
 
-    @WrapWithCondition(method = "hurt(Lnet/minecraft/world/damagesource/DamageSource;F)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;knockback(DDD)V"))
-    private boolean hurt(LivingEntity instance, double strength, double x, double z, @Local(argsOnly = true) DamageSource source) {
+    @WrapWithCondition(method = "hurtServer(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/damagesource/DamageSource;F)Z", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;knockback(DDD)V"))
+    private boolean hurtServer(LivingEntity instance, double strength, double x, double z, @Local(argsOnly = true) DamageSource source) {
         return (!(instance instanceof ValkyrieQueen) || !(source.getDirectEntity() instanceof Projectile));
     }
 }

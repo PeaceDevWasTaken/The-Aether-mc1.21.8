@@ -16,8 +16,8 @@ import net.minecraft.world.item.ItemUseAnimation;
 import net.minecraft.world.level.Level;
 
 public class GummySwetItem extends Item implements ConsumableItem {
-    public GummySwetItem() {
-        super(new Item.Properties().rarity(AetherItems.AETHER_LOOT).food(AetherFoods.GUMMY_SWET, AetherConsumables.FAST_FOOD));
+    public GummySwetItem(Properties properties) {
+        super(properties.rarity(AetherItems.AETHER_LOOT).food(AetherFoods.GUMMY_SWET, AetherConsumables.FAST_FOOD));
     }
 
     /**

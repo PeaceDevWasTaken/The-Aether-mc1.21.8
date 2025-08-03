@@ -13,8 +13,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class WhiteAppleItem extends Item {
-    public WhiteAppleItem() {
-        super(new Item.Properties().food(AetherFoods.WHITE_APPLE, AetherConsumables.FAST_FOOD));
+    public WhiteAppleItem(Properties properties) {
+        super(properties.food(AetherFoods.WHITE_APPLE, AetherConsumables.FAST_FOOD));
     }
 
     /**

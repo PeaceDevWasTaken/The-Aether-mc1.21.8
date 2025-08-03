@@ -13,52 +13,52 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(Mob.class)
-public class MobMixin {
-    /**
-     * Allows {@link Mob}s to accept accessories from {@link net.minecraft.world.entity.EntitySelector.MobCanWearArmorEntitySelector}.
-     *
-     * @param original Whether an item could have been taken before.
-     * @param stack The {@link ItemStack}.
-     * @return Whether this {@link Mob} can take from an accessory otherwise whether it could have before.
-     */
-    @ModifyReturnValue(at = @At(value = "RETURN"), method = "canTakeItem(Lnet/minecraft/world/item/ItemStack;)Z")
-    private boolean canTakeItem(boolean original, @Local(ordinal = 0, argsOnly = true) ItemStack stack) {
-        Mob mob = (Mob) (Object) this;
-        if (EntityHooks.canMobSpawnWithAccessories(mob)) {
-            SlotTypeReference identifier = AetherMixinHooks.getIdentifierForItem(mob, stack);
-            if (identifier != null) {
-                ItemStack accessory = AetherMixinHooks.getItemByIdentifier(mob, identifier);
-                if (accessory.isEmpty()) return true;
-            }
-        }
-        return original;
-    }
-
-    /**
-     * Handles equipping accessories for {@link Mob}s.
-     *
-     * @param original The {@link ItemStack} returned by the target method.
-     * @param stack The {@link ItemStack} provided to the target method.
-     */
-    @ModifyReturnValue(at = @At(value = "RETURN"), method = "equipItemIfPossible(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/item/ItemStack;)Lnet/minecraft/world/item/ItemStack;")
-    private ItemStack equipItemIfPossible(ItemStack original, @Local(ordinal = 0, argsOnly = true) ServerLevel level, @Local(ordinal = 0, argsOnly = true) ItemStack stack) {
-        Mob mob = (Mob) (Object) this;
-        var data = mob.getData(AetherDataAttachments.MOB_ACCESSORY);
-        SlotTypeReference identifier = AetherMixinHooks.getIdentifierForItem(mob, stack);
-        if (identifier != null) {
-            ItemStack accessory = AetherMixinHooks.getItemByIdentifier(mob, identifier);
-            boolean flag = AetherMixinHooks.canReplaceCurrentAccessory(mob, stack, accessory);
-            if (flag && mob.canHoldItem(stack)) {
-                double dropChance = data.getEquipmentDropChance(identifier);
-                if (!accessory.isEmpty() && Math.max(mob.getRandom().nextFloat() - 0.1F, 0.0F) < dropChance) {
-                    mob.spawnAtLocation(level, accessory);
-                }
-                AetherMixinHooks.setItemByIdentifier(mob, stack, identifier);
-                data.setGuaranteedDrop(identifier);
-                mob.setPersistenceRequired();
-                return stack;
-            }
-        }
-        return original;
-    }
+public class MobMixin { //todo figure out equip code changes
+//    /**
+//     * Allows {@link Mob}s to accept accessories from {@link net.minecraft.world.entity.EntitySelector.MobCanWearArmorEntitySelector}.
+//     *
+//     * @param original Whether an item could have been taken before.
+//     * @param stack The {@link ItemStack}.
+//     * @return Whether this {@link Mob} can take from an accessory otherwise whether it could have before.
+//     */
+//    @ModifyReturnValue(at = @At(value = "RETURN"), method = "canTakeItem(Lnet/minecraft/world/item/ItemStack;)Z")
+//    private boolean canTakeItem(boolean original, @Local(ordinal = 0, argsOnly = true) ItemStack stack) {
+//        Mob mob = (Mob) (Object) this;
+//        if (EntityHooks.canMobSpawnWithAccessories(mob)) {
+//            SlotTypeReference identifier = AetherMixinHooks.getIdentifierForItem(mob, stack);
+//            if (identifier != null) {
+//                ItemStack accessory = AetherMixinHooks.getItemByIdentifier(mob, identifier);
+//                if (accessory.isEmpty()) return true;
+//            }
+//        }
+//        return original;
+//    }
+//
+//    /**
+//     * Handles equipping accessories for {@link Mob}s.
+//     *
+//     * @param original The {@link ItemStack} returned by the target method.
+//     * @param stack The {@link ItemStack} provided to the target method.
+//     */
+//    @ModifyReturnValue(at = @At(value = "RETURN"), method = "equipItemIfPossible(Lnet/minecraft/server/level/ServerLevel;Lnet/minecraft/world/item/ItemStack;)Lnet/minecraft/world/item/ItemStack;")
+//    private ItemStack equipItemIfPossible(ItemStack original, @Local(ordinal = 0, argsOnly = true) ServerLevel level, @Local(ordinal = 0, argsOnly = true) ItemStack stack) {
+//        Mob mob = (Mob) (Object) this;
+//        var data = mob.getData(AetherDataAttachments.MOB_ACCESSORY);
+//        SlotTypeReference identifier = AetherMixinHooks.getIdentifierForItem(mob, stack);
+//        if (identifier != null) {
+//            ItemStack accessory = AetherMixinHooks.getItemByIdentifier(mob, identifier);
+//            boolean flag = AetherMixinHooks.canReplaceCurrentAccessory(mob, stack, accessory);
+//            if (flag && mob.canHoldItem(stack)) {
+//                double dropChance = data.getEquipmentDropChance(identifier);
+//                if (!accessory.isEmpty() && Math.max(mob.getRandom().nextFloat() - 0.1F, 0.0F) < dropChance) {
+//                    mob.spawnAtLocation(level, accessory);
+//                }
+//                AetherMixinHooks.setItemByIdentifier(mob, stack, identifier);
+//                data.setGuaranteedDrop(identifier);
+//                mob.setPersistenceRequired();
+//                return stack;
+//            }
+//        }
+//        return original;
+//    }
 }
