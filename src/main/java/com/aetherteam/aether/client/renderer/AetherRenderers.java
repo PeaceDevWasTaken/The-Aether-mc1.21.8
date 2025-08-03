@@ -1,8 +1,6 @@
 package com.aetherteam.aether.client.renderer;
 
 import com.aetherteam.aether.Aether;
-import com.aetherteam.aether.attachment.AetherDataAttachments;
-import com.aetherteam.aether.attachment.AetherPlayerAttachment;
 import com.aetherteam.aether.block.AetherBlocks;
 import com.aetherteam.aether.blockentity.AetherBlockEntityTypes;
 import com.aetherteam.aether.client.AetherClient;
@@ -24,21 +22,17 @@ import com.aetherteam.aether.client.renderer.player.layer.DeveloperGlowLayer;
 import com.aetherteam.aether.client.renderer.player.layer.PlayerHaloLayer;
 import com.aetherteam.aether.client.renderer.player.layer.PlayerWingsLayer;
 import com.aetherteam.aether.entity.AetherEntityTypes;
-import com.aetherteam.aether.entity.projectile.dart.EnchantedDart;
-import com.aetherteam.aether.entity.projectile.dart.GoldenDart;
-import com.aetherteam.aether.entity.projectile.dart.PoisonDart;
 import com.aetherteam.aether.item.AetherItems;
 import io.wispforest.accessories.api.client.AccessoriesRendererRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.*;
+import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.model.geom.builders.CubeDeformation;
 import net.minecraft.client.model.geom.builders.LayerDefinition;
 import net.minecraft.client.renderer.blockentity.BedRenderer;
-import net.minecraft.client.renderer.blockentity.ChestRenderer;
 import net.minecraft.client.renderer.blockentity.HangingSignRenderer;
 import net.minecraft.client.renderer.blockentity.SignRenderer;
-import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.ThrownItemRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
@@ -46,20 +40,16 @@ import net.minecraft.client.renderer.entity.state.ArmorStandRenderState;
 import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.ArmorStand;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 import net.neoforged.neoforge.client.event.ModelEvent;
-import net.neoforged.neoforge.client.renderstate.RegisterRenderStateModifiersEvent;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public class AetherRenderers {
     /**
@@ -239,16 +229,16 @@ public class AetherRenderers {
      * @see AetherClient#eventSetup(IEventBus)
      */
     public static void addEntityLayers(EntityRenderersEvent.AddLayers event) {
-        EntityRenderDispatcher renderDispatcher = Minecraft.getInstance().getEntityRenderDispatcher();
+        EntityModelSet modelSet = Minecraft.getInstance().getEntityModels();
         for (PlayerSkin.Model type : event.getSkins()) {
             PlayerRenderer playerRenderer = event.getSkin(type);
             if (playerRenderer != null) {
                 playerRenderer.addLayer(new DeveloperGlowLayer<>(playerRenderer));
-                playerRenderer.addLayer(new DartLayer<>(renderDispatcher, playerRenderer, (entity) -> new GoldenDart(AetherEntityTypes.GOLDEN_DART.get(), entity.level()), AetherPlayerAttachment::getGoldenDartCount, 1.0F));
-                playerRenderer.addLayer(new DartLayer<>(renderDispatcher, playerRenderer, (entity) -> new PoisonDart(AetherEntityTypes.POISON_DART.get(), entity.level()), AetherPlayerAttachment::getPoisonDartCount, 2.0F));
-                playerRenderer.addLayer(new DartLayer<>(renderDispatcher, playerRenderer, (entity) -> new EnchantedDart(AetherEntityTypes.ENCHANTED_DART.get(), entity.level()), AetherPlayerAttachment::getEnchantedDartCount, 3.0F));
-                playerRenderer.addLayer(new PlayerHaloLayer<>(playerRenderer, Minecraft.getInstance().getEntityModels()));
-                playerRenderer.addLayer(new PlayerWingsLayer<>(playerRenderer, Minecraft.getInstance().getEntityModels()));
+                playerRenderer.addLayer(new DartLayer<>(playerRenderer, modelSet, AetherRenderStateModifiers.GOLDEN_DART_COUNT, GoldenDartRenderer.GOLDEN_DART_TEXTURE, 1.0F));
+                playerRenderer.addLayer(new DartLayer<>(playerRenderer, modelSet, AetherRenderStateModifiers.ENCHANTED_DART_COUNT, GoldenDartRenderer.GOLDEN_DART_TEXTURE, 2.0F));
+                playerRenderer.addLayer(new DartLayer<>(playerRenderer, modelSet, AetherRenderStateModifiers.GOLDEN_DART_COUNT, GoldenDartRenderer.GOLDEN_DART_TEXTURE, 3.0F));
+                playerRenderer.addLayer(new PlayerHaloLayer<>(playerRenderer, modelSet));
+                playerRenderer.addLayer(new PlayerWingsLayer<>(playerRenderer, modelSet));
             }
         }
         LivingEntityRenderer<ArmorStand, ArmorStandRenderState, ArmorStandModel> renderer = event.getRenderer(EntityType.ARMOR_STAND);

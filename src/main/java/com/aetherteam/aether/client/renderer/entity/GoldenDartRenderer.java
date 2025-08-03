@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.entity.state.ArrowRenderState;
 import net.minecraft.resources.ResourceLocation;
 
 public class GoldenDartRenderer extends ArrowRenderer<GoldenDart, ArrowRenderState> {
-    private static final ResourceLocation GOLDEN_DART_TEXTURE = ResourceLocation.fromNamespaceAndPath(Aether.MODID, "textures/entity/projectile/dart/golden_dart.png");
+    public static final ResourceLocation GOLDEN_DART_TEXTURE = ResourceLocation.fromNamespaceAndPath(Aether.MODID, "textures/entity/projectile/dart/golden_dart.png");
 
     public GoldenDartRenderer(EntityRendererProvider.Context context) {
         super(context);

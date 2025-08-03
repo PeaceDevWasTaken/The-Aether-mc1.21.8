@@ -6,19 +6,14 @@ import com.aetherteam.aether.client.renderer.accessory.layer.ArmorStandCapeLayer
 import com.aetherteam.aether.item.EquipmentUtil;
 import com.aetherteam.aether.item.accessories.cape.CapeItem;
 import com.aetherteam.aether.mixin.AetherMixinHooks;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Axis;
 import io.wispforest.accessories.api.AccessoriesCapability;
 import io.wispforest.accessories.api.AccessoriesContainer;
 import io.wispforest.accessories.api.slot.SlotTypeReference;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.ArmorStandRenderer;
 import net.minecraft.client.renderer.entity.player.PlayerRenderer;
-import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.context.ContextKey;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.neoforged.neoforge.client.renderstate.RegisterRenderStateModifiersEvent;
 
 import java.util.UUID;
@@ -29,6 +24,9 @@ public class AetherRenderStateModifiers {
     public static ContextKey<Boolean> ON_GROUND = new ContextKey<>(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "on_ground"));
     public static ContextKey<Boolean> HAS_VEHICLE_ON_GROUND = new ContextKey<>(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "has_vehicle_on_ground"));
     public static ContextKey<Boolean> IN_FLUID_TYPE = new ContextKey<>(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "in_fluid_type"));
+    public static ContextKey<Integer> GOLDEN_DART_COUNT = new ContextKey<>(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "golden_dart_count"));
+    public static ContextKey<Integer> POISON_DART_COUNT = new ContextKey<>(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "poison_dart_count"));
+    public static ContextKey<Integer> ENCHANTED_DART_COUNT = new ContextKey<>(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "enchanted_dart_count"));
     public static ContextKey<Boolean> HAS_FULL_VALKYRIE_ARMOR = new ContextKey<>(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "has_full_valkyrie_armor"));
     public static ContextKey<Integer> VALKYRIE_WING_ROTATION = new ContextKey<>(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "valkyrie_wing_rotation"));
     public static ContextKey<Integer> VALKYRIE_WING_ROTATION_OLD = new ContextKey<>(ResourceLocation.fromNamespaceAndPath(Aether.MODID, "valkyrie_wing_rotation_old"));
@@ -44,6 +42,9 @@ public class AetherRenderStateModifiers {
             playerRenderState.setRenderData(ON_GROUND, abstractClientPlayer.onGround());
             playerRenderState.setRenderData(HAS_VEHICLE_ON_GROUND, abstractClientPlayer.getVehicle() != null && abstractClientPlayer.getVehicle().onGround());
             playerRenderState.setRenderData(IN_FLUID_TYPE, abstractClientPlayer.isInFluidType());
+            playerRenderState.setRenderData(GOLDEN_DART_COUNT, abstractClientPlayer.getData(AetherDataAttachments.AETHER_PLAYER).getGoldenDartCount());
+            playerRenderState.setRenderData(POISON_DART_COUNT, abstractClientPlayer.getData(AetherDataAttachments.AETHER_PLAYER).getPoisonDartCount());
+            playerRenderState.setRenderData(ENCHANTED_DART_COUNT, abstractClientPlayer.getData(AetherDataAttachments.AETHER_PLAYER).getEnchantedDartCount());
             playerRenderState.setRenderData(HAS_FULL_VALKYRIE_ARMOR, EquipmentUtil.hasFullValkyrieSet(abstractClientPlayer));
             playerRenderState.setRenderData(VALKYRIE_WING_ROTATION, abstractClientPlayer.getData(AetherDataAttachments.AETHER_PLAYER).getWingRotation());
             playerRenderState.setRenderData(VALKYRIE_WING_ROTATION_OLD, abstractClientPlayer.getData(AetherDataAttachments.AETHER_PLAYER).getWingRotationO());

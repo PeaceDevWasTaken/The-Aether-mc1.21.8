@@ -40,9 +40,9 @@ public class PlayerWingsLayer<T extends PlayerRenderState, M extends PlayerModel
      */
     @Override
     public void render(PoseStack poseStack, MultiBufferSource buffer, int packedLight, T entity, float netHeadYaw, float headPitch) {
-        boolean hasFullValkyrieSet = Objects.requireNonNullElse(entity.getRenderData(AetherRenderStateModifiers.HAS_FULL_VALKYRIE_ARMOR), false);
-        int wingRotationO = Objects.requireNonNullElse(entity.getRenderData(AetherRenderStateModifiers.VALKYRIE_WING_ROTATION_OLD), 0);
-        int wingRotation = Objects.requireNonNullElse(entity.getRenderData(AetherRenderStateModifiers.VALKYRIE_WING_ROTATION), 0);
+        boolean hasFullValkyrieSet = entity.getRenderDataOrDefault(AetherRenderStateModifiers.HAS_FULL_VALKYRIE_ARMOR, false);
+        int wingRotationO = entity.getRenderDataOrDefault(AetherRenderStateModifiers.VALKYRIE_WING_ROTATION_OLD, 0);
+        int wingRotation = entity.getRenderDataOrDefault(AetherRenderStateModifiers.VALKYRIE_WING_ROTATION, 0);
         if (hasFullValkyrieSet) {
             this.setupWingRotation(entity, Mth.lerp(entity.partialTick, wingRotationO, wingRotation));
             VertexConsumer consumer = buffer.getBuffer(RenderType.entityCutoutNoCull(VALKYRIE_TEXTURE));
@@ -57,10 +57,10 @@ public class PlayerWingsLayer<T extends PlayerRenderState, M extends PlayerModel
      * @param sinage The {@link Float} for the rotation value.
      */
     public void setupWingRotation(T entity, float sinage) {
-        boolean onGround = Objects.requireNonNullElse(entity.getRenderData(AetherRenderStateModifiers.ON_GROUND), false);
-        boolean isInFluidType = Objects.requireNonNullElse(entity.getRenderData(AetherRenderStateModifiers.IN_FLUID_TYPE), false);
-        boolean hasVehicle = Objects.requireNonNullElse(entity.getRenderData(AetherRenderStateModifiers.HAS_VEHICLE), false);
-        boolean hasVehicleOnGround = Objects.requireNonNullElse(entity.getRenderData(AetherRenderStateModifiers.HAS_VEHICLE_ON_GROUND), false);
+        boolean onGround = entity.getRenderDataOrDefault(AetherRenderStateModifiers.ON_GROUND, false);
+        boolean isInFluidType = entity.getRenderDataOrDefault(AetherRenderStateModifiers.IN_FLUID_TYPE, false);
+        boolean hasVehicle = entity.getRenderDataOrDefault(AetherRenderStateModifiers.HAS_VEHICLE, false);
+        boolean hasVehicleOnGround = entity.getRenderDataOrDefault(AetherRenderStateModifiers.HAS_VEHICLE_ON_GROUND, false);
 
         if (!onGround && !isInFluidType && (hasVehicle && !hasVehicleOnGround)) {
             sinage *= 1.5F;

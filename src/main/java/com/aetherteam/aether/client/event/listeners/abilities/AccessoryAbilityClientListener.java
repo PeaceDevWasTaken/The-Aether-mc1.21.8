@@ -28,7 +28,7 @@ public class AccessoryAbilityClientListener {
     public static void onRenderPlayer(RenderPlayerEvent.Pre event) {
         PlayerRenderState playerRenderState = event.getRenderState();
         if (!event.isCanceled()) {
-            if (Objects.requireNonNullElse(playerRenderState.getRenderData(AetherRenderStateModifiers.HAS_INVISIBILITY_CLOAK), false)) {
+            if (playerRenderState.getRenderDataOrDefault(AetherRenderStateModifiers.HAS_INVISIBILITY_CLOAK, false)) {
                 event.setCanceled(true);
             }
         }

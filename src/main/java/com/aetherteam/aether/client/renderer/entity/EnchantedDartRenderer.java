@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.entity.state.ArrowRenderState;
 import net.minecraft.resources.ResourceLocation;
 
 public class EnchantedDartRenderer extends ArrowRenderer<EnchantedDart, ArrowRenderState> {
-    private static final ResourceLocation ENCHANTED_DART_TEXTURE = ResourceLocation.fromNamespaceAndPath(Aether.MODID, "textures/entity/projectile/dart/enchanted_dart.png");
+    public static final ResourceLocation ENCHANTED_DART_TEXTURE = ResourceLocation.fromNamespaceAndPath(Aether.MODID, "textures/entity/projectile/dart/enchanted_dart.png");
 
     public EnchantedDartRenderer(EntityRendererProvider.Context context) {
         super(context);

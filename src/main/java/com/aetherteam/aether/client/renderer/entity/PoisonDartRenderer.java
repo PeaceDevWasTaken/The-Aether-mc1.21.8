@@ -8,7 +8,7 @@ import net.minecraft.client.renderer.entity.state.ArrowRenderState;
 import net.minecraft.resources.ResourceLocation;
 
 public class PoisonDartRenderer extends ArrowRenderer<PoisonDart, ArrowRenderState> {
-    private static final ResourceLocation POISON_DART_TEXTURE = ResourceLocation.fromNamespaceAndPath(Aether.MODID, "textures/entity/projectile/dart/poison_dart.png");
+    public static final ResourceLocation POISON_DART_TEXTURE = ResourceLocation.fromNamespaceAndPath(Aether.MODID, "textures/entity/projectile/dart/poison_dart.png");
 
     public PoisonDartRenderer(EntityRendererProvider.Context context) {
         super(context);
