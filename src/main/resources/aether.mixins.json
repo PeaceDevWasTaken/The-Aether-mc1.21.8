@@ -6,7 +6,6 @@
   "compatibilityLevel": "JAVA_17",
   "refmap": "aether.refmap.json",
   "mixins": [
-    "client.jei.GuiEventHandlerMixin",
     "common.AbstractArrowMixin",
     "common.ArmorStandMixin",
     "common.DimensionTypeMixin",
@@ -72,6 +71,7 @@
     "client.accessor.ScreenAccessor",
     "client.accessor.SoundEngineAccessor",
     "client.accessor.TitleScreenAccessor",
+    "client.jei.GuiEventHandlerMixin",
     "client.optifine.BossHealthOverlayMixin"
   ],
   "injectors": {
