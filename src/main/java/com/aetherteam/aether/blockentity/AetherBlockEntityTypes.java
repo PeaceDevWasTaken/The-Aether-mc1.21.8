@@ -11,7 +11,7 @@ public class AetherBlockEntityTypes {
 	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, Aether.MODID);
 
 	public static final RegistryObject<BlockEntityType<IcestoneBlockEntity>> ICESTONE = BLOCK_ENTITY_TYPES.register("icestone", () ->
-			BlockEntityType.Builder.of(IcestoneBlockEntity::new, AetherBlocks.ICESTONE.get()).build(null));
+			BlockEntityType.Builder.of(IcestoneBlockEntity::new, AetherBlocks.ICESTONE.get(), AetherBlocks.ICESTONE_SLAB.get(), AetherBlocks.ICESTONE_STAIRS.get(), AetherBlocks.ICESTONE_WALL.get()).build(null));
 
 	public static final RegistryObject<BlockEntityType<AltarBlockEntity>> ALTAR = BLOCK_ENTITY_TYPES.register("altar", () ->
 			BlockEntityType.Builder.of(AltarBlockEntity::new, AetherBlocks.ALTAR.get()).build(null));
