@@ -149,8 +149,9 @@ public class AetherTimeAttachment implements INBTSynchable {
     }
 
     public static int getTicksPerDayMultiplier() {
-        if (ticksPerDayMultiplier < 0) {
-            ticksPerDayMultiplier = AetherConfig.SERVER.normal_length_aether_time.get() || AetherConfig.SERVER.sync_aether_time.get() ? 1 : 3;
+        int length = AetherConfig.SERVER.normal_length_aether_time.get() || AetherConfig.SERVER.sync_aether_time.get() ? 1 : 3;
+        if (ticksPerDayMultiplier != length) {
+            ticksPerDayMultiplier = length;
         }
         return ticksPerDayMultiplier;
     }
