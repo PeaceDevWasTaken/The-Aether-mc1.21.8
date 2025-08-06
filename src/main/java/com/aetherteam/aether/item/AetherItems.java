@@ -294,6 +294,8 @@ public class AetherItems {
 	public static final RegistryObject<SpawnEggItem> SUN_SPIRIT_SPAWN_EGG = ITEMS.register("sun_spirit_spawn_egg", () -> new ForgeSpawnEggItem(AetherEntityTypes.SUN_SPIRIT, 0xFEF500, 0xFF6D01, new Item.Properties()));
 	public static final RegistryObject<SpawnEggItem> ZEPHYR_SPAWN_EGG = ITEMS.register("zephyr_spawn_egg", () -> new ForgeSpawnEggItem(AetherEntityTypes.ZEPHYR, 0xDFDFDF, 0x99CFE8, new Item.Properties()));
 
+	public static ItemStack SWET_BANNER = null;
+
 	/**
 	 * Sets up the possible replacements for vanilla buckets to Skyroot buckets.
 	 * @see com.aetherteam.aether.event.hooks.EntityHooks#pickupBucketable(Entity, Player, InteractionHand)
@@ -310,11 +312,14 @@ public class AetherItems {
 	}
 
 	public static ItemStack createSwetBannerItemStack() {
-		ItemStack bannerStack = new ItemStack(Items.BLACK_BANNER).setHoverName(Component.translatable("aether.block.aether.swet_banner").withStyle(ChatFormatting.GOLD));
-		CompoundTag tag = new CompoundTag();
-		tag.put("Patterns", AetherBlocks.SWET_BANNER_PATTERN.toListTag());
-		BlockItem.setBlockEntityData(bannerStack, BlockEntityType.BANNER, tag);
-		bannerStack.hideTooltipPart(ItemStack.TooltipPart.ADDITIONAL);
-		return bannerStack;
+		if (SWET_BANNER == null) {
+			ItemStack bannerStack = new ItemStack(Items.BLACK_BANNER).setHoverName(Component.translatable("aether.block.aether.swet_banner").withStyle(ChatFormatting.GOLD));
+			CompoundTag tag = new CompoundTag();
+			tag.put("Patterns", AetherBlocks.SWET_BANNER_PATTERN.toListTag());
+			BlockItem.setBlockEntityData(bannerStack, BlockEntityType.BANNER, tag);
+			bannerStack.hideTooltipPart(ItemStack.TooltipPart.ADDITIONAL);
+			SWET_BANNER = bannerStack;
+		}
+		return SWET_BANNER;
 	}
 }
