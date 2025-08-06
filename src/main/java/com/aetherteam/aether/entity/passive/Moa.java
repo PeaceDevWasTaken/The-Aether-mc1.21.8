@@ -280,7 +280,7 @@ public class Moa extends MountableAnimal implements WingedBird {
 		if (this.getFlapCooldown() > 0) {
 			this.setFlapCooldown(this.getFlapCooldown() - 1);
 		} else if (this.getFlapCooldown() == 0) {
-			if (!this.onGround()) {
+			if (!this.onGround() && !this.shouldSwim(this)) {
 				this.level().playSound(null, this, AetherSoundEvents.ENTITY_MOA_FLAP.get(), SoundSource.NEUTRAL, 0.15F, Mth.clamp(this.getRandom().nextFloat(), 0.7F, 1.0F) + Mth.clamp(this.getRandom().nextFloat(), 0.0F, 0.3F));
 				this.setFlapCooldown(15);
 			}
@@ -345,7 +345,7 @@ public class Moa extends MountableAnimal implements WingedBird {
 	public void onJump(Mob mob) {
 		super.onJump(mob);
 		this.setJumpCooldown(10);
-		if (!this.onGround()) {
+		if (!this.onGround() && !this.shouldSwim(this)) {
 			this.setRemainingJumps(this.getRemainingJumps() - 1);
 			this.spawnExplosionParticle();
 		}
@@ -743,7 +743,7 @@ public class Moa extends MountableAnimal implements WingedBird {
 	 */
 	@Override
 	public boolean canJump() {
-		return this.getRemainingJumps() > 0 && this.getJumpCooldown() == 0;
+		return (this.getRemainingJumps() > 0 && this.getJumpCooldown() == 0) || this.onGround() || this.shouldSwim(this);
 	}
 
 	@Override
@@ -756,7 +756,7 @@ public class Moa extends MountableAnimal implements WingedBird {
 	 */
 	@Override
 	public double getMountJumpStrength() {
-		return this.onGround() ? 0.95 : 0.90;
+		return this.onGround() ? 0.95 : this.shouldSwim(this) ? 0.35 : 0.90;
 	}
 
 	/**

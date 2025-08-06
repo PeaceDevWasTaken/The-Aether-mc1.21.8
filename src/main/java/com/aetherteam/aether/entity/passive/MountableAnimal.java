@@ -10,6 +10,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.*;
@@ -48,7 +49,6 @@ public abstract class MountableAnimal extends AetherAnimal implements MountableM
 		this.getEntityData().define(DATA_PLAYER_JUMPED_ID, false);
 		this.getEntityData().define(DATA_MOUNT_JUMPING_ID, false);
 		this.getEntityData().define(DATA_PLAYER_CROUCHED_ID, false);
-		this.getEntityData().define(DATA_ENTITY_ON_GROUND_ID, true);
 		this.getEntityData().define(DATA_ENTITY_ON_GROUND_ID, true);
 		this.getEntityData().define(DATA_HAS_PASSENGER_ID, false);
 	}
@@ -307,6 +307,11 @@ public abstract class MountableAnimal extends AetherAnimal implements MountableM
 	@Override
 	public double jumpFactor() {
 		return this.getBlockJumpFactor();
+	}
+
+	@Override
+	public boolean shouldSwim(Mob owner) {
+		return owner.isInWater() && owner.getFluidHeight(FluidTags.WATER) > owner.getFluidJumpThreshold() || owner.isInLava() || owner.isInFluidType((fluidType, height) -> owner.canSwimInFluidType(fluidType) && height > owner.getFluidJumpThreshold());
 	}
 
 	@Nullable
