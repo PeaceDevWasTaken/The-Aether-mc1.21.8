@@ -36,6 +36,9 @@ import net.minecraftforge.client.gui.overlay.ForgeGui;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Mod.EventBusSubscriber(modid = Aether.MODID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class AetherOverlays {
     private static final ResourceLocation TEXTURE_INEBRIATION_VIGNETTE = new ResourceLocation(Aether.MODID, "textures/blur/inebriation_vignette.png");
@@ -213,7 +216,9 @@ public class AetherOverlays {
         if (AetherConfig.CLIENT.enable_hammer_cooldown_overlay.get()) {
             Inventory inventory = player.getInventory();
             if (inventory.hasAnyMatching((itemStack) -> itemStack.is(AetherItems.HAMMER_OF_KINGBDOGZ.get()))) {
-                for (ItemStack itemStack : inventory.items) {
+                List<ItemStack> items = new ArrayList<>(inventory.items);
+                items.addAll(inventory.offhand);
+                for (ItemStack itemStack : items) {
                     Item item = itemStack.getItem();
                     if (item == AetherItems.HAMMER_OF_KINGBDOGZ.get()) {
                         float cooldownPercent = player.getCooldowns().getCooldownPercent(item, 0.0F);
