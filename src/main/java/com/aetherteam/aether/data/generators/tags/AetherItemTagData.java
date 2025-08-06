@@ -41,6 +41,7 @@ public class AetherItemTagData extends ItemTagsProvider {
         this.copy(AetherTags.Blocks.HELLFIRE_BLOCKS, AetherTags.Items.HELLFIRE_BLOCKS);
         this.copy(AetherTags.Blocks.AECHOR_PLANT_SPAWNABLE_DETERRENT, AetherTags.Items.AECHOR_PLANT_SPAWNABLE_DETERRENT);
         this.copy(AetherTags.Blocks.ORES_IN_GROUND_HOLYSTONE, AetherTags.Items.ORES_IN_GROUND_HOLYSTONE);
+        this.copy(AetherTags.Blocks.ORE_BEARING_GROUND_HOLYSTONE, AetherTags.Items.ORE_BEARING_GROUND_HOLYSTONE);
 
         this.tag(AetherTags.Items.CRAFTS_SKYROOT_PLANKS).addTags(
                 AetherTags.Items.SKYROOT_LOGS,
