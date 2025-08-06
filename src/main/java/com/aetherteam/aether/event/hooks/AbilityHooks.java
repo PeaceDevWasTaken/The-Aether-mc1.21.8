@@ -26,6 +26,7 @@ import com.aetherteam.nitrogen.network.PacketRelay;
 import com.google.common.collect.ImmutableMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
@@ -299,21 +300,36 @@ public class AbilityHooks {
          * @see com.aetherteam.aether.event.listeners.abilities.ToolAbilityListener#modifyBreakSpeed(PlayerEvent.BreakSpeed)
          */
         public static float reduceToolEffectiveness(Player player, BlockState state, ItemStack stack, float speed) {
-            if (AetherConfig.SERVER.tools_debuff.get()) {
-                if (!player.level().isClientSide()) {
-                    debuffTools = true;
-                    PacketRelay.sendToNear(AetherPacketHandler.INSTANCE, new ToolDebuffPacket(true), player.getX(), player.getY(), player.getZ(), 10, player.level().dimension());
-                }
-            }
             if (debuffTools) {
                 if ((state.getBlock().getDescriptionId().startsWith("block.aether.") || state.is(AetherTags.Blocks.TREATED_AS_AETHER_BLOCK)) && !state.is(AetherTags.Blocks.TREATED_AS_VANILLA_BLOCK)) {
                     if (!stack.isEmpty() && stack.isCorrectToolForDrops(state) && !stack.getItem().getDescriptionId().startsWith("item.aether.") && !stack.is(AetherTags.Items.TREATED_AS_AETHER_ITEM)) {
-//                        speed = (float) Math.max(Math.pow(speed, speed > 1.0 ? -0.5 : 1.5), 1.0);
                         speed = 1.0F;
                     }
                 }
             }
             return speed;
+        }
+
+        /**
+         * Sets up the debuff tool state based on the current server value and attempts to sync the state to the client if needed
+         *
+         * @param player Current player logging into the server
+         * @see com.aetherteam.aether.event.listeners.abilities.ToolAbilityListener#
+         */
+        public static void setDebuffToolsState(ServerPlayer player) {
+            if (debuffTools) {
+                PacketRelay.sendToPlayer(AetherPacketHandler.INSTANCE, new ToolDebuffPacket(true), player);
+            } else if (AetherConfig.SERVER.tools_debuff.get()) {
+                debuffTools = true;
+                PacketRelay.sendToAll(AetherPacketHandler.INSTANCE, new ToolDebuffPacket(true));
+            }
+        }
+
+        /**
+         * Method used to reset the debuffTools state to false on player logout
+         */
+        public static void resetDebuffToolsState() {
+            debuffTools = false;
         }
 
         /**
