@@ -53,7 +53,11 @@ public class EntityListener {
         Entity riderEntity = event.getEntityMounting();
         Entity mountEntity = event.getEntityBeingMounted();
         boolean isDismounting = event.isDismounting();
-        event.setCanceled(EntityHooks.dismountPrevention(riderEntity, mountEntity, isDismounting));
+        if (EntityHooks.dismountPrevention(riderEntity, mountEntity, isDismounting)) {
+            event.setCanceled(true);
+        } else {
+            EntityHooks.trackMount(mountEntity, isDismounting);
+        }
     }
 
     /**
