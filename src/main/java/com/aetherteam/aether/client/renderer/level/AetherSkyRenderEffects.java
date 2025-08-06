@@ -131,77 +131,79 @@ public class AetherSkyRenderEffects extends DimensionSpecialEffects {
      */
     @Override
     public boolean renderClouds(ClientLevel level, int ticks, float partialTick, PoseStack poseStack, double camX, double camY, double camZ, Matrix4f projectionMatrix) {
-        LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
-        float cloudHeight = level.effects().getCloudHeight();
-        if (!Float.isNaN(cloudHeight)) {
-            RenderSystem.disableCull();
-            RenderSystem.enableBlend();
-            RenderSystem.enableDepthTest();
-            RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            RenderSystem.depthMask(true);
-            double d1 = ((float) ticks + partialTick) * 0.03F;
-            double d2 = (camX + d1) / 12.0;
-            double d3 = cloudHeight - (float) camY + 0.33F;
-            double d4 = camZ / 12.0 + (double) 0.33F;
-            d2 -= Mth.floor(d2 / 2048.0) * 2048;
-            d4 -= Mth.floor(d4 / 2048.0) * 2048;
-            float f3 = (float) (d2 - (double) Mth.floor(d2));
-            float f4 = (float) (d3 / 4.0 - (double) Mth.floor(d3 / 4.0)) * 4.0F;
-            float f5 = (float) (d4 - (double) Mth.floor(d4));
-            Vec3 vec3 = this.getCloudColor(level, partialTick);
-            int i = Mth.floor(d2);
-            int j = Mth.floor(d3 / 4.0);
-            int k = Mth.floor(d4);
-            if (i != this.prevCloudX || j != this.prevCloudY || k != this.prevCloudZ || Minecraft.getInstance().options.getCloudsType() != ((LevelRendererAccessor) levelRenderer).aether$getPrevCloudsType() || this.prevCloudColor.distanceToSqr(vec3) > 2.0E-4) {
-                this.prevCloudX = i;
-                this.prevCloudY = j;
-                this.prevCloudZ = k;
-                this.prevCloudColor = vec3;
-                ((LevelRendererAccessor) levelRenderer).aether$setPrevCloudsType(Minecraft.getInstance().options.getCloudsType());
-                ((LevelRendererAccessor) levelRenderer).aether$setGenerateClouds(true);
-            }
-
-            if (((LevelRendererAccessor) levelRenderer).aether$isGenerateClouds()) {
-                ((LevelRendererAccessor) levelRenderer).aether$setGenerateClouds(false);
-                BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
-                if (((LevelRendererAccessor) levelRenderer).aether$getCloudBuffer() != null) {
-                    ((LevelRendererAccessor) levelRenderer).aether$getCloudBuffer().close();
+        if (!AetherConfig.CLIENT.disable_clouds.get()) {
+            LevelRenderer levelRenderer = Minecraft.getInstance().levelRenderer;
+            float cloudHeight = level.effects().getCloudHeight();
+            if (!Float.isNaN(cloudHeight)) {
+                RenderSystem.disableCull();
+                RenderSystem.enableBlend();
+                RenderSystem.enableDepthTest();
+                RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+                RenderSystem.depthMask(true);
+                double d1 = ((float) ticks + partialTick) * 0.03F;
+                double d2 = (camX + d1) / 12.0;
+                double d3 = cloudHeight - (float) camY + 0.33F;
+                double d4 = camZ / 12.0 + (double) 0.33F;
+                d2 -= Mth.floor(d2 / 2048.0) * 2048;
+                d4 -= Mth.floor(d4 / 2048.0) * 2048;
+                float f3 = (float) (d2 - (double) Mth.floor(d2));
+                float f4 = (float) (d3 / 4.0 - (double) Mth.floor(d3 / 4.0)) * 4.0F;
+                float f5 = (float) (d4 - (double) Mth.floor(d4));
+                Vec3 vec3 = this.getCloudColor(level, partialTick);
+                int i = Mth.floor(d2);
+                int j = Mth.floor(d3 / 4.0);
+                int k = Mth.floor(d4);
+                if (i != this.prevCloudX || j != this.prevCloudY || k != this.prevCloudZ || Minecraft.getInstance().options.getCloudsType() != ((LevelRendererAccessor) levelRenderer).aether$getPrevCloudsType() || this.prevCloudColor.distanceToSqr(vec3) > 2.0E-4) {
+                    this.prevCloudX = i;
+                    this.prevCloudY = j;
+                    this.prevCloudZ = k;
+                    this.prevCloudColor = vec3;
+                    ((LevelRendererAccessor) levelRenderer).aether$setPrevCloudsType(Minecraft.getInstance().options.getCloudsType());
+                    ((LevelRendererAccessor) levelRenderer).aether$setGenerateClouds(true);
                 }
-                ((LevelRendererAccessor) levelRenderer).aether$setCloudBuffer(new VertexBuffer(VertexBuffer.Usage.STATIC));
-                BufferBuilder.RenderedBuffer renderedBuffer = ((LevelRendererAccessor) levelRenderer).callBuildClouds(bufferbuilder, d2, d3, d4, vec3);
-                ((LevelRendererAccessor) levelRenderer).aether$getCloudBuffer().bind();
-                ((LevelRendererAccessor) levelRenderer).aether$getCloudBuffer().upload(renderedBuffer);
-                VertexBuffer.unbind();
-            }
 
-            RenderSystem.setShader(GameRenderer::getPositionTexColorNormalShader);
-            RenderSystem.setShaderTexture(0, CLOUDS_LOCATION);
-            FogRenderer.levelFogColor();
-            poseStack.pushPose();
-            poseStack.scale(12.0F, 1.0F, 12.0F);
-            poseStack.translate(-f3, f4, -f5);
-            if (((LevelRendererAccessor) levelRenderer).aether$getCloudBuffer() != null && RenderSystem.getShader() != null) {
-                ((LevelRendererAccessor) levelRenderer).aether$getCloudBuffer().bind();
-                int l = ((LevelRendererAccessor) levelRenderer).aether$getPrevCloudsType() == CloudStatus.FANCY ? 0 : 1;
+                if (((LevelRendererAccessor) levelRenderer).aether$isGenerateClouds()) {
+                    ((LevelRendererAccessor) levelRenderer).aether$setGenerateClouds(false);
+                    BufferBuilder bufferbuilder = Tesselator.getInstance().getBuilder();
+                    if (((LevelRendererAccessor) levelRenderer).aether$getCloudBuffer() != null) {
+                        ((LevelRendererAccessor) levelRenderer).aether$getCloudBuffer().close();
+                    }
+                    ((LevelRendererAccessor) levelRenderer).aether$setCloudBuffer(new VertexBuffer(VertexBuffer.Usage.STATIC));
+                    BufferBuilder.RenderedBuffer renderedBuffer = ((LevelRendererAccessor) levelRenderer).callBuildClouds(bufferbuilder, d2, d3, d4, vec3);
+                    ((LevelRendererAccessor) levelRenderer).aether$getCloudBuffer().bind();
+                    ((LevelRendererAccessor) levelRenderer).aether$getCloudBuffer().upload(renderedBuffer);
+                    VertexBuffer.unbind();
+                }
 
-                for(int i1 = l; i1 < 2; ++i1) {
-                    if (i1 == 0) {
-                        RenderSystem.colorMask(false, false, false, false);
-                    } else {
-                        RenderSystem.colorMask(true, true, true, true);
+                RenderSystem.setShader(GameRenderer::getPositionTexColorNormalShader);
+                RenderSystem.setShaderTexture(0, CLOUDS_LOCATION);
+                FogRenderer.levelFogColor();
+                poseStack.pushPose();
+                poseStack.scale(12.0F, 1.0F, 12.0F);
+                poseStack.translate(-f3, f4, -f5);
+                if (((LevelRendererAccessor) levelRenderer).aether$getCloudBuffer() != null && RenderSystem.getShader() != null) {
+                    ((LevelRendererAccessor) levelRenderer).aether$getCloudBuffer().bind();
+                    int l = ((LevelRendererAccessor) levelRenderer).aether$getPrevCloudsType() == CloudStatus.FANCY ? 0 : 1;
+
+                    for(int i1 = l; i1 < 2; ++i1) {
+                        if (i1 == 0) {
+                            RenderSystem.colorMask(false, false, false, false);
+                        } else {
+                            RenderSystem.colorMask(true, true, true, true);
+                        }
+
+                        ShaderInstance shaderInstance = RenderSystem.getShader();
+                        ((LevelRendererAccessor) levelRenderer).aether$getCloudBuffer().drawWithShader(poseStack.last().pose(), projectionMatrix, shaderInstance);
                     }
 
-                    ShaderInstance shaderInstance = RenderSystem.getShader();
-                    ((LevelRendererAccessor) levelRenderer).aether$getCloudBuffer().drawWithShader(poseStack.last().pose(), projectionMatrix, shaderInstance);
+                    VertexBuffer.unbind();
                 }
 
-                VertexBuffer.unbind();
+                poseStack.popPose();
+                RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+                RenderSystem.enableCull();
+                RenderSystem.disableBlend();
             }
-
-            poseStack.popPose();
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderSystem.enableCull();
-            RenderSystem.disableBlend();
         }
         return true;
     }
