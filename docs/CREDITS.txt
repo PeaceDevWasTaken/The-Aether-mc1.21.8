@@ -124,6 +124,9 @@ Trico-Everfire
 - Fixes to Aechor Plants being able to be leashed.
 - Fixes to unintentional jumping on Blue Aerclouds.
 
+TunefulTurnip
+- Fixes to the Slider ignoring players not in line of sight.
+
 YvanCywan
 - Made Skyroot Buckets work as fuel.
 

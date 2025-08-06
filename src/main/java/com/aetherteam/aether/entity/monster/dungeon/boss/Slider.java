@@ -8,6 +8,7 @@ import com.aetherteam.aether.client.AetherSoundEvents;
 import com.aetherteam.aether.entity.AetherBossMob;
 import com.aetherteam.aether.entity.ai.controller.BlankMoveControl;
 import com.aetherteam.aether.entity.ai.goal.MostDamageTargetGoal;
+import com.aetherteam.aether.entity.ai.goal.SliderNearestAttackableTargetGoal;
 import com.aetherteam.aether.entity.monster.dungeon.boss.goal.*;
 import com.aetherteam.aether.event.AetherEventDispatch;
 import com.aetherteam.aether.network.AetherPacketHandler;
@@ -41,7 +42,6 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.monster.Enemy;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
@@ -143,7 +143,7 @@ public class Slider extends PathfinderMob implements AetherBossMob<Slider>, Enem
 
         this.mostDamageTargetGoal = new MostDamageTargetGoal(this);
         this.targetSelector.addGoal(1, this.mostDamageTargetGoal);
-        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, Player.class, false));
+        this.targetSelector.addGoal(2, new SliderNearestAttackableTargetGoal<>(this, Player.class, false));
     }
 
     @Override
