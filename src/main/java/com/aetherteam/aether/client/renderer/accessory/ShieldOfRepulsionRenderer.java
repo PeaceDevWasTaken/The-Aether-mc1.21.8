@@ -69,10 +69,11 @@ public class ShieldOfRepulsionRenderer implements ICurioRenderer {
 
         if (livingEntity instanceof Player player && renderLayerParent.getModel() instanceof PlayerModel<?> playerModel) {
             PlayerModelAccessor playerModelAccessor = (PlayerModelAccessor) playerModel;
+            Vec3 motion = player.getDeltaMovement();
             model = playerModelAccessor.aether$getSlim() ? this.shieldModelSlim : this.shieldModel;
             Optional<AetherPlayer> aetherPlayerOptional = AetherPlayer.get(player).resolve();
             if (aetherPlayerOptional.isPresent()) {
-                if (!aetherPlayerOptional.get().isMoving()) {
+                if (!aetherPlayerOptional.get().isMoving() || (aetherPlayerOptional.get().isMoving() && motion.x() == 0.0 && (motion.y() == ConstantsUtil.DEFAULT_DELTA_MOVEMENT_Y || motion.y() == 0.0) && motion.z() == 0.0)) {
                     texture = playerModelAccessor.aether$getSlim() ? shield.getShieldOfRepulsionSlimTexture() : shield.getShieldOfRepulsionTexture();
                 } else {
                     texture = playerModelAccessor.aether$getSlim() ? shield.getShieldOfRepulsionSlimInactiveTexture() : shield.getShieldOfRepulsionInactiveTexture();
@@ -132,9 +133,10 @@ public class ShieldOfRepulsionRenderer implements ICurioRenderer {
         ResourceLocation texture;
         ShieldOfRepulsionItem shield = (ShieldOfRepulsionItem) stack.getItem();
 
+        Vec3 motion = player.getDeltaMovement();
         Optional<AetherPlayer> aetherPlayerOptional = AetherPlayer.get(player).resolve();
         if (aetherPlayerOptional.isPresent()) {
-            if (!aetherPlayerOptional.get().isMoving()) {
+            if (!aetherPlayerOptional.get().isMoving() || (aetherPlayerOptional.get().isMoving() && motion.x() == 0.0 && (motion.y() == ConstantsUtil.DEFAULT_DELTA_MOVEMENT_Y || motion.y() == 0.0) && motion.z() == 0.0)) {
                 texture = shield.getShieldOfRepulsionTexture();
             } else {
                 texture = shield.getShieldOfRepulsionInactiveTexture();
