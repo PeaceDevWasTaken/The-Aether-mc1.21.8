@@ -5,10 +5,12 @@ import com.aetherteam.aether.api.AetherMoaTypes;
 import com.aetherteam.aether.api.registers.MoaType;
 import com.aetherteam.aether.capability.player.AetherPlayer;
 import com.aetherteam.aether.client.AetherSoundEvents;
+import com.aetherteam.aether.client.renderer.AetherOverlays;
 import com.aetherteam.aether.effect.AetherEffects;
 import com.aetherteam.aether.entity.EntityUtil;
 import com.aetherteam.aether.entity.MountableMob;
 import com.aetherteam.aether.entity.WingedBird;
+import com.aetherteam.aether.entity.ai.attribute.AetherAttributes;
 import com.aetherteam.aether.entity.ai.goal.ContinuousMeleeAttackGoal;
 import com.aetherteam.aether.entity.ai.goal.FallingRandomStrollGoal;
 import com.aetherteam.aether.entity.ai.goal.MoaFollowGoal;
@@ -31,6 +33,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundSource;
@@ -42,6 +45,7 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.FloatGoal;
@@ -60,10 +64,7 @@ import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.common.ForgeMod;
 
 import javax.annotation.Nullable;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 public class Moa extends MountableAnimal implements WingedBird {
 	private static final EntityDataAccessor<Optional<UUID>> DATA_MOA_UUID_ID = SynchedEntityData.defineId(Moa.class, EntityDataSerializers.OPTIONAL_UUID);
@@ -76,6 +77,7 @@ public class Moa extends MountableAnimal implements WingedBird {
 	private static final EntityDataAccessor<Boolean> DATA_PLAYER_GROWN_ID = SynchedEntityData.defineId(Moa.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Boolean> DATA_SITTING_ID = SynchedEntityData.defineId(Moa.class, EntityDataSerializers.BOOLEAN);
 	private static final EntityDataAccessor<Optional<UUID>> DATA_FOLLOWING_ID = SynchedEntityData.defineId(Moa.class, EntityDataSerializers.OPTIONAL_UUID);
+	private static final HashMap<UUID, ResourceLocation> ID_TEXTURE_MAP = new HashMap<>();
 
 	private float wingRotation;
 	private float prevWingRotation;
@@ -122,7 +124,8 @@ public class Moa extends MountableAnimal implements WingedBird {
 				.add(Attributes.MAX_HEALTH, 35.0)
 				.add(Attributes.MOVEMENT_SPEED, 1.0)
 				.add(Attributes.FOLLOW_RANGE, 16.0)
-				.add(Attributes.ATTACK_DAMAGE, 5.0);
+				.add(Attributes.ATTACK_DAMAGE, 5.0)
+				.add(AetherAttributes.MOA_MAX_JUMPS.get(), -1.0); // Placeholder until the real value is initialized
 	}
 
 	@Override
@@ -670,6 +673,28 @@ public class Moa extends MountableAnimal implements WingedBird {
 		this.flapCooldown = flapCooldown;
 	}
 
+	/**
+	 * @param attributeId The id of the {@link AttributeModifier}
+	 * @param location The {@link ResourceLocation} of the jump texture overlay
+	 * Used to override the feather texture on top of the screen while ridding a moa, when a specific attribute modifier's extra feathers are being rendered.
+	 */
+	public static void registerJumpOverlayTextureOverride(UUID attributeId, ResourceLocation location) {
+		ID_TEXTURE_MAP.put(attributeId, location);
+	}
+
+	public static void registerJumpOverlayTextureOverride(AttributeModifier attribute, ResourceLocation location) {
+		registerJumpOverlayTextureOverride(attribute.getId(), location);
+	}
+
+	/**
+	 * @param attributeId The id of the {@link AttributeModifier}
+	 * @return The {@link ResourceLocation} of the jump texture overlay. Returns the default texture if no texture overlay textures has been registered.
+	 */
+	public ResourceLocation getOverlayTexture(UUID attributeId) {
+		ResourceLocation location = ID_TEXTURE_MAP.get(attributeId);
+		return location == null ? AetherOverlays.getDefaultJumpsTexture(this.getMoaType()) : location;
+	}
+
 	@Override
 	protected SoundEvent getAmbientSound() {
 		return AetherSoundEvents.ENTITY_MOA_AMBIENT.get();
@@ -696,11 +721,21 @@ public class Moa extends MountableAnimal implements WingedBird {
 	}
 
 	/**
-	 * @return The {@link Integer} for the maximum amount of jumps from the {@link MoaType}.
+	 * Changes the value of {@link AetherAttributes#MOA_MAX_JUMPS} with the default value of {@link MoaType#getMaxJumps()} if the attribute value isn't matching.
+	 * @return The {@link Integer} for the maximum amount of jumps the moa can make.
 	 */
 	public int getMaxJumps() {
-		MoaType moaType = this.getMoaType();
-		return moaType != null ? moaType.getMaxJumps() : AetherMoaTypes.BLUE.get().getMaxJumps();
+		AttributeInstance attribute = this.getAttribute(AetherAttributes.MOA_MAX_JUMPS.get());
+		int defaultValue = this.getMoaType() != null ? this.getMoaType().getMaxJumps() : AetherMoaTypes.BLUE.get().getMaxJumps();
+
+		if (attribute != null) {
+			if (((int) attribute.getBaseValue()) != defaultValue) {
+				attribute.setBaseValue(defaultValue);
+			}
+			return (int) attribute.getValue();
+		} else {
+			return defaultValue;
+		}
 	}
 
 	/**

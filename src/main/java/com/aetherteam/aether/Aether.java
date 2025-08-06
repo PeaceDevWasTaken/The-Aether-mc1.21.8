@@ -22,6 +22,7 @@ import com.aetherteam.aether.data.resources.AetherMobCategory;
 import com.aetherteam.aether.effect.AetherEffects;
 import com.aetherteam.aether.entity.AetherEntityTypes;
 import com.aetherteam.aether.entity.ai.AetherBlockPathTypes;
+import com.aetherteam.aether.entity.ai.attribute.AetherAttributes;
 import com.aetherteam.aether.integration.quark.QuarkCompat;
 import com.aetherteam.aether.inventory.AetherRecipeBookTypes;
 import com.aetherteam.aether.inventory.menu.AetherMenuTypes;
@@ -94,6 +95,7 @@ public class Aether {
                 AetherBlocks.BLOCKS,
                 AetherItems.ITEMS,
                 AetherEntityTypes.ENTITY_TYPES,
+                AetherAttributes.ATTRIBUTES,
                 AetherBlockEntityTypes.BLOCK_ENTITY_TYPES,
                 AetherMenuTypes.MENU_TYPES,
                 AetherEffects.EFFECTS,
