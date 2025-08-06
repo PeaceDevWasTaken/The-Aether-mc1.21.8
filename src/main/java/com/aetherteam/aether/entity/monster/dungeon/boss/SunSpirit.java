@@ -34,6 +34,7 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerBossEvent;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.Music;
 import net.minecraft.sounds.SoundEvent;
@@ -57,9 +58,11 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.Vec3;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.entity.IEntityAdditionalSpawnData;
+import net.minecraftforge.event.ForgeEventFactory;
 import net.minecraftforge.event.entity.living.MobEffectEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.network.NetworkHooks;
@@ -116,7 +119,7 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
         this.setBossFight(false);
         this.origin = this.position();
         this.xpReward = XP_REWARD_BOSS;
-        this.noPhysics = true;
+        this.setNoGravity(true);
         this.speedModifier = DEFAULT_SPEED_MODIFIER;
         this.setPersistenceRequired();
     }
@@ -169,6 +172,7 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
     @Override
     public void tick() {
         super.tick();
+        this.breakBlocks();
         this.evaporate();
         if (this.getChatCooldown() > 0) {
             this.chatCooldown--;
@@ -182,6 +186,33 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
         }
         this.setYRot(Mth.rotateIfNecessary(this.getYRot(), this.getYHeadRot(), 20));
         this.speedModifier = (this.isFrozen() ? FROZEN_SPEED_MODIFIER : DEFAULT_SPEED_MODIFIER);
+    }
+
+    /**
+     * Breaks blocks that are around the Sun Spirit.
+     */
+    private void breakBlocks() {
+        if (this.level() instanceof ServerLevel serverLevel) {
+            if (ForgeEventFactory.getMobGriefingEvent(this.level(), this)) {
+                BlockPos.betweenClosedStream(this.getBoundingBox().inflate(1, 0, 1)).forEach((pos) -> {
+                    BlockState state = this.level().getBlockState(pos);
+                    if (this.isBreakable(state)
+                            && (state.getShape(this.level(), pos).equals(Shapes.block()) || !state.getCollisionShape(this.level(), pos).isEmpty())
+                            && (this.getDungeon() == null || this.getDungeon().roomBounds().contains(pos.getCenter()))) {
+                        this.level().destroyBlock(pos, true, this);
+                        serverLevel.sendParticles(ParticleTypes.FLAME, pos.getCenter().x(), pos.getCenter().y(), pos.getCenter().z(), 5,
+                                (this.random.nextDouble() / 2) - this.random.nextDouble(),
+                                (this.random.nextDouble() / 2) - this.random.nextDouble(),
+                                (this.random.nextDouble() / 2) - this.random.nextDouble(),
+                                0.1);
+                    }
+                });
+            }
+        }
+    }
+
+    private boolean isBreakable(BlockState blockState) {
+        return !blockState.isAir() && !blockState.is(AetherTags.Blocks.SUN_SPIRIT_UNBREAKABLE) && blockState.getBlock().defaultDestroyTime() >= 0.0F && blockState.getBlock().defaultDestroyTime() < 100.0F;
     }
 
     /**
