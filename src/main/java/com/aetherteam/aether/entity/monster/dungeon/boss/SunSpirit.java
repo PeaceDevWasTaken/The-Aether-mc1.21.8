@@ -19,6 +19,7 @@ import com.aetherteam.aether.event.AetherEventDispatch;
 import com.aetherteam.aether.mixin.mixins.common.accessor.LookAtPlayerGoalAccessor;
 import com.aetherteam.aether.network.AetherPacketHandler;
 import com.aetherteam.aether.network.packet.serverbound.BossInfoPacket;
+import com.aetherteam.nitrogen.capability.INBTSynchable;
 import com.aetherteam.nitrogen.entity.BossRoomTracker;
 import com.aetherteam.nitrogen.network.PacketRelay;
 import net.minecraft.ChatFormatting;
@@ -397,6 +398,9 @@ public class SunSpirit extends PathfinderMob implements AetherBossMob<SunSpirit>
             this.level().getCapability(AetherCapabilities.AETHER_TIME_CAPABILITY).ifPresent((aetherTime) -> {
                 aetherTime.setEternalDay(false);
                 aetherTime.updateEternalDay();
+                if (AetherConfig.SERVER.sync_aether_time.get()) {
+                    aetherTime.setSynched(INBTSynchable.Direction.DIMENSION, "setShouldWait", true, this.level());
+                }
             });
         }
         super.die(source);

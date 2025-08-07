@@ -6,6 +6,7 @@ import com.aetherteam.aether.block.portal.AetherPortalForcer;
 import com.aetherteam.aether.block.portal.AetherPortalShape;
 import com.aetherteam.aether.capability.player.AetherPlayer;
 import com.aetherteam.aether.capability.time.AetherTime;
+import com.aetherteam.aether.capability.time.AetherTimeCapability;
 import com.aetherteam.aether.data.resources.registries.AetherDimensions;
 import com.aetherteam.aether.mixin.mixins.common.accessor.ServerGamePacketListenerImplAccessor;
 import com.aetherteam.aether.mixin.mixins.common.accessor.ServerLevelAccessor;
@@ -239,7 +240,7 @@ public class DimensionHooks {
     public static void initializeLevelData(LevelAccessor level) {
         if (level instanceof ServerLevel serverLevel && serverLevel.dimensionType().effectsLocation().equals(AetherDimensions.AETHER_DIMENSION_TYPE.location())) {
             AetherTime.get(serverLevel).ifPresent(cap -> {
-                AetherLevelData levelData = new AetherLevelData(serverLevel.getServer().getWorldData(), serverLevel.getServer().getWorldData().overworldData(), cap.getDayTime());
+                AetherLevelData levelData = new AetherLevelData(serverLevel, serverLevel.getServer().getWorldData(), serverLevel.getServer().getWorldData().overworldData(), cap.getDayTime());
                 ServerLevelAccessor serverLevelAccessor = (ServerLevelAccessor) serverLevel;
                 com.aetherteam.aether.mixin.mixins.common.accessor.LevelAccessor levelAccessor = (com.aetherteam.aether.mixin.mixins.common.accessor.LevelAccessor) level;
                 serverLevelAccessor.aether$setServerLevelData(levelData);
@@ -263,8 +264,8 @@ public class DimensionHooks {
             serverLevelAccessor.aether$getServerLevelData().setThunderTime(0);
             serverLevelAccessor.aether$getServerLevelData().setThundering(false);
 
-            long time = newTime + 48000L;
-            return time - time % (long) AetherDimensions.AETHER_TICKS_PER_DAY;
+            long time = newTime + (24000L * AetherTimeCapability.getTicksPerDayMultiplier());
+            return time - time % (long) AetherTimeCapability.getTicksPerDay();
         }
         return null;
     }
