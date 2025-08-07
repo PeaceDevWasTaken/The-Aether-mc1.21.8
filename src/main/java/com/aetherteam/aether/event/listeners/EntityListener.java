@@ -1,6 +1,5 @@
 package com.aetherteam.aether.event.listeners;
 
-import com.aetherteam.aether.Aether;
 import com.aetherteam.aether.event.events.AetherEntityEvents;
 import com.aetherteam.aether.event.hooks.EntityHooks;
 import io.github.fabricators_of_create.porting_lib.core.event.BaseEvent;
@@ -21,8 +20,8 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
-import net.minecraft.world.item.enchantment.Enchantments;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.border.WorldBorder;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
@@ -68,8 +67,10 @@ public class EntityListener {
         Vec3 position;
 
         if (hitResult == null) {
-            AABB aABB = player.getBoundingBox().expandTowards(targetEntity.position()).inflate(1.0);
-            hitResult = ProjectileUtil.getEntityHitResult(player, player.getEyePosition(), targetEntity.position(), aABB, entity -> entity == targetEntity, player.position().distanceTo(targetEntity.position()) + 1);
+            WorldBorder border = player.level().getWorldBorder();
+            AABB bounds = player.getBoundingBox().expandTowards(targetEntity.position()).inflate(1.0);
+            AABB clampedBounds = new AABB(border.clampToBounds(bounds.minX, bounds.minY, bounds.minZ), border.clampToBounds(bounds.maxX, bounds.maxY, bounds.maxZ));
+            hitResult = ProjectileUtil.getEntityHitResult(player, player.getEyePosition(), targetEntity.position(), clampedBounds, entity -> entity == targetEntity, player.position().distanceTo(targetEntity.position()) + 1);
         }
 
         if (hitResult != null) {
