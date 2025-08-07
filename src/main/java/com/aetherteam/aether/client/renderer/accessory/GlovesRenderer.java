@@ -8,6 +8,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.EntityModel;
+import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.model.PlayerModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.player.AbstractClientPlayer;
@@ -15,6 +16,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.Sheets;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
+import net.minecraft.client.renderer.entity.player.PlayerRenderer;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -112,49 +114,54 @@ public class GlovesRenderer implements ICurioRenderer {
      * @param arm The {@link HumanoidArm} to render on.
      */
     public void renderFirstPerson(ItemStack stack, PoseStack poseStack, MultiBufferSource buffer, int packedLight, AbstractClientPlayer player, HumanoidArm arm) {
-        GlovesModel model = this.glovesFirstPerson;
-        GlovesModel trimModel = this.glovesTrimFirstPerson;
+        if (Minecraft.getInstance().getEntityRenderDispatcher().getRenderer(player) instanceof PlayerRenderer playerRenderer) {
+            HumanoidModel<?> humanoidModel = playerRenderer.getModel();
 
-        GlovesItem glovesItem = (GlovesItem) stack.getItem();
-        VertexConsumer consumer = buffer.getBuffer(RenderType.armorCutoutNoCull(glovesItem.getGlovesTexture()));
+            GlovesModel model = this.glovesFirstPerson;
+            GlovesModel trimModel = this.glovesTrimFirstPerson;
+            ModelPart playerArm = arm == HumanoidArm.RIGHT ? humanoidModel.rightArm : humanoidModel.leftArm;
 
-        float red = glovesItem.getColors(stack).getLeft();
-        float green = glovesItem.getColors(stack).getMiddle();
-        float blue = glovesItem.getColors(stack).getRight();
+            GlovesItem glovesItem = (GlovesItem) stack.getItem();
+            VertexConsumer consumer = buffer.getBuffer(RenderType.armorCutoutNoCull(glovesItem.getGlovesTexture()));
 
-        model.setAllVisible(false);
-        model.attackTime = 0.0F;
-        model.crouching = false;
-        model.swimAmount = 0.0F;
-        model.setupAnim(player, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+            float red = glovesItem.getColors(stack).getLeft();
+            float green = glovesItem.getColors(stack).getMiddle();
+            float blue = glovesItem.getColors(stack).getRight();
 
-        ModelPart gloveArm = arm == HumanoidArm.RIGHT ? model.rightArm : model.leftArm;
-        gloveArm.visible = true;
-        gloveArm.xRot = 0.0F;
-        gloveArm.render(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, 1.0F);
+            model.setAllVisible(false);
+            model.attackTime = 0.0F;
+            model.crouching = false;
+            model.swimAmount = 0.0F;
+            model.setupAnim(player, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
 
-        ArmorTrim.getTrim(player.level().registryAccess(), stack).ifPresent((trim) -> {
-            trimModel.setAllVisible(false);
-            trimModel.attackTime = 0.0F;
-            trimModel.crouching = false;
-            trimModel.swimAmount = 0.0F;
-            trimModel.setupAnim(player, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
+            ModelPart gloveArm = arm == HumanoidArm.RIGHT ? model.rightArm : model.leftArm;
+            gloveArm.copyFrom(playerArm);
+            gloveArm.visible = true;
+            gloveArm.render(poseStack, consumer, packedLight, OverlayTexture.NO_OVERLAY, red, green, blue, 1.0F);
 
-            ModelPart gloveTrimArm = arm == HumanoidArm.RIGHT ? trimModel.rightArm : trimModel.leftArm;
-            gloveTrimArm.visible = true;
-            gloveTrimArm.xRot = 0.0F;
+            ArmorTrim.getTrim(player.level().registryAccess(), stack).ifPresent((trim) -> {
+                trimModel.setAllVisible(false);
+                trimModel.attackTime = 0.0F;
+                trimModel.crouching = false;
+                trimModel.swimAmount = 0.0F;
+                trimModel.setupAnim(player, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F);
 
-            TextureAtlasSprite textureAtlasSprite = this.armorTrimAtlas.getSprite(trim.outerTexture(glovesItem.getMaterial()));
-            VertexConsumer trimConsumer = textureAtlasSprite.wrap(buffer.getBuffer(Sheets.armorTrimsSheet()));
-            gloveTrimArm.render(poseStack, trimConsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
-        });
-        if (stack.hasFoil()) {
-            RenderType glint = RenderType.armorEntityGlint();
-            if (ModList.get().isLoaded("quark")) {
-                ColorRunesModule.setTargetStack(stack);
-                glint = ColorRunesModule.Client.getArmorEntityGlint();
+                ModelPart gloveTrimArm = arm == HumanoidArm.RIGHT ? trimModel.rightArm : trimModel.leftArm;
+                gloveTrimArm.copyFrom(playerArm);
+                gloveTrimArm.visible = true;
+
+                TextureAtlasSprite textureAtlasSprite = this.armorTrimAtlas.getSprite(trim.outerTexture(glovesItem.getMaterial()));
+                VertexConsumer trimConsumer = textureAtlasSprite.wrap(buffer.getBuffer(Sheets.armorTrimsSheet()));
+                gloveTrimArm.render(poseStack, trimConsumer, packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
+            });
+            if (stack.hasFoil()) {
+                RenderType glint = RenderType.armorEntityGlint();
+                if (ModList.get().isLoaded("quark")) {
+                    ColorRunesModule.setTargetStack(stack);
+                    glint = ColorRunesModule.Client.getArmorEntityGlint();
+                }
+                gloveArm.render(poseStack, buffer.getBuffer(glint), packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
             }
-            gloveArm.render(poseStack, buffer.getBuffer(glint), packedLight, OverlayTexture.NO_OVERLAY, 1.0F, 1.0F, 1.0F, 1.0F);
         }
     }
 }
