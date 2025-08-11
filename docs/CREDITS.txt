@@ -137,6 +137,9 @@ TunefulTurnip
 Ultrasquid9
 - Cleanup of Curios data converter.
 
+VoidLeech
+- Fixes to Skyroot Milk Bucket not working properly with milk fluid.
+
 YvanCywan
 - Made Skyroot Buckets work as fuel.
 
