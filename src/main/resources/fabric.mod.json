@@ -13,9 +13,12 @@
   "mixins": [
     "aether.mixins.json"
   ],
-  "depends": {
-    "fabricloader": "${loader_version_range}",
-    "fabric-api": "*",
-    "minecraft": "${minecraft_version_range}"
-  }
+    "depends": {
+        "fabricloader": "${loader_version_range}",
+        "fabric-api": "*",
+        "minecraft": "${minecraft_version_range}",
+        "owo-lib": ">=0.12.22+1.21.8",
+        "accessories": "*",
+        "nitrogen_internals": "*"
+    }
 }
